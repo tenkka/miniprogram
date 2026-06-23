@@ -35,14 +35,20 @@ exports.main = async (event, context) => {
   // 是否还能作为新人填写邀请码：未绑定 且 无套餐购买
   const canBind = !me.referrer && !me.firstPurchaseAt
 
-  // 我作为邀请人的战绩
-  const refRes = await db.collection('referrals')
-    .where({ inviterOpenid: OPENID })
-    .orderBy('boundAt', 'desc')
-    .limit(100)
-    .get()
+  // 我作为邀请人的战绩（referrals 集合可能尚未创建，容错为空）
+  let refData = []
+  try {
+    const refRes = await db.collection('referrals')
+      .where({ inviterOpenid: OPENID })
+      .orderBy('boundAt', 'desc')
+      .limit(100)
+      .get()
+    refData = refRes.data
+  } catch (e) {
+    refData = []
+  }
 
-  const list = refRes.data.map(r => ({
+  const list = refData.map(r => ({
     inviteeNick: r.inviteeNick || '好友',
     status: r.status,
     rewardPower: r.rewardPower || 0,

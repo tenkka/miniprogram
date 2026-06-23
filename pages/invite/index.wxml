@@ -36,7 +36,7 @@
     <view class="bind-row">
       <input
         class="bind-input"
-        placeholder="请输入邀请人邀请码"
+        placeholder="请输入邀请码"
         placeholder-class="bind-placeholder"
         value="{{inputCode}}"
         bindinput="onInputCode"

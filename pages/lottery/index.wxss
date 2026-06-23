@@ -90,15 +90,18 @@ page {
   display: flex;
   justify-content: center;
   transform-origin: 50% 50%;
+  pointer-events: none;
 }
 .label-text {
-  margin-top: 30rpx;
-  width: 130rpx;
+  margin-top: 36rpx;
+  width: 96rpx;
   text-align: center;
-  font-size: 20rpx;
+  font-size: 22rpx;
   line-height: 1.25;
-  color: #E8D9A8;
+  color: #F0E2B0;
   font-weight: 600;
+  white-space: pre-line;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.6);
 }
 
 /* 中心抽奖按钮 */
@@ -152,7 +155,7 @@ page {
   text-align: center;
   color: #888;
   font-size: 24rpx;
-  margin: 40rpx 0 16rpx;
+  margin: 60rpx 0 16rpx;
 }
 
 /* 通用 section */

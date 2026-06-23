@@ -88,12 +88,17 @@ exports.main = async (event, context) => {
     })
 
     if (user.referrer && giftScore > 0) {
-      // 取该被邀请人对应的、尚未发放奖励的绑定记录
-      const refRes = await db.collection('referrals').where({
-        inviterOpenid: user.referrer,
-        inviteeOpenid: OPENID,
-        status: 'bound',
-      }).get()
+      // 取该被邀请人对应的、尚未发放奖励的绑定记录（集合可能未创建，容错）
+      let refRes = { data: [] }
+      try {
+        refRes = await db.collection('referrals').where({
+          inviterOpenid: user.referrer,
+          inviteeOpenid: OPENID,
+          status: 'bound',
+        }).get()
+      } catch (e) {
+        refRes = { data: [] }
+      }
 
       if (refRes.data.length) {
         const referral = refRes.data[0]

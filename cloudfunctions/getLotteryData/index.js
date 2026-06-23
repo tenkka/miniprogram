@@ -33,12 +33,18 @@ exports.main = async (event, context) => {
     .field({ power: true, lotteryTickets: true }).get()
   const user = userRes.data[0] || {}
 
-  // 本人最近中奖记录
-  const logsRes = await db.collection('lotteryLogs')
-    .where({ openid: OPENID })
-    .orderBy('createdAt', 'desc')
-    .limit(RECORD_LIMIT)
-    .get()
+  // 本人最近中奖记录（lotteryLogs 集合可能尚未创建，容错为空）
+  let records = []
+  try {
+    const logsRes = await db.collection('lotteryLogs')
+      .where({ openid: OPENID })
+      .orderBy('createdAt', 'desc')
+      .limit(RECORD_LIMIT)
+      .get()
+    records = logsRes.data
+  } catch (e) {
+    records = []
+  }
 
   return {
     code: 0,
@@ -46,6 +52,6 @@ exports.main = async (event, context) => {
     power: user.power || 0,
     prizes: PRIZES,
     exchangeItems: EXCHANGE_ITEMS,
-    records: logsRes.data,
+    records,
   }
 }

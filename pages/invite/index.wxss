@@ -124,21 +124,28 @@ page {
 }
 .bind-input {
   flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 88rpx;
+  line-height: 88rpx;
   background: #1a1a1a;
   border: 1rpx solid #3a3a3a;
   border-radius: 16rpx;
-  padding: 24rpx 28rpx;
-  font-size: 30rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
   color: #fff;
   text-transform: uppercase;
 }
 .bind-placeholder { color: #555; }
 .bind-btn {
+  flex-shrink: 0;
+  height: 88rpx;
+  line-height: 88rpx;
   background: linear-gradient(135deg, #D4AF37, #B8941F);
   color: #1A1A1A;
   font-size: 30rpx;
   font-weight: 700;
-  padding: 24rpx 40rpx;
+  padding: 0 40rpx;
   border-radius: 16rpx;
 }
 .bind-btn--loading { opacity: 0.7; }

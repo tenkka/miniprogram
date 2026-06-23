@@ -28,7 +28,7 @@ Page({
     // 签到
     checkInDone: false,
     checkInStreak: 1,
-    checkInPoints: 0,
+    checkInPoints: 10,
     calendarDays: [],
     checkingIn: false,
     checkInRuleShow: false,
@@ -113,10 +113,11 @@ Page({
       if (res.result.code === 0) {
         const { streak, todayCheckedIn, weekCheckedDates = [] } = res.result
         const POINTS = [10, 20, 30, 40, 60, 80, 100]
+        const safeStreak = Math.min(Math.max(parseInt(streak) || 1, 1), 7)
         this.setData({
-          checkInStreak: streak,
+          checkInStreak: safeStreak,
           checkInDone: todayCheckedIn,
-          checkInPoints: POINTS[streak - 1],
+          checkInPoints: POINTS[safeStreak - 1],
           calendarDays: this._buildCalendar(weekCheckedDates),
         })
       }
@@ -195,15 +196,9 @@ Page({
     }
     this.setData(_data)
     this.getUserAmount()
-    this.couponStatistics()
   },
   async couponStatistics() {
-    const res = await WXAPI.couponStatistics(wx.getStorageSync('token'))
-    if (res.code == 0) {
-      this.setData({
-        couponStatistics: res.data
-      })
-    }
+    // 优惠券为 apifm 遗留接口，云开发模式下不可用，已停用（页面优惠券 UI 也已注释）
   },
   async getUserAmount() {
     // 余额已迁移到自定义云数据库系统，此方法保留为空以兼容调用处

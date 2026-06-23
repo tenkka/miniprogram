@@ -152,7 +152,7 @@
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
-        <navigator url="/pages/lottery/index" hover-class="none">
+        <navigator url="/pages/lottery/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
               <view class="list-icon lottery-icon">
@@ -163,7 +163,7 @@
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
-        <navigator url="/pages/invite/index" hover-class="none">
+        <navigator url="/pages/invite/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
               <view class="list-icon invite-icon">

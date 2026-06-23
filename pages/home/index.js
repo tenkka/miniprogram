@@ -64,7 +64,7 @@ Page({
     })
     // 从排行榜数据里找自己的战力
     const openid = wx.getStorageSync('openid')
-    if (openid && this.data.topPlayers.length) {
+    if (openid && this.data.topPlayers && this.data.topPlayers.length) {
       const me = this.data.topPlayers.find(p => p._id && p._id.includes && p._id === openid)
       if (me) this.setData({ userPower: me.points })
     }

@@ -23,7 +23,7 @@
         class="sector-label"
         style="transform: rotate({{index * sectorAngle + sectorAngle/2}}deg);"
       >
-        <text class="label-text">{{item.name}}</text>
+        <text class="label-text">{{item.wheelText}}</text>
       </view>
     </view>
     <!-- 中心抽奖按钮（黑桃） -->
