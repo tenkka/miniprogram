@@ -13,7 +13,7 @@
     <!-- 空状态 -->
     <view wx:if="{{ activeIndex != 3 && (!coupons || coupons.length == 0) }}" class="empty-state">
       <image class="empty-icon" src="/images/empty.png" mode="widthFix"></image>
-      <view class="empty-text">{{ $t.common.empty }}</view>
+      <view class="empty-text">暂无数据</view>
     </view>
 
     <!-- 可领取的优惠券 -->
@@ -40,13 +40,13 @@
         <!-- 右侧信息区域 -->
         <view class="coupon-right">
           <view class="coupon-info">
-            <view class="coupon-badge">{{ $t.coupons.Vouchers }}</view>
+            <view class="coupon-badge">代金券</view>
             <view class="coupon-name">{{item.name}}</view>
-            <view class="coupon-desc">{{ $t.coupons.over }} {{item.moneyHreshold}} 元可用</view>
+            <view class="coupon-desc">满 {{item.moneyHreshold}} 元可用</view>
           </view>
           <view class="coupon-action">
             <view class="action-btn" bindtap="getCounpon" data-id="{{item.id}}" data-pwd="{{item.pwd}}">
-              {{ $t.coupons.btn }}
+              立即领取
             </view>
           </view>
         </view>
@@ -76,13 +76,13 @@
         <!-- 右侧信息区域 -->
         <view class="coupon-right">
           <view class="coupon-info">
-            <view class="coupon-badge active-badge">{{ $t.coupons.Vouchers }}</view>
+            <view class="coupon-badge active-badge">代金券</view>
             <view class="coupon-name">{{item.name}}</view>
             <view class="coupon-desc">有效期至 {{item.dateEnd}}</view>
           </view>
           <view class="coupon-action">
             <view class="action-btn active-btn" bindtap="touse" data-item="{{ item }}">
-              {{ $t.coupons.toUse }}
+              立即使用
             </view>
           </view>
         </view>
@@ -112,7 +112,7 @@
         <!-- 右侧信息区域 -->
         <view class="coupon-right">
           <view class="coupon-info">
-            <view class="coupon-badge disabled-badge">{{ $t.coupons.Vouchers }}</view>
+            <view class="coupon-badge disabled-badge">代金券</view>
             <view class="coupon-name disabled-text">{{item.name}}</view>
             <view class="coupon-desc disabled-text">{{ item.statusStr }}</view>
           </view>
@@ -131,8 +131,8 @@
         
         <view class="exchange-form">
           <van-field
-            label="{{ $t.coupons.number }}"
-            placeholder="{{ $t.coupons.numberPlaceholder }}"
+            label="券号"
+            placeholder="请输入券号"
             model:value="{{ number }}"
             clearable
             size="large"
@@ -141,8 +141,8 @@
             bind:change="onChange"
           />
           <van-field
-            label="{{ $t.coupons.pwd }}"
-            placeholder="{{ $t.coupons.pwdPlaceholder }}"
+            label="密码"
+            placeholder="请输入密码"
             model:value="{{ pwd }}"
             clearable
             size="large"
@@ -154,7 +154,7 @@
 
         <view class="exchange-btn-wrapper">
           <view class="exchange-btn" bindtap="exchangeCoupons">
-            <text wx:if="{{ !exchangeCouponsLoading }}">{{ $t.coupons.change }}</text>
+            <text wx:if="{{ !exchangeCouponsLoading }}">立即兑换</text>
             <text wx:if="{{ exchangeCouponsLoading }}">兑换中...</text>
           </view>
         </view>
@@ -170,7 +170,7 @@
   <view class="pwd-mask" bindtap="closePwd"></view>
   <view class="pwd-dialog">
     <view class="pwd-dialog-header">
-      <view class="pwd-dialog-title">{{ $t.coupons.inputpassword }}</view>
+      <view class="pwd-dialog-title">请输入口令</view>
       <view class="pwd-dialog-close" bindtap="closePwd">✕</view>
     </view>
     <view class="pwd-dialog-body">
@@ -184,7 +184,7 @@
     </view>
     <view class="pwd-dialog-footer">
       <view class="pwd-cancel-btn" bindtap="closePwd">取消</view>
-      <view class="pwd-confirm-btn" bindtap="getCounpon2">{{ $t.coupons.btn }}</view>
+      <view class="pwd-confirm-btn" bindtap="getCounpon2">立即领取</view>
     </view>
   </view>
 </block>

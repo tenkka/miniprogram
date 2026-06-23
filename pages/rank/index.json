@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "排行榜",
+  "navigationBarBackgroundColor": "#1A1A1A",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#1A1A1A",
+  "usingComponents": {
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-tab": "@vant/weapp/tab/index"
+  }
+}

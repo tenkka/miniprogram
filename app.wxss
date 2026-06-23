@@ -1,7 +1,10 @@
+/* NUTS 德扑酒吧 — 全局暗色主题 */
 page {
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
     Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei',
     sans-serif;
+  background: #1A1A1A;
+  color: #FFFFFF;
 }
 page,view,image,input {
   display: block;

@@ -1,91 +1,170 @@
 <view class="home-container">
-  <!-- 轮播图区域 -->
-  <view class="banner-section">
-    <swiper wx:if="{{banners}}" class="banner-swiper" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ff6b9d" autoplay circular>
-      <swiper-item wx:for="{{banners}}" wx:key="id">
-        <image class="banner-image" mode="aspectFill" bindtap="tapBanner" data-url="{{item.linkUrl}}" src="{{item.picUrl}}" />
+
+  <!-- Hero 区域 -->
+  <view class="hero-section">
+    <!-- 轮播图背景（有数据时）-->
+    <swiper
+      wx:if="{{banners.length > 0}}"
+      class="hero-swiper"
+      autoplay
+      circular
+      interval="4000"
+      duration="400"
+      indicator-dots="{{banners.length > 1}}"
+      indicator-color="rgba(255,255,255,0.35)"
+      indicator-active-color="#D4AF37"
+      bindchange="onBannerChange"
+    >
+      <swiper-item wx:for="{{banners}}" wx:key="_id" bindtap="onBannerTap" data-detail="{{item.detailImageUrl}}">
+        <image class="hero-swiper-image" src="{{item.imageUrl}}" mode="aspectFill" />
       </swiper-item>
     </swiper>
-  </view>
+    <!-- 无轮播时显示 Logo -->
+    <image wx:else class="hero-bg" src="/images/logo.jpg" mode="aspectFit" />
 
-  <!-- 用户信息卡片 -->
-  <view class="user-card">
-    <view class="user-main" bind:tap="huiyuan">
-      <image class="user-avatar" src="{{ apiUserInfoMap.base.avatarUrl ? apiUserInfoMap.base.avatarUrl : '/images/who.png' }}" mode="aspectFill"></image>
-      <view class="user-info">
-        <view class="user-nick">{{ nick ? nick : $t.my.nickSet }}</view>
-        <view class="user-member">
-          <van-tag type="warning" round size="medium">{{ apiUserInfoMap.userLevel.name || $t.home.huiyuan }}</van-tag>
-        </view>
+    <view class="hero-overlay"></view>
+
+    <!-- 顶部导航栏 -->
+    <view class="hero-nav">
+      <view class="hero-store-btn" bindtap="switchStore">
+        <text class="hero-store-text">{{storeName}} ></text>
+      </view>
+      <view class="hero-avatar-wrap" bindtap="onAvatarTap">
+        <image class="hero-avatar" src="{{avatarUrl || '/images/who.png'}}" mode="aspectFill" />
+        <view class="login-hint" wx:if="{{!avatarUrl}}">登录</view>
       </view>
     </view>
-    <view class="user-actions">
-      <view wx:if="{{ language }}" class="language-btn" bind:tap="changeLang">
-        <image class="language-icon" src="/images/lang/{{language}}.png" mode="aspectFill"></image>
-      </view>
-      <view class="coupon-btn" bind:tap="coupon">
-        <text>{{ $t.coupons.title }}</text>
-        <van-icon name="arrow" />
-      </view>
-    </view>
-  </view>
 
-  <!-- 配送方式选择 -->
-  <view class="delivery-section">
-    <view class="section-title">配送方式</view>
-    <view class="delivery-types">
-      <view class="delivery-card" data-type="zq" bind:tap="changePeisongType">
-        <view class="delivery-icon-wrapper">
-          <image class="delivery-icon" src="/images/zq.png"></image>
-        </view>
-        <view class="delivery-text">{{ $t.home.zq }}</view>
-        <view class="delivery-desc">到店自取</view>
-      </view>
-      <view class="delivery-card" data-type="kd" bind:tap="changePeisongType">
-        <view class="delivery-icon-wrapper">
-          <image class="delivery-icon" src="/images/ps.png"></image>
-        </view>
-        <view class="delivery-text">{{ $t.home.ps }}</view>
-        <view class="delivery-desc">外卖配送</view>
-      </view>
+    <!-- 活动条 -->
+    <view class="activity-bar">
+      <van-icon name="volume-o" color="#D4AF37" size="28rpx" />
+      <text class="activity-text">今晚开战！欢迎来到 NUTS核 Cafe&Bar</text>
+      <van-icon name="arrow" color="#888" size="24rpx" />
     </view>
   </view>
 
-  <!-- 功能入口 -->
-  <view class="features-section">
-    <view class="section-title">更多服务</view>
-    <view class="features-grid">
-      <view class="feature-item" bind:tap="touming">
-        <view class="feature-icon-box">
-          <image class="feature-icon" src="/images/sc.png"></image>
-        </view>
-        <view class="feature-name">{{ $t.home.sc }}</view>
+  <!-- 欢迎卡 -->
+  <view class="welcome-card">
+    <text class="welcome-text">{{nick ? '欢迎回来，' + nick : '欢迎来到 NUTS核 Cafe&Bar'}}</text>
+    <view class="welcome-btn" bindtap="{{nick ? 'goMy' : 'onAvatarTap'}}">
+      <text class="welcome-btn-text">{{nick ? '我的主页' : '立即登录'}}</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口（两列大卡） -->
+  <view class="quick-cards">
+    <view class="quick-card" bindtap="goOrder">
+      <text class="quick-card-icon">🍺</text>
+      <text class="quick-card-name">点单</text>
+    </view>
+    <view class="quick-card" bindtap="goGame">
+      <text class="quick-card-icon">♠</text>
+      <text class="quick-card-name">预约</text>
+    </view>
+  </view>
+
+  <!-- 战力分数条 -->
+  <view class="score-strip" wx:if="{{userPower}}" bindtap="goScorelog">
+    <view class="score-left">
+      <text class="score-label">我的战力</text>
+      <text class="score-val">{{userPower}}</text>
+    </view>
+    <view class="score-right">
+      <text class="score-action-text">排行榜</text>
+      <van-icon name="arrow" color="#D4AF37" size="24rpx" />
+    </view>
+  </view>
+
+  <!-- 排行榜 Top 5 -->
+  <view class="section-card">
+    <view class="card-header">
+      <view class="card-title-row">
+        <text class="card-title-icon">🏆</text>
+        <text class="card-title-text">本赛季排行榜</text>
       </view>
-      <view class="feature-item" bind:tap="card">
-        <view class="feature-icon-box">
-          <image class="feature-icon" src="/images/lp.png"></image>
-        </view>
-        <view class="feature-name">{{ $t.home.lpk }}</view>
+      <view class="card-more" bindtap="goScorelog">
+        <text>查看全部</text>
+        <van-icon name="arrow" color="#D4AF37" size="24rpx" />
       </view>
-      <view class="feature-item">
-        <view class="feature-icon-box">
-          <image class="feature-icon" src="/images/tg.png"></image>
+    </view>
+    <view class="leaderboard-list">
+      <view wx:for="{{topPlayers}}" wx:key="id" class="player-row">
+        <view class="rank-col">
+          <text wx:if="{{index == 0}}" class="rank-medal">🥇</text>
+          <text wx:elif="{{index == 1}}" class="rank-medal">🥈</text>
+          <text wx:elif="{{index == 2}}" class="rank-medal">🥉</text>
+          <text wx:else class="rank-num">{{index + 1}}</text>
         </view>
-        <view class="feature-name">{{ $t.home.tg }}</view>
+        <image class="player-avatar" src="{{item.avatar || '/images/who.png'}}" mode="aspectFill" />
+        <view class="player-info">
+          <text class="player-name">{{item.name}}</text>
+        </view>
+        <view class="player-points">
+          <text class="points-val">{{item.points}}</text>
+          <text class="points-unit">分</text>
+        </view>
       </view>
-      <view class="feature-item">
-        <view class="feature-icon-box">
-          <image class="feature-icon" src="/images/bh.png"></image>
-        </view>
-        <view class="feature-name">{{ $t.home.bh }}</view>
+      <view wx:if="{{topPlayers.length === 0}}" class="empty-rank">
+        <text class="empty-rank-text">暂无排行数据</text>
       </view>
     </view>
   </view>
 
-  <!-- 品牌底部 -->
-  <view class="brand-footer" bind:tap="about">
-    <view class="brand-line"></view>
-    <view class="brand-name">TEA WORK</view>
-    <view class="brand-line"></view>
+  <view class="brand-footer">
+    <text class="footer-suits">♠ ♥ ♣ ♦</text>
+    <text class="footer-name">NUTS POKER BAR</text>
+  </view>
+
+</view>
+
+<!-- 签到弹窗 -->
+<view wx:if="{{checkInShow}}" class="ci-overlay" bindtap="closeCheckIn">
+  <view class="ci-card" catchtap="">
+    <view class="ci-close" bindtap="closeCheckIn">×</view>
+    <view class="ci-title">🎁 签到得积分！</view>
+
+    <view class="ci-row">
+      <view
+        wx:for="{{checkInDaysTop}}"
+        wx:key="day"
+        class="ci-day ci-day--{{item.state}}"
+      >
+        <text class="ci-star">{{item.state === 'future' ? '☆' : '★'}}</text>
+        <text class="ci-pts">{{item.points}}积分</text>
+        <text class="ci-lbl">第{{item.day}}天</text>
+      </view>
+    </view>
+    <view class="ci-row ci-row--center">
+      <view
+        wx:for="{{checkInDaysBottom}}"
+        wx:key="day"
+        class="ci-day ci-day--{{item.state}}"
+      >
+        <text class="ci-star">{{item.state === 'future' ? '☆' : '★'}}</text>
+        <text class="ci-pts">{{item.points}}积分</text>
+        <text class="ci-lbl">第{{item.day}}天</text>
+      </view>
+    </view>
+
+    <view
+      class="ci-btn {{checkInDone ? 'ci-btn--done' : ''}} {{checkingIn ? 'ci-btn--loading' : ''}}"
+      bindtap="doCheckIn"
+    >
+      <text class="ci-btn-text">
+        {{checkingIn ? '签到中...' : checkInDone ? '✓ 今日已签到' : '签  到'}}
+      </text>
+    </view>
   </view>
 </view>
+
+<!-- 登录 popup -->
+<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup" custom-style="background:#1A1A1A;padding:48rpx 40rpx 80rpx;">
+  <view class="lp-title">加入 NUTS</view>
+  <view class="lp-sub">选择头像和昵称开始游戏</view>
+  <button class="lp-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onPickAvatar">
+    <image class="lp-avatar-img" src="{{pendingAvatar || '/images/who.png'}}" mode="aspectFill"/>
+    <view class="lp-camera">📷</view>
+  </button>
+  <input class="lp-nick-input" type="nickname" placeholder="输入昵称（可直接使用微信昵称）" placeholder-class="lp-placeholder" value="{{pendingNick}}" bindinput="onNickInput" bindchange="onNickChange" maxlength="20" />
+  <button class="lp-confirm-btn" loading="{{loginLoading}}" bindtap="confirmLogin">完成登录</button>
+</van-popup>

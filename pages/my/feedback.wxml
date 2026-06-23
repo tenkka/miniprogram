@@ -15,10 +15,10 @@
     <view class="input-section">
       <view class="input-label">
         <view class="label-icon">👤</view>
-        <view class="label-text">{{ $t.feedback.name }}</view>
+        <view class="label-text">姓名</view>
       </view>
       <van-field
-        placeholder="{{ $t.feedback.namePlaceholder }}"
+        placeholder="如何称呼您"
         model:value="{{ name }}"
         clearable
         border="{{ false }}"
@@ -33,10 +33,10 @@
     <view class="input-section">
       <view class="input-label">
         <view class="label-icon">📱</view>
-        <view class="label-text">{{ $t.feedback.mobile }}</view>
+        <view class="label-text">联系电话</view>
       </view>
       <van-field
-        placeholder="{{ $t.feedback.mobilePlaceholder }}"
+        placeholder="方便我们与您联系"
         type="number"
         model:value="{{ mobile }}"
         clearable
@@ -56,7 +56,7 @@
       </view>
       <van-field
         model:value="{{ content }}"
-        placeholder="{{ $t.feedback.contentPlaceholder }}"
+        placeholder="请留下您的宝贵建议或意见～"
         type="textarea"
         autosize="{{ autosize }}"
         border="{{ false }}"
@@ -68,7 +68,7 @@
     <view class="upload-section">
       <view class="input-label">
         <view class="label-icon">📷</view>
-        <view class="label-text">{{ $t.feedback.imageOrVideo }}</view>
+        <view class="label-text">图片/视频</view>
         <view class="label-tip">(选填)</view>
       </view>
       <view class="uploader-wrapper">

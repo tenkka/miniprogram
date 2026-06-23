@@ -11,9 +11,9 @@ Page({
 
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-        title: this.data.$t.cart.title,
+        title: '购物车',
     })
   },
   onShow: function () {

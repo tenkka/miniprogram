@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "完善资料",
+  "navigationBarBackgroundColor": "#1A1A1A",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#1A1A1A",
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index"
+  }
+}

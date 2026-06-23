@@ -1,0 +1,55 @@
+<view class="page">
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <van-loading color="#D4AF37" size="48rpx" />
+  </view>
+
+  <block wx:else>
+    <!-- 余额卡片 -->
+    <view class="balance-card">
+      <view class="balance-total-label">总余额</view>
+      <view class="balance-total-amount">¥ {{totalBalance}}</view>
+      <view class="balance-split-row">
+        <view class="balance-split-item">
+          <view class="split-label">充值余额</view>
+          <view class="split-value recharge-value">¥ {{rechargeBalance.toFixed ? rechargeBalance.toFixed(2) : rechargeBalance}}</view>
+        </view>
+        <view class="balance-divider"></view>
+        <view class="balance-split-item">
+          <view class="split-label">赠送余额</view>
+          <view class="split-value gift-value">¥ {{giftBalance.toFixed ? giftBalance.toFixed(2) : giftBalance}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 交易记录 -->
+    <view class="logs-section">
+      <view class="section-title">交易记录</view>
+
+      <view wx:if="{{logs.length === 0}}" class="empty-state">
+        <van-icon name="balance-o" size="80rpx" color="#333" />
+        <text class="empty-text">暂无交易记录</text>
+      </view>
+
+      <view
+        wx:for="{{logs}}"
+        wx:key="_id"
+        wx:for-item="log"
+        class="log-item"
+      >
+        <view class="log-left">
+          <view class="log-type-dot {{log.isPositive ? 'dot-add' : 'dot-minus'}}"></view>
+          <view class="log-info">
+            <view class="log-type-label">{{log.typeLabel}}</view>
+            <view class="log-date">{{log.formattedDate}}</view>
+            <view wx:if="{{log.note}}" class="log-note">备注：{{log.note}}</view>
+          </view>
+        </view>
+        <view class="log-amount {{log.isPositive ? 'amount-add' : 'amount-minus'}}">
+          {{log.amountText}}
+        </view>
+      </view>
+    </view>
+  </block>
+
+</view>

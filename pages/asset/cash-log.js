@@ -14,9 +14,9 @@ Page({
 
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.cashLog.title,
+      title: '资金明细',
     })
     this.cashLogsV2()
   },

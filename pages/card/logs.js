@@ -4,9 +4,9 @@ Page({
     page: 1 // 读取第几页
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.card.logs,
+      title: '消费明细',
     })
     this.data.cardId = options.cardId
     this.cardMyLogs()

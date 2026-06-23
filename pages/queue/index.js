@@ -9,9 +9,9 @@ Page({
     
   },
   onShow: function () {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.queue.t,
+      title: '取号',
     })
     AUTH.checkHasLogined().then(isLogin => {
       if (isLogin) {
@@ -83,7 +83,7 @@ Page({
       })
     } else {
       wx.showToast({
-        title: this.data.$t.queue.success
+        title: '取号成功'
       })
       this.queuingMy()
     }

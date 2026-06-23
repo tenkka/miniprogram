@@ -1,0 +1,90 @@
+page { background: #1A1A1A; }
+
+.page {
+  min-height: 100vh;
+  background: #1A1A1A;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+  padding-bottom: 80rpx;
+  box-sizing: border-box;
+}
+
+.state-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 60rpx;
+  box-sizing: border-box;
+}
+
+.icon-wrap {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48rpx;
+}
+
+.success-bg {
+  background: rgba(76,175,80,0.12);
+  border: 2rpx solid rgba(76,175,80,0.3);
+}
+
+.phone-bg {
+  background: rgba(212,175,55,0.1);
+  border: 2rpx solid rgba(212,175,55,0.25);
+}
+
+.state-phone {
+  font-size: 52rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.state-label {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 20rpx;
+  letter-spacing: 2rpx;
+}
+
+.state-hint {
+  font-size: 26rpx;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 72rpx;
+}
+
+.bind-btn {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #8B2020, #C8952A);
+  border-radius: 48rpx;
+  border: none;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32rpx;
+}
+
+.bind-btn::after { border: none; }
+
+.tip-text {
+  font-size: 22rpx;
+  color: #444;
+  text-align: center;
+  line-height: 1.8;
+}

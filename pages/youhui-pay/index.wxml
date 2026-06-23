@@ -16,14 +16,14 @@
     <view class="amount-card">
       <view class="amount-header">
         <view class="header-icon">💰</view>
-        <view class="header-title">{{ $t.cart.Consumptionamount }}</view>
+        <view class="header-title">消费金额</view>
       </view>
       
       <view class="amount-input-wrapper">
         <view class="currency-symbol">¥</view>
         <input 
           class='amount-input' 
-          placeholder='{{ $t.youhuipay.askAmount }}' 
+          placeholder='请询问服务员后输入' 
           name="amount" 
           type="digit"
           placeholder-class="input-placeholder"
@@ -33,7 +33,7 @@
       <view class="pay-button-wrapper">
         <button class="pay-button" formType="submit">
           <view class="button-content">
-            <text class="button-text">{{ $t.youhuipay.btn }}</text>
+            <text class="button-text">确认付款</text>
             <text class="button-icon">→</text>
           </view>
         </button>
@@ -45,7 +45,7 @@
       <view class="discount-header">
         <view class="header-left">
           <view class="discount-icon">🎁</view>
-          <view class="discount-title">{{ $t.youhuipay.youhuiList }}</view>
+          <view class="discount-title">优惠信息</view>
         </view>
         <view class="discount-badge">限时优惠</view>
       </view>
@@ -77,7 +77,7 @@
 
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.maidan }} ：{{ money }}"
+  remark="优惠买单 ：{{ money }}"
   nextAction="{{ nextAction }}"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"

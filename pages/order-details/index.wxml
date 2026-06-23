@@ -6,7 +6,7 @@
       <view class="status-icon-wrapper">
         <van-icon name="close" size="100rpx" color="#fff" />
       </view>
-      <view class="status-title">{{ $t.order.stausClosed }}</view>
+      <view class="status-title">当前订单已关闭</view>
       <view class="status-desc">订单已取消</view>
     </view>
 
@@ -15,10 +15,10 @@
       <view class="status-icon-wrapper">
         <van-icon name="gold-coin-o" size="100rpx" color="#fff" />
       </view>
-      <view class="status-title">{{ $t.order.stausNoPay }}</view>
+      <view class="status-title">等待付款</view>
       <view class="status-desc">请尽快完成支付</view>
       <view class="pay-btn-wrapper">
-        <view class="pay-btn" bind:tap="toPayTap">{{ $t.order.toPayTap }}</view>
+        <view class="pay-btn" bind:tap="toPayTap">立即支付</view>
       </view>
     </view>
 
@@ -28,7 +28,7 @@
         <van-icon name="shopping-cart-o" size="100rpx" color="#fff" />
       </view>
       <view class="status-title">等待取餐</view>
-      <view class="pickup-number-label">{{ $t.PickingUp.qudanhao }}</view>
+      <view class="pickup-number-label">取餐号</view>
       <view class="pickup-number">{{orderDetail.orderInfo.qudanhao}}</view>
       <view class="qrcode-wrapper">
         <view class="qrcode-container">
@@ -43,7 +43,7 @@
       <view class="status-icon-wrapper">
         <van-icon name="logistics" size="100rpx" color="#fff" />
       </view>
-      <view class="status-title">{{ $t.PickingUp.Deliverying }}</view>
+      <view class="status-title">正在为您配送</view>
       <view class="status-desc">骑手正在火速配送中</view>
       <view class="qrcode-wrapper">
         <view class="qrcode-container">
@@ -58,7 +58,7 @@
       <view class="status-icon-wrapper">
         <van-icon name="passed" size="100rpx" color="#fff" />
       </view>
-      <view class="status-title">{{ $t.order.stausSuccess }}</view>
+      <view class="status-title">交易完成</view>
       <view class="status-desc">感谢您的光临，期待再次为您服务</view>
     </view>
   </view>
@@ -118,7 +118,7 @@
     <view class="goods-divider"></view>
     
     <view class="goods-total">
-      <view class="total-label">{{ $t.PickingUp.total }}</view>
+      <view class="total-label">合计</view>
       <view class="total-price">¥{{orderDetail.orderInfo.amountReal}}</view>
     </view>
   </view>
@@ -131,11 +131,11 @@
     </view>
     <view class="info-list">
       <view class="info-item">
-        <view class="info-label">{{ $t.order.dateAdd }}</view>
+        <view class="info-label">下单时间</view>
         <view class="info-value">{{orderDetail.orderInfo.dateAdd}}</view>
       </view>
       <view wx:if="{{orderDetail.orderInfo.status == -1}}" class="info-item">
-        <view class="info-label">{{ $t.common.cancel }}</view>
+        <view class="info-label">取消</view>
         <view class="info-value">{{orderDetail.orderInfo.dateClose}}</view>
       </view>
     </view>
@@ -147,7 +147,7 @@
 
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.order }} ：{{ orderId }}"
+  remark="支付订单 ：{{ orderId }}"
   nextAction="{{ nextAction }}"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"

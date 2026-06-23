@@ -9,9 +9,9 @@ Page({
     
   },
   onLoad: function (e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.my.scanHx,
+      title: '扫码核销',
     })
     // e.hxNumber = '2008010532287842'
     this.setData({
@@ -23,8 +23,8 @@ Page({
     WXAPI.orderDetail(wx.getStorageSync('token'), '', this.data.hxNumber).then(function (res) {
       if (res.code != 0) {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
+          confirmText: '确定',
+          cancelText: '取消',
           content: res.msg,
           showCancel: false
         })
@@ -45,9 +45,9 @@ Page({
     let that = this;
     let orderId = this.data.orderId;
     wx.showModal({
-      content: this.data.$t.order.askConfirm,
-      confirmText: this.data.$t.common.confirm,
-      cancelText: this.data.$t.common.cancel,
+      content: '确认您已收到商品？',
+      confirmText: '确定',
+      cancelText: '取消',
       success: function (res) {
         if (res.confirm) {
           WXAPI.orderDelivery(wx.getStorageSync('token'), orderId).then(function (res) {
@@ -105,7 +105,7 @@ Page({
       })
     } else {
       wx.showToast({
-        title: this.data.$t.order.VerificationCompleted,
+        title: '核销完成',
         icon: 'success'
       })
       this.onShow()

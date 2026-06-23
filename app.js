@@ -1,12 +1,9 @@
 const WXAPI = require('apifm-wxapi')
 const CONFIG = require('config.js')
 const AUTH = require('utils/auth')
-const i18n = require("i18n/index")
 App({
   onLaunch: function() {
-    i18n.getLanguage()
-    this.setTabBarLanguage()
-    const $t = i18n.$t()
+    wx.cloud.init({ traceUser: true })
     WXAPI.init(CONFIG.subDomain)
     WXAPI.setMerchantId(CONFIG.merchantId)
     const that = this;
@@ -14,9 +11,9 @@ App({
     const updateManager = wx.getUpdateManager()
     updateManager.onUpdateReady(function () {
       wx.showModal({
-        confirmText: $t.common.confirm,
-        cancelText: $t.common.cancel,
-        content: $t.common.upgrade,
+        confirmText: '确定',
+        cancelText: '取消',
+        content: '新版本已经准备好，是否重启应用？',
         success(res) {
           if (res.confirm) {
             // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
@@ -35,7 +32,7 @@ App({
         if (networkType === 'none') {
           that.globalData.isConnected = false
           wx.showToast({
-            title: $t.common.noNetwork,
+            title: '当前无网络',
             icon: 'loading'
           })
         }
@@ -49,7 +46,7 @@ App({
       if (!res.isConnected) {
         that.globalData.isConnected = false
         wx.showToast({
-          title: $t.common.networkDown,
+          title: '网络已断开',
           icon: 'loading'
         })
       } else {
@@ -69,32 +66,9 @@ App({
     })
   },
   onShow (e) {
-    if (e && e.query && e.query.scene) {
-      const scene = decodeURIComponent(e.query.scene) // 处理扫码进商品详情页面的逻辑
-      if (scene && scene.split(',').length == 3) {
-        // 扫码点餐
-      } else {
-        AUTH.checkHasLogined().then(isLogined => {
-          if (!isLogined) {
-            AUTH.authorize().then(() => {
-              this.getUserApiInfo()
-            })
-          } else {
-            this.getUserApiInfo()
-          }
-        })
-      }
-    } else {
-      AUTH.checkHasLogined().then(isLogined => {
-        if (!isLogined) {
-          AUTH.authorize().then(() => {
-            this.getUserApiInfo()
-          })
-        } else {
-          this.getUserApiInfo()
-        }
-      })
-    }
+    AUTH.checkHasLogined().then(isLogined => {
+      if (isLogined) this.getUserApiInfo()
+    })
     // 保存邀请人
     if (e && e.query && e.query.inviter_id) {
       wx.setStorageSync('referrer', e.query.inviter_id)
@@ -146,46 +120,31 @@ App({
       wx.setStorageSync('shopInfo',  shopInfo)
     }
   },
-  initLanguage(_this) {
-    _this.setData({
-      language: i18n.getLanguage(),
-      $t: i18n.$t(),
-    })
-  },
-  changeLang(_this) {
-    const langs = i18n.langs
-    const nameArray = []
-    langs.forEach(ele => nameArray.push(ele.name))
-    wx.showActionSheet({
-      itemList: nameArray,
-      success: (e) => {
-        const lang = langs[e.tapIndex]
-        wx.setStorageSync('Language', lang.code)
-        _this.setData({
-          language: i18n.getLanguage(),
-          $t: i18n.$t(),
-        })
-        this.setTabBarLanguage()
-      }
-    })
-  },
-  setTabBarLanguage() {
-    i18n.setTabBarLanguage()
-  },
   async getUserApiInfo() {
-    const token = wx.getStorageSync('token')
-    if (!token) {
-      return null
+    const openid = wx.getStorageSync('openid')
+    if (!openid) return null
+    const stored = wx.getStorageSync('userInfo') || {}
+    let avatarUrl = stored.avatarUrl || ''
+    if (avatarUrl.startsWith('cloud://')) {
+      try {
+        const r = await wx.cloud.getTempFileURL({ fileList: [avatarUrl] })
+        const f = r.fileList[0]
+        if (f && f.status === 0) avatarUrl = f.tempFileURL
+      } catch (e) {}
     }
-    // https://www.yuque.com/apifm/nu0f75/zgf8pu
-    const res = await WXAPI.userDetail(token)
-    if (res.code == 0) {
-      this.globalData.apiUserInfoMap = res.data
-      if (this.getUserDetailOK) {
-        this.getUserDetailOK(res.data)
-      }
-      return res.data
+    const apiUserInfoMap = {
+      base: {
+        id: 'N' + openid.slice(-6).toUpperCase(),
+        nick: stored.nick || '',
+        avatarUrl,
+      },
+      userLevel: stored.userLevel || null
     }
+    this.globalData.apiUserInfoMap = apiUserInfoMap
+    if (this.getUserDetailOK) {
+      this.getUserDetailOK(apiUserInfoMap)
+    }
+    return apiUserInfoMap
   },
   globalData: {
     isConnected: true

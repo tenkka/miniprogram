@@ -1,0 +1,9 @@
+{
+  "name": "bindPhone",
+  "version": "1.0.0",
+  "description": "绑定手机号（微信官方手机号 API）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

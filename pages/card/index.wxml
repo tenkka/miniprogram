@@ -5,8 +5,8 @@
   <van-sticky>
     <view class="custom-tabs-wrapper">
       <van-tabs active="{{ active }}" bind:change="tabChange" color="#A0826D" title-active-color="#A0826D" title-inactive-color="#999">
-        <van-tab title="{{ $t.card.buy }}"></van-tab>
-        <van-tab title="{{ $t.card.my }}"></van-tab>
+        <van-tab title="购买礼品卡"></van-tab>
+        <van-tab title="我的礼品卡"></van-tab>
       </van-tabs>
     </view>
   </van-sticky>
@@ -25,7 +25,7 @@
 
     <!-- 礼品卡列表 -->
     <view class="card-list">
-      <van-empty wx:if="{{ !cardList }}" description="{{ $t.card.empty }}" />
+      <van-empty wx:if="{{ !cardList }}" description="暂无礼品卡" />
       <view class="gift-card-item" wx:for="{{ cardList }}" wx:key="id">
         <view class="card-container">
           <view class="card-image-wrapper">
@@ -40,7 +40,7 @@
                 <text class="price-value">{{ item.price }}</text>
               </view>
               <view class="buy-btn" data-item="{{ item }}" bindtap="buy">
-                <text>{{ $t.card.buy2 }}</text>
+                <text>立即购买</text>
               </view>
             </view>
           </view>
@@ -55,14 +55,14 @@
         <view class="exchange-entry">
           <view class="exchange-icon">🎁</view>
           <view class="exchange-info">
-            <view class="exchange-title">{{ $t.card.excharge }}</view>
+            <view class="exchange-title">兑换礼品卡</view>
             <view class="exchange-desc">输入兑换码领取礼品卡</view>
           </view>
           <view class="exchange-arrow">→</view>
         </view>
       </navigator>
 
-      <van-empty wx:if="{{ !cardMyList }}" description="{{ $t.card.empty }}" />
+      <van-empty wx:if="{{ !cardMyList }}" description="暂无礼品卡" />
       
       <view class="my-gift-card" wx:for="{{ cardMyList }}" wx:key="id">
         <view class="my-card-wrapper">
@@ -70,16 +70,16 @@
             <image class="my-card-image" src="{{ item.cardInfo.pic }}" mode="aspectFill"></image>
             <view class="card-overlay">
               <view class="card-amount-box">
-                <view class="expire-date">{{ $t.coupons.expire }}: {{ item.dateEnd }}</view>
+                <view class="expire-date">到期: {{ item.dateEnd }}</view>
                 <view class="card-amount">
                   <text wx:if="{{ item.type == 0 }}">{{ item.amount }}</text>
                   <text wx:if="{{ item.type == 1 }}">¥{{ item.amount }}</text>
-                  <text class="unit" wx:if="{{ item.type == 0 }}">{{ $t.card.times }}</text>
+                  <text class="unit" wx:if="{{ item.type == 0 }}">杯</text>
                 </view>
               </view>
             </view>
             <view wx:if="{{ !item.isActive && !item.fromUid && item.shareToken }}" class="card-status-tag">
-              {{ $t.card.sending }}
+              赠送中
             </view>
           </view>
           
@@ -89,14 +89,14 @@
             <!-- 未激活且未分享 - 显示分享按钮 -->
             <view wx:if="{{ !item.isActive && !item.fromUid && !item.shareToken }}" class="card-actions">
               <view class="action-btn primary" data-item="{{ item }}" bindtap="sendUser">
-                <text>{{ $t.card.cardShareOpen }}</text>
+                <text>送给好友</text>
               </view>
             </view>
             
             <!-- 未激活且已分享 - 显示取消分享按钮 -->
             <view wx:elif="{{ !item.isActive && !item.fromUid && item.shareToken }}" class="card-actions">
               <view class="action-btn danger" data-item="{{ item }}" bindtap="cardShareClose">
-                <text>{{ $t.card.cardShareClose }}</text>
+                <text>取消赠送</text>
               </view>
             </view>
             
@@ -104,7 +104,7 @@
             <view wx:else class="card-actions">
               <navigator url="/pages/card/logs?cardId={{ item.id }}" hover-class="none">
                 <view class="action-btn outline">
-                  <text>{{ $t.card.logs }}</text>
+                  <text>消费明细</text>
                 </view>
               </navigator>
               <view wx:if="{{ item.fromUser }}" class="gift-from">

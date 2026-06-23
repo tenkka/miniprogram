@@ -20,9 +20,9 @@ Page({
     canSubmit: false, //  选中规格尺寸时候是否允许加入购物车
   },
   onLoad(e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.goodsDetail.title,
+      title: '商品详情',
     })
     // e.id = 122843
     // 读取分享链接中的邀请人编号
@@ -155,7 +155,7 @@ Page({
         }
         //砍价商品 tabs栏显示砍价情况
         // var tabs = that.data.tabs
-        // tabs[2].tabs_name=that.data.$t.goodsDetail.kanjiaLogs
+        // tabs[2].tabs_name='砍价记录'
         // tabs[2].view_id="kanjia"
         // that.setData({
         //   tabs:tabs
@@ -351,7 +351,7 @@ Page({
     const child = property.items[propertychildindex]
     if (child.stores <= 0) {
       wx.showToast({
-        title: this.data.$t.goodsDetail.noStores,
+        title: '已售罄',
         icon: 'none'
       })
       return
@@ -376,7 +376,7 @@ Page({
     if (this.data.goodsDetail.properties && !this.data.canSubmit) {
       if (!this.data.canSubmit) {
         wx.showToast({
-          title: this.data.$t.goodsDetail.noSelectSku,
+          title: '请选择规格',
           icon: 'none'
         })
       }
@@ -406,7 +406,7 @@ Page({
       })
       if (!canSubmit) {
         wx.showToast({
-          title: this.data.$t.goodsDetail.noSelectAddtion,
+          title: '请选择配件',
           icon: 'none'
         })
         this.bindGuiGeTap()
@@ -415,7 +415,7 @@ Page({
     }
     if (this.data.buyNumber < 1) {
       wx.showToast({
-        title: this.data.$t.goodsDetail.noSelectNumber,
+        title: '请选择购买数量',
         icon: 'none'
       })
       return
@@ -467,7 +467,7 @@ Page({
 
     this.closePopupTap();
     wx.showToast({
-      title: this.data.$t.goodsDetail.addCartSuccess,
+      title: '加入购物车',
       icon: 'success'
     })
     this.shippingCartInfo()
@@ -490,7 +490,7 @@ Page({
       }
     }
     if (this.data.kjJoinUid) {
-      _data.title = this.data.curKanjiaprogress.joiner.nick + ' ' + this.data.$t.goodsDetail.inviteKanJia
+      _data.title = this.data.curKanjiaprogress.joiner.nick + ' ' + '邀请您帮TA砍价'
       _data.path += '&kjJoinUid=' + this.data.kjJoinUid
     }
     return _data
@@ -532,9 +532,9 @@ Page({
         myHelpDetail: res.data
       });
       wx.showModal({
-        confirmText: _this.data.$t.common.confirm,
-        cancelText: _this.data.$t.common.cancel,
-        content: _this.data.$t.goodsDetail.kanJiaAmount + ' ' + res.data.cutPrice,
+        confirmText: '确定',
+        cancelText: '取消',
+        content: '成功帮TA砍掉' + ' ' + res.data.cutPrice,
         showCancel: false
       })
       _this.getGoodsDetailAndKanjieInfo(_this.data.goodsDetail.basicInfo.id)
@@ -628,7 +628,7 @@ Page({
           {
             x: 352,
             y: _baseHeight + 320,
-            text: _this.data.$t.goodsDetail.longTapQrcode,
+            text: '长按识别小程序码',
             fontSize: 28,
             color: '#999'
           }
@@ -654,9 +654,9 @@ Page({
       filePath: this.data.posterImg,
       success: (res) => {
         wx.showModal({
-          content: _this.data.$t.goodsDetail.qrcodeSaved,
+          content: '已保存到手机相册',
           showCancel: false,
-          confirmText: _this.data.$t.common.gotIt,
+          confirmText: '知道了',
           confirmColor: '#333'
         })
       },

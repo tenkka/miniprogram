@@ -1,0 +1,7 @@
+{
+  "name": "getPosts",
+  "version": "1.0.0",
+  "description": "获取广场帖子",
+  "main": "index.js",
+  "dependencies": { "wx-server-sdk": "~2.6.3" }
+}

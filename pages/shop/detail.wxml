@@ -20,14 +20,14 @@
   <view class="action-buttons">
     <view class="action-btn" bind:tap="phoneCall">
       <view class="btn-icon phone-icon">📞</view>
-      <view class="btn-text">{{ $t.shop.contactUs || '联系电话' }}</view>
+      <view class="btn-text">联系电话</view>
       <view class="btn-sub-text">{{shopInfo.linkPhone}}</view>
     </view>
     <view class="action-divider"></view>
     <view class="action-btn" bind:tap="guideNow">
       <view class="btn-icon nav-icon">🧭</view>
-      <view class="btn-text">{{ $t.shop.Navigation || '到店导航' }}</view>
-      <view class="btn-sub-text">{{ $t.shop.viewMap || '查看地图' }}</view>
+      <view class="btn-text">到店导航</view>
+      <view class="btn-sub-text">查看地图</view>
     </view>
   </view>
 
@@ -38,7 +38,7 @@
     <view class="info-item">
       <view class="info-label">
         <text class="label-icon">🕐</text>
-        <text>{{ $t.shop.openingHours || '营业时间' }}</text>
+        <text>营业时间</text>
       </view>
       <view class="info-value">{{shopInfo.openingHours}}</view>
     </view>
@@ -46,7 +46,7 @@
     <view class="info-item">
       <view class="info-label">
         <text class="label-icon">📍</text>
-        <text>{{ $t.shop.address || '门店地址' }}</text>
+        <text>门店地址</text>
       </view>
       <view class="info-value">{{shopInfo.address}}</view>
     </view>

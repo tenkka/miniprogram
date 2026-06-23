@@ -1,0 +1,86 @@
+<view class="rank-container">
+
+  <van-tabs active="{{activeTab}}" bind:change="onTabChange" color="#D4AF37" background="#1A1A1A" title-active-color="#D4AF37" title-inactive-color="#888888" line-height="4rpx">
+
+    <!-- 战力榜 -->
+    <van-tab title="战力榜" name="power">
+      <view class="tab-content">
+        <view wx:if="{{loading}}" class="empty-tip">加载中...</view>
+        <view wx:elif="{{emptyPower}}" class="empty-tip">暂无排行</view>
+        <block wx:else>
+          <view class="top3-row">
+            <view class="top3-item top3-second" wx:if="{{top3Power[1]}}">
+              <view class="top3-medal">🥈</view>
+              <image class="top3-avatar" src="{{top3Power[1].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Power[1].nick}}</view>
+              <view class="top3-score gold">{{top3Power[1].power}}<text class="score-unit">分</text></view>
+            </view>
+            <view class="top3-item top3-first" wx:if="{{top3Power[0]}}">
+              <view class="top3-medal">🥇</view>
+              <image class="top3-avatar top3-avatar--first" src="{{top3Power[0].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Power[0].nick}}</view>
+              <view class="top3-score gold">{{top3Power[0].power}}<text class="score-unit">分</text></view>
+            </view>
+            <view class="top3-item top3-third" wx:if="{{top3Power[2]}}">
+              <view class="top3-medal">🥉</view>
+              <image class="top3-avatar" src="{{top3Power[2].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Power[2].nick}}</view>
+              <view class="top3-score gold">{{top3Power[2].power}}<text class="score-unit">分</text></view>
+            </view>
+          </view>
+          <view class="rank-list" wx:if="{{restPower.length > 0}}">
+            <view class="rank-row" wx:for="{{restPower}}" wx:key="_id">
+              <text class="rank-no">{{index+4}}</text>
+              <image class="rank-avatar" src="{{item.avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="rank-info">
+                <text class="rank-name">{{item.nick}}</text>
+              </view>
+              <text class="rank-score">{{item.power}}分</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </van-tab>
+
+    <!-- 冠军榜 -->
+    <van-tab title="冠军榜" name="champion">
+      <view class="tab-content">
+        <view wx:if="{{loading}}" class="empty-tip">加载中...</view>
+        <view wx:elif="{{emptyChampion}}" class="empty-tip">暂无排行</view>
+        <block wx:else>
+          <view class="top3-row">
+            <view class="top3-item top3-second" wx:if="{{top3Champion[1]}}">
+              <view class="top3-medal">🥈</view>
+              <image class="top3-avatar" src="{{top3Champion[1].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Champion[1].nick}}</view>
+              <view class="top3-score gold">{{top3Champion[1].champion}}<text class="score-unit">冠</text></view>
+            </view>
+            <view class="top3-item top3-first" wx:if="{{top3Champion[0]}}">
+              <view class="top3-medal">🥇</view>
+              <image class="top3-avatar top3-avatar--first" src="{{top3Champion[0].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Champion[0].nick}}</view>
+              <view class="top3-score gold">{{top3Champion[0].champion}}<text class="score-unit">冠</text></view>
+            </view>
+            <view class="top3-item top3-third" wx:if="{{top3Champion[2]}}">
+              <view class="top3-medal">🥉</view>
+              <image class="top3-avatar" src="{{top3Champion[2].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="top3-name">{{top3Champion[2].nick}}</view>
+              <view class="top3-score gold">{{top3Champion[2].champion}}<text class="score-unit">冠</text></view>
+            </view>
+          </view>
+          <view class="rank-list" wx:if="{{restChampion.length > 0}}">
+            <view class="rank-row" wx:for="{{restChampion}}" wx:key="_id">
+              <text class="rank-no">{{index+4}}</text>
+              <image class="rank-avatar" src="{{item.avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
+              <view class="rank-info">
+                <text class="rank-name">{{item.nick}}</text>
+              </view>
+              <text class="rank-score">{{item.champion}}冠</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </van-tab>
+
+  </van-tabs>
+</view>

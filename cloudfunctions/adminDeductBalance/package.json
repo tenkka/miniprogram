@@ -1,0 +1,9 @@
+{
+  "name": "adminDeductBalance",
+  "version": "1.0.0",
+  "description": "管理员划扣用户余额，赠送额度优先",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

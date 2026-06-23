@@ -14,9 +14,9 @@ Page({
 
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.scoreLogs.title,
+      title: '积分明细',
     })
     this.scoreLogs()
   },

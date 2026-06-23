@@ -6,7 +6,7 @@
     <view class="card-icon">
       <view class="icon-wrapper">🎁</view>
     </view>
-    <view class="title">{{ $t.card.excharge }}</view>
+    <view class="title">兑换礼品卡</view>
     <view class="subtitle">请输入您的礼品卡兑换码</view>
   </view>
 
@@ -21,7 +21,7 @@
       <view class="input-wrapper">
         <van-field
           model:value="{{ number }}"
-          placeholder="{{ $t.card.pleaseInputNumber }}"
+          placeholder="请输入兑换码"
           placeholder-style="color: #C8B8A8"
           border="{{ false }}"
           custom-style="background: #F9F6F2; border-radius: 16rpx; padding: 28rpx 32rpx; font-size: 32rpx;"
@@ -37,7 +37,7 @@
           <van-icon wx:if="{{ agree }}" name="success" size="28rpx" color="#fff" />
         </view>
         <text class="agreement-text">我已阅读并同意</text>
-        <text class="agreement-link" bind:tap="xieyi">{{ $t.card.xieyi }}</text>
+        <text class="agreement-link" bind:tap="xieyi">同意《礼品卡使用协议》</text>
       </view>
     </view>
 

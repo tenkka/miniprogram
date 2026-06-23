@@ -1,0 +1,58 @@
+<view class="page">
+
+  <!-- 余额卡片 -->
+  <view class="balance-card">
+    <view class="balance-total-row">
+      <text class="balance-total-label">总余额</text>
+      <view class="balance-total-val">
+        <text class="balance-currency">¥</text>
+        <text class="balance-num">{{totalBalance}}</text>
+      </view>
+    </view>
+    <view class="balance-detail-row">
+      <view class="balance-item">
+        <text class="balance-item-label">实际充值</text>
+        <text class="balance-item-val">¥{{rechargeBalance}}</text>
+      </view>
+      <view class="balance-divider"></view>
+      <view class="balance-item">
+        <text class="balance-item-label">赠送余额</text>
+        <text class="balance-item-val gift">¥{{giftBalance}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 明细标题 -->
+  <view class="section-title">收支明细</view>
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <van-loading color="#D4AF37" size="48rpx" />
+  </view>
+
+  <view wx:elif="{{orders.length === 0}}" class="empty-wrap">
+    <text class="empty-icon">🧾</text>
+    <text class="empty-text">暂无记录</text>
+  </view>
+
+  <view wx:else>
+    <view wx:for="{{orders}}" wx:key="_id" class="order-card">
+      <view class="order-header">
+        <view class="order-left">
+          <view class="type-badge" style="background:{{item.typeColor}}20;border-color:{{item.typeColor}}40;">
+            <text class="type-text" style="color:{{item.typeColor}};">{{item.typeLabel}}</text>
+          </view>
+          <text class="order-title">{{item.title}}</text>
+        </view>
+        <view class="order-amount">
+          <text class="amount-sign" style="color:{{item.typeColor}};">{{item.typeSign}}</text>
+          <text class="amount-num" style="color:{{item.typeColor}};">¥{{item.displayPrice}}</text>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="order-date">{{item.dateStr}}</text>
+        <text wx:if="{{item.priceNote}}" class="price-note">{{item.priceNote}}</text>
+      </view>
+    </view>
+  </view>
+
+</view>

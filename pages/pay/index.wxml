@@ -22,13 +22,13 @@
       <view class="option-icon">
         <van-icon name="shop-collect-o" size="40rpx" color="{{peisongType == 'zq' ? '#fff' : '#8B5A3C'}}" />
       </view>
-      <view class="option-text">{{ $t.index.pickup }}</view>
+      <view class="option-text">自取</view>
     </view>
     <view class="delivery-option {{peisongType == 'kd' ? 'active' : ''}}" bindtap="selected" data-pstype="kd">
       <view class="option-icon">
         <van-icon name="logistics" size="40rpx" color="{{peisongType == 'kd' ? '#fff' : '#8B5A3C'}}" />
       </view>
-      <view class="option-text">{{ $t.index.Delivery }}</view>
+      <view class="option-text">外卖</view>
     </view>
   </view>
   
@@ -38,7 +38,7 @@
     <view class="address-content" wx:if="{{!curAddressData}}" bindtap="addAddress">
       <view class="add-address-btn">
         <van-icon name="add-o" color="#D4A574" size="40rpx" />
-        <text class="add-text">{{ $t.pay.Addaddress }}</text>
+        <text class="add-text">新增配送地址</text>
       </view>
     </view>
     <view class="address-content address-detail" wx:if="{{curAddressData}}" bindtap="selectAddress">
@@ -62,14 +62,14 @@
     <view class="section-divider"></view>
     <van-field
       model:value="{{ mobile }}"
-      label="{{ $t.booking.mobile }}"
+      label="联系电话"
       label-width="120rpx"
       type="number"
       clearable
       focus
-      placeholder="{{ $t.pay.inputphoneNO }}"
+      placeholder="请输入手机号码"
       custom-style="background: transparent; padding: 24rpx 0;">
-      <van-button slot="button" size="small" round custom-class="phone-btn" open-type="getPhoneNumber" bind:getphonenumber="getPhoneNumber">{{ $t.pay.reBind }}</van-button>
+      <van-button slot="button" size="small" round custom-class="phone-btn" open-type="getPhoneNumber" bind:getphonenumber="getPhoneNumber">重新获取</van-button>
     </van-field>
   </view>
 
@@ -96,10 +96,10 @@
     <view class="time-selector" bind:tap="diningTimeShow">
       <view class="time-label">
         <van-icon name="clock-o" size="32rpx" color="#8B5A3C" />
-        <text>{{ peisongType == 'zq' ? $t.pay.Mealtime : $t.pay.Deliverytime }}</text>
+        <text>{{ peisongType == 'zq' ? '取餐时间' : '送达时间' }}</text>
       </view>
       <view class="time-value">
-        <text class="{{diningTime ? 'selected' : 'placeholder'}}">{{ diningTime ? diningTime : $t.common.select }}</text>
+        <text class="{{diningTime ? 'selected' : 'placeholder'}}">{{ diningTime ? diningTime : '请选择' }}</text>
         <van-icon name="arrow" size="28rpx" color="#999" />
       </view>
     </view>
@@ -118,7 +118,7 @@
         <view class="goods-info">
           <view class="goods-name {{ (item.minBuyNumber && item.stores < item.minBuyNumber) ? 'quehuo' : '' }}">
             {{item.name}}
-            <van-tag wx:if="{{ item.minBuyNumber && item.stores < item.minBuyNumber }}" type="danger" size="mini">{{ $t.goodsDetail.storeing }}</van-tag>
+            <van-tag wx:if="{{ item.minBuyNumber && item.stores < item.minBuyNumber }}" type="danger" size="mini">补货中</van-tag>
           </view>
           <view class="goods-specs">
             {{item.label}}
@@ -136,7 +136,7 @@
     </view>
   </view>
   <view class="goods-total">
-    <text class="total-label">{{ $t.pay.Total }}</text>
+    <text class="total-label">共计</text>
     <text class="total-quantity">×{{allGoodsNumber}}</text>
     <text class="total-price">¥{{allGoodsPrice}}</text>
   </view>
@@ -148,7 +148,7 @@
     <view class="coupon-selector">
       <view class="coupon-left">
         <van-icon name="coupon-o" size="36rpx" color="#D4A574" />
-        <text class="coupon-label">{{ $t.coupons.title }}</text>
+        <text class="coupon-label">优惠券</text>
       </view>
       <view class="coupon-right">
         <text class="coupon-value">{{curCouponShowText}}</text>
@@ -209,15 +209,15 @@
 
 <!-- 保温袋选择卡片 -->
 <view class="bag-card" wx:if="{{ peisongType == 'zq' && packaging_fee }}">
-  <view class="card-title">{{ $t.pay.Insulationbag }}</view>
+  <view class="card-title">保温袋</view>
   <van-radio-group value="{{ packaging_fee_use }}" bind:change="packaging_fee_Change">
     <view class="bag-options">
       <view class="bag-option" data-name="1" bind:tap="packaging_fee_Click">
-        <text class="bag-text">{{ $t.pay.Needbag }}</text>
+        <text class="bag-text">需要</text>
         <van-radio name="1" checked-color="#D4A574" />
       </view>
       <view class="bag-option" data-name="2" bind:tap="packaging_fee_Click">
-        <text class="bag-text">{{ $t.pay.UNneedbag }}</text>
+        <text class="bag-text">不需要</text>
         <van-radio name="2" checked-color="#D4A574" />
       </view>
     </view>
@@ -227,7 +227,7 @@
 <!-- 费用明细卡片 -->
 <view class="fee-card" wx:if="{{ yunPrice || peisongfee }}">
   <view class="fee-item" wx:if="{{ yunPrice }}">
-    <text class="fee-label">{{ $t.pay.DeliveryFee }}</text>
+    <text class="fee-label">配送费</text>
     <text class="fee-value">¥{{ yunPrice }}</text>
   </view>
   <view class="fee-item" wx:if="{{ peisongfee && peisongfee.amount1 }}">
@@ -252,11 +252,11 @@
     </view>
     <van-field
       value="{{remark}}"
-      label="{{ $t.pay.remark }}"
+      label="备注"
       label-width="120rpx"
       clearable
       input-align="right"
-      placeholder="{{ $t.pay.remarkPlaceholder }}"
+      placeholder="如需备注请输入"
       bindblur="remarkChange"
       custom-style="background: transparent; flex: 1;"
     />
@@ -266,8 +266,8 @@
 <van-submit-bar
 	wx:if="{{ nick && avatarUrl }}"
 	price="{{ amountReal*100 }}"
-  label="{{ $t.PickingUp.total }}"
-	button-text="{{peisongType == 'kd' && amountReal < shopInfo.serviceAmountMin ? ('￥' + shopInfo.serviceAmountMin + $t.pay.qisong) : $t.order.toPayTap }}"
+  label="合计"
+	button-text="{{peisongType == 'kd' && amountReal < shopInfo.serviceAmountMin ? ('￥' + shopInfo.serviceAmountMin + '起送') : '立即支付' }}"
 	bind:submit="goCreateOrder"
 	button-class="pay-btn"
 	disabled="{{(peisongType == 'kd' && amountReal < shopInfo.serviceAmountMin) || submitLoding }}"
@@ -275,8 +275,8 @@
 <van-submit-bar
   wx:else
 	price="{{ amountReal*100 }}"
-  label="{{ $t.PickingUp.total }}"
-	button-text="{{ $t.pay.login }}"
+  label="合计"
+	button-text="授权登陆"
 	bind:submit="updateUserInfo"
 	button-class="pay-btn"
 />
@@ -303,7 +303,7 @@
 
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.order }} ：{{ orderId }}"
+  remark="支付订单 ：{{ orderId }}"
   nextAction="{{ nextAction }}"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"

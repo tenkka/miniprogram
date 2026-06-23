@@ -971,16 +971,16 @@ module.exports = {
       token: token
     });
   },
-  userAmount: function userAmount(token) {
-    return request('/user/amount', true, 'get', {
-      token: token
-    });
-  },
-  userAmountV2: function userAmountV2(token) {
-    return request(COMMON_BASE_URL + subDomain + '/user/amount', false, 'get', {
-      token: token
-    });
-  },
+  // userAmount: function userAmount(token) {
+  //   return request('/user/amount', true, 'get', {
+  //     token: token
+  //   });
+  // },
+  // userAmountV2: function userAmountV2(token) {
+  //   return request(COMMON_BASE_URL + subDomain + '/user/amount', false, 'get', {
+  //     token: token
+  //   });
+  // },
   orderCreate: function orderCreate(data) {
     return request('/order/create', true, 'post', data);
   },

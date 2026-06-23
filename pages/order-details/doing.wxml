@@ -1,8 +1,8 @@
 <view wx:if="{{apiOk && !orderList}}" class="no-order">
   <view class="empty-icon">🥤</view>
-  <view class="content-1">{{ $t.order.empty.t1 }}</view>
-  <view class="content-2">{{ $t.order.empty.t2 }}</view>
-  <view class="to-index-btn" bindtap="toIndexPage">{{ $t.order.empty.btn }}</view>
+  <view class="content-1">您还没有点餐</view>
+  <view class="content-2">快去犒劳一下自己吧！</view>
+  <view class="to-index-btn" bindtap="toIndexPage">去点餐</view>
 </view>
 
 <swiper class="swiper" indicator-dots="{{orderList && orderList.length > 1}}" indicator-color="rgba(255,255,255,0.3)" indicator-active-color="#fff" circular bindchange="bindchange">
@@ -14,7 +14,7 @@
         <view wx:if="{{!order.isNeedLogistics}}" class="pickup-card">
           <view class="card-header">
             <view class="header-icon">📋</view>
-            <view class="header-title">{{ $t.PickingUp.qudanhao }}</view>
+            <view class="header-title">取餐号</view>
           </view>
           <view class="pickup-number-wrapper">
             <view class="pickup-number">{{order.qudanhao}}</view>
@@ -38,7 +38,7 @@
         <view wx:if="{{order.isNeedLogistics}}" class="pickup-card delivery-card">
           <view class="card-header">
             <view class="header-icon">🚚</view>
-            <view class="header-title">{{ $t.PickingUp.Deliverying }}</view>
+            <view class="header-title">正在为您配送</view>
           </view>
           <view class="qrcode-wrapper delivery-qrcode">
             <view class="qrcode-container">
@@ -92,13 +92,13 @@
           <view class="divider-line"></view>
           
           <view class="total-row">
-            <view class="total-label">{{ $t.PickingUp.total }}</view>
+            <view class="total-label">合计</view>
             <view class="total-amount">¥{{order.amountReal}}</view>
           </view>
 
           <view class="order-time">
             <text class="time-icon">🕐</text>
-            <text>{{ $t.order.dateAdd }}: {{order.dateAdd}}</text>
+            <text>下单时间: {{order.dateAdd}}</text>
           </view>
         </view>
 

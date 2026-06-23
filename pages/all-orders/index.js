@@ -12,9 +12,9 @@ Page({
     const that = this;
     const orderId = e.currentTarget.dataset.id;
     wx.showModal({
-      confirmText: this.data.$t.common.confirm,
-      cancelText: this.data.$t.common.cancel,
-      content: this.data.$t.order.cancelProfile,
+      confirmText: '确定',
+      cancelText: '取消',
+      content: '确定要取消该订单吗？',
       success: function(res) {
         if (res.confirm) {
           WXAPI.orderClose(wx.getStorageSync('token'), orderId).then(function(res) {
@@ -30,7 +30,7 @@ Page({
     // 防止连续点击--开始
     if (this.data.payButtonClicked) {
       wx.showToast({
-        title: this.data.$t.common.doubleClick,
+        title: '休息一下~',
         icon: 'none'
       })
       return
@@ -49,26 +49,26 @@ Page({
         // 增加提示框
         if (res.data.score < needScore) {
           wx.showToast({
-            title: that.data.$t.order.scoreNotEnough,
+            title: '您的积分不足，无法支付',
             icon: 'none'
           })
           return;
         }
-        let _msg = that.data.$t.order.amountReal + ' ' + money
+        let _msg = '订单金额' + ' ' + money
         if (res.data.balance > 0) {
-          _msg += ' ' + that.data.$t.order.balance + ' ' + res.data.balance
+          _msg += ' ' + '可用余额' + ' ' + res.data.balance
           if (money - res.data.balance > 0) {
-            _msg += ' ' + that.data.$t.order.payAmount + ' ' + (money - res.data.balance)
+            _msg += ' ' + '仍需支付' + ' ' + (money - res.data.balance)
           }          
         }
         if (needScore > 0) {
-          _msg += ' ' + that.data.$t.order.payScore + ' ' + needScore
+          _msg += ' ' + '需要扣除积分:' + ' ' + needScore
         }
         money = money - res.data.balance
         wx.showModal({
           content: _msg,
-          confirmText: that.data.$t.common.confirm,
-          cancelText: that.data.$t.common.cancel,
+          confirmText: '确定',
+          cancelText: '取消',
           success: function (res) {
             console.log(res);
             if (res.confirm) {
@@ -78,9 +78,9 @@ Page({
         });
       } else {
         wx.showModal({
-          confirmText: that.data.$t.common.confirm,
-          cancelText: that.data.$t.common.cancel,
-          content: that.data.$t.order.noCashAccount,
+          confirmText: '确定',
+          cancelText: '取消',
+          content: '无法获取用户资金信息',
           showCancel: false
         })
       }
@@ -120,9 +120,9 @@ Page({
     })
   },
   onLoad: function(options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.order.title,
+      title: '全部订单',
     })
   },
   onShow: function() {
@@ -131,9 +131,9 @@ Page({
         this.doneShow();
       } else {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: this.data.$t.auth.needLogin,
+          confirmText: '确定',
+          cancelText: '取消',
+          content: '登陆后才能访问',
           showCancel: false,
           success: () => {
             wx.navigateBack()
@@ -154,16 +154,16 @@ Page({
       const orderList = res.data.orderList
       orderList.forEach(ele => {
         if (ele.status == -1) {
-          ele.statusStr = this.data.$t.order.status.st01
+          ele.statusStr = '已取消'
         }
         if (ele.status == 1 && ele.isNeedLogistics) {
-          ele.statusStr = this.data.$t.order.status.st11
+          ele.statusStr = '配送中'
         }
         if (ele.status == 1 && !ele.isNeedLogistics) {
-          ele.statusStr = this.data.$t.order.status.st10
+          ele.statusStr = '待取餐'
         }
         if (ele.status == 3) {
-          ele.statusStr = this.data.$t.order.status.st3
+          ele.statusStr = '已完成'
         }
       })
       this.setData({
@@ -193,9 +193,9 @@ Page({
     const id = e.currentTarget.dataset.id;
     
     wx.showModal({
-      confirmText: this.data.$t.common.confirm,
-      cancelText: this.data.$t.common.cancel,
-      content: this.data.$t.order.deleteProfile,
+      confirmText: '确定',
+      cancelText: '取消',
+      content: '确定要删除该订单吗？',
       success: function (res) {
         if (res.confirm) {
           WXAPI.orderDelete(wx.getStorageSync('token'), id).then(function (res) {  

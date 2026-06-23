@@ -7,7 +7,7 @@
       </view>
       <input 
         class="search-input" 
-        placeholder="{{ $t.common.search }}" 
+        placeholder="搜索" 
         placeholder-class="search-placeholder"
         bindinput="searchChange" 
         bindconfirm="search" 
@@ -64,7 +64,7 @@
       <!-- 选择按钮 -->
       <view wx:if="{{index == 0}}" class="select-btn-wrapper">
         <button class="select-btn select-btn-primary" bindtap="goShop" data-idx="{{ index }}">
-          {{ $t.shop.select }}
+          选择门店
         </button>
       </view>
 

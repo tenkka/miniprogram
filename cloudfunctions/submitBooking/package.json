@@ -1,0 +1,9 @@
+{
+  "name": "submitBooking",
+  "version": "1.0.0",
+  "description": "提交预约或排队",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

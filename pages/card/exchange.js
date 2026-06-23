@@ -4,9 +4,9 @@ Page({
     agree: false,
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.card.excharge,
+      title: '兑换礼品卡',
     })
   },
   _agree() {
@@ -22,14 +22,14 @@ Page({
   async submit(){
     if (!this.data.number) {
       wx.showToast({
-        title: this.data.$t.card.pleaseInputNumber,
+        title: '请输入兑换码',
         icon: 'none'
       })
       return
     }
     if (!this.data.agree) {
       wx.showToast({
-        title: this.data.$t.card.xieyi0,
+        title: '请先阅读并同意《礼品卡使用协议》',
         icon: 'none'
       })
       return
@@ -45,7 +45,7 @@ Page({
     wx.hideLoading()
     if (res.code == 0) {
       wx.showModal({
-        content: this.data.$t.coupons.Redemption,
+        content: '兑换成功',
         showCancel: false,
         success: (res) => {
           wx.setStorageSync('cardmyrefresh', true)

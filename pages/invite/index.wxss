@@ -1,0 +1,195 @@
+page {
+  background: #1A1A1A;
+}
+.invite-page {
+  min-height: 100vh;
+  padding: 0 32rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* 头部 */
+.hero {
+  text-align: center;
+  padding: 48rpx 0 40rpx;
+}
+.hero-spade {
+  font-size: 72rpx;
+  color: #D4AF37;
+}
+.hero-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 16rpx;
+}
+.hero-sub {
+  font-size: 26rpx;
+  color: #999;
+  margin-top: 16rpx;
+}
+
+/* 战绩 */
+.stat-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #2a2310, #1f1f1f);
+  border: 1rpx solid rgba(212, 175, 55, 0.3);
+  border-radius: 20rpx;
+  padding: 32rpx 0;
+}
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #D4AF37;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+.stat-divider {
+  width: 1rpx;
+  height: 60rpx;
+  background: rgba(212, 175, 55, 0.3);
+}
+
+/* 卡片 */
+.card {
+  background: #232323;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  margin-top: 28rpx;
+}
+.card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #D4AF37;
+  margin-bottom: 24rpx;
+}
+.card-note {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 24rpx;
+  line-height: 1.5;
+}
+
+/* 邀请码 */
+.code-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  border: 1rpx dashed rgba(212, 175, 55, 0.5);
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+}
+.code-text {
+  font-size: 48rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: #D4AF37;
+}
+.code-copy {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #1A1A1A;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 12rpx 28rpx;
+  border-radius: 40rpx;
+}
+.share-btn {
+  margin-top: 28rpx;
+  background: linear-gradient(135deg, #8B2020, #C8952A);
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+  border-radius: 48rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  letter-spacing: 4rpx;
+}
+.share-btn::after { border: none; }
+
+/* 绑定 */
+.bind-row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.bind-input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1rpx solid #3a3a3a;
+  border-radius: 16rpx;
+  padding: 24rpx 28rpx;
+  font-size: 30rpx;
+  color: #fff;
+  text-transform: uppercase;
+}
+.bind-placeholder { color: #555; }
+.bind-btn {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #1A1A1A;
+  font-size: 30rpx;
+  font-weight: 700;
+  padding: 24rpx 40rpx;
+  border-radius: 16rpx;
+}
+.bind-btn--loading { opacity: 0.7; }
+
+.bound-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bound-text {
+  font-size: 28rpx;
+  color: #ccc;
+  margin-left: 12rpx;
+}
+
+/* 邀请记录 */
+.list-empty {
+  text-align: center;
+  color: #777;
+  font-size: 24rpx;
+  padding: 36rpx 0;
+}
+.invite-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #2e2e2e;
+}
+.invite-item:last-child { border-bottom: none; }
+.invite-nick { font-size: 28rpx; color: #EEE; }
+.invite-status { font-size: 24rpx; color: #888; }
+.invite-status--done { color: #D4AF37; font-weight: 600; }
+
+/* 须知 */
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 18rpx;
+}
+.rule-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #D4AF37;
+  margin: 12rpx 16rpx 0 0;
+  flex-shrink: 0;
+}
+.rule-text {
+  font-size: 25rpx;
+  color: #aaa;
+  line-height: 1.5;
+  flex: 1;
+}

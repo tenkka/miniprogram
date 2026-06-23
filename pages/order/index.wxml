@@ -1,0 +1,86 @@
+<view class="page">
+
+  <view wx:for="{{products}}" wx:key="id" wx:for-item="p" wx:for-index="idx" class="product-card">
+    <image class="product-image" src="{{p.image}}" mode="aspectFill" />
+    <view class="product-body">
+      <view class="product-header">
+        <text class="product-name">{{p.name}}</text>
+        <view class="price-tag">
+          <text class="price-symbol">¥</text>
+          <text class="price-num">{{p.price}}</text>
+        </view>
+      </view>
+      <text wx:if="{{p.desc}}" class="product-desc">{{p.desc}}</text>
+      <view class="buy-btn" bindtap="onBuy" data-idx="{{idx}}">
+        <text class="buy-btn-text">立即购买</text>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+<!-- 支付确认弹窗 -->
+<view wx:if="{{showPayModal}}" class="modal-mask" bindtap="closePayModal">
+  <view class="modal-box" catchtap="">
+    <view class="modal-title">确认购买</view>
+    <view class="modal-product-name">{{selectedProduct.name}}</view>
+
+    <!-- 价格总览 -->
+    <view class="modal-price-row">
+      <text class="modal-price-label">商品价格</text>
+      <view class="modal-price-val">
+        <text class="modal-price-symbol">¥</text>
+        <text class="modal-price-num">{{selectedProduct.price}}</text>
+      </view>
+    </view>
+
+    <!-- 支付构成 -->
+    <view class="modal-split-section">
+      <!-- 余额部分 -->
+      <view class="modal-split-row" wx:if="{{balanceDeduct > 0}}">
+        <view class="split-left">
+          <view class="split-dot balance-dot"></view>
+          <text class="split-label">账户余额</text>
+          <text class="split-sub">（当前 ¥{{totalBalance}}）</text>
+        </view>
+        <text class="split-amount balance-amount">-¥{{balanceDeduct}}</text>
+      </view>
+      <!-- 微信支付部分 -->
+      <view class="modal-split-row" wx:if="{{wechatAmount > 0}}">
+        <view class="split-left">
+          <view class="split-dot wechat-dot"></view>
+          <text class="split-label">微信支付</text>
+        </view>
+        <text class="split-amount wechat-amount">¥{{wechatAmount}}</text>
+      </view>
+      <!-- 纯余额时显示支付后余额 -->
+      <view class="modal-split-row after-balance" wx:if="{{wechatAmount === 0}}">
+        <text class="split-label after-label">支付后余额</text>
+        <text class="split-amount after-amount">¥{{totalBalance - balanceDeduct}}</text>
+      </view>
+    </view>
+
+    <!-- 提示条 -->
+    <view wx:if="{{wechatAmount === 0}}" class="modal-method modal-method--balance">
+      <text class="modal-method-text">✓ 余额充足，将从账户余额中扣除</text>
+    </view>
+    <view wx:elif="{{balanceDeduct > 0}}" class="modal-method modal-method--mixed">
+      <text class="modal-method-text">余额抵扣 ¥{{balanceDeduct}}，差价 ¥{{wechatAmount}} 微信支付</text>
+    </view>
+    <view wx:else class="modal-method modal-method--wechat">
+      <text class="modal-method-text">⚠ 余额不足，将全额调起微信支付</text>
+    </view>
+
+    <view class="modal-actions">
+      <view class="modal-cancel-btn" bindtap="closePayModal">
+        <text>取消</text>
+      </view>
+      <view class="modal-confirm-btn {{paying ? 'modal-confirm-btn--loading' : ''}}" bindtap="confirmPay">
+        <text wx:if="{{paying}}">处理中...</text>
+        <text wx:elif="{{wechatAmount === 0}}">余额支付</text>
+        <text wx:elif="{{balanceDeduct > 0}}">混合支付</text>
+        <text wx:else>微信支付</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,79 @@
+<view class="page">
+
+  <view class="header">
+    <text class="header-title">选择充值套餐</text>
+    <text class="header-sub">充值金额直接入账，赠送金额同步到账</text>
+  </view>
+
+  <view
+    wx:for="{{packages}}"
+    wx:key="id"
+    wx:for-item="pkg"
+    class="pkg-card {{index === 1 ? 'pkg-featured' : ''}}"
+    bindtap="onSelectPkg"
+    data-idx="{{index}}"
+  >
+    <view wx:if="{{index === 1}}" class="featured-badge">最受欢迎</view>
+    <view class="pkg-main">
+      <view class="pkg-recharge-row">
+        <text class="pkg-label">充值</text>
+        <text class="pkg-currency">¥</text>
+        <text class="pkg-amount">{{pkg.recharge}}</text>
+      </view>
+      <view class="pkg-divider-line"></view>
+      <view class="pkg-gift-row">
+        <text class="pkg-gift-label">额外赠送</text>
+        <text class="pkg-gift-amount">¥ {{pkg.gift}}</text>
+      </view>
+    </view>
+    <view class="pkg-total-row">
+      <text class="pkg-total-label">到账总额</text>
+      <text class="pkg-total-val">¥ {{pkg.recharge + pkg.gift}}</text>
+    </view>
+  </view>
+
+  <view class="notice">
+    <van-icon name="info-o" size="28rpx" color="#555" />
+    <text class="notice-text">充值后余额可在「我的 → 历史订单」查看</text>
+  </view>
+
+</view>
+
+<!-- 确认弹窗 -->
+<view wx:if="{{showModal}}" class="modal-mask" bindtap="closeModal">
+  <view class="modal-box" catchtap="">
+    <view class="modal-title">确认充值</view>
+
+    <view class="modal-row">
+      <text class="modal-label">充值金额</text>
+      <view class="modal-val-wrap">
+        <text class="modal-currency">¥</text>
+        <text class="modal-amount">{{selectedPkg.recharge}}</text>
+      </view>
+    </view>
+
+    <view class="modal-row">
+      <text class="modal-label">额外赠送</text>
+      <text class="modal-gift">+ ¥{{selectedPkg.gift}}</text>
+    </view>
+
+    <view class="modal-divider"></view>
+
+    <view class="modal-row">
+      <text class="modal-label">到账总额</text>
+      <view class="modal-val-wrap">
+        <text class="modal-currency gold">¥</text>
+        <text class="modal-total">{{selectedPkg.recharge + selectedPkg.gift}}</text>
+      </view>
+    </view>
+
+    <view class="modal-actions">
+      <view class="modal-cancel" bindtap="closeModal">
+        <text>取消</text>
+      </view>
+      <view class="modal-confirm {{paying ? 'modal-confirm--loading' : ''}}" bindtap="confirmRecharge">
+        <text>{{paying ? '处理中...' : '立即支付'}}</text>
+      </view>
+    </view>
+  </view>
+</view>

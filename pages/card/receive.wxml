@@ -14,8 +14,8 @@
         <view class="avatar-border"></view>
       </view>
       <view class="sender-info">
-        <view class="sender-name">{{ user.nick || $t.card.friend }}</view>
-        <view class="sender-label">{{ $t.card.shareplaceholder }}</view>
+        <view class="sender-name">{{ user.nick || '好友' }}</view>
+        <view class="sender-label">请你喝杯奶茶~</view>
       </view>
     </view>
 
@@ -42,7 +42,7 @@
         <view class="card-amount-wrapper">
           <view wx:if="{{ cardUser.type == 0 }}" class="card-amount">
             <text class="amount-number">{{ cardUser.amount }}</text>
-            <text class="amount-unit">{{ $t.card.times }}</text>
+            <text class="amount-unit">杯</text>
           </view>
           <view wx:if="{{ cardUser.type == 1 }}" class="card-amount">
             <text class="amount-symbol">¥</text>
@@ -67,7 +67,7 @@
         round 
         bind:click="submit" 
         class="receive-button">
-        {{ $t.card.cardShareFetch }}
+        收下心意
       </van-button>
     </view>
 

@@ -16,9 +16,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.goodsList.t,
+      title: '商品列表',
     })
     this.setData({
       name: options.name,
@@ -126,7 +126,7 @@ Page({
     }
     if (curGood.stores <= 0) {
       wx.showToast({
-        title: this.data.$t.goodsDetail.noStores,
+        title: '已售罄',
         icon: 'none'
       })
       return
@@ -175,7 +175,7 @@ Page({
       return
     }
     wx.showToast({
-      title: this.data.$t.goodsDetail.addCartSuccess,
+      title: '加入购物车',
       icon: 'success'
     })
     this.setData({
@@ -239,7 +239,7 @@ Page({
     })
     if (sku.length != propertySize) {
       wx.showToast({
-        title: this.data.$t.goodsDetail.noSelectSku,
+        title: '请选择规格',
         icon: 'none'
       })
       return

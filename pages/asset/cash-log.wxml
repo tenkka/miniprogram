@@ -36,7 +36,7 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{!cashLogsV2 || cashLogsV2.length == 0}}">
     <view class="empty-icon">💰</view>
-    <text class="empty-text">{{ $t.common.empty || '暂无资金明细' }}</text>
+    <text class="empty-text">暂无资金明细</text>
     <text class="empty-tips">您的每一笔收支都会记录在这里哦~</text>
   </view>
 </view>

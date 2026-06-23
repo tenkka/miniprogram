@@ -12,9 +12,9 @@ Page({
       
     },
     onLoad(e){
-      getApp().initLanguage(this)
+
       wx.setNavigationBarTitle({
-        title: this.data.$t.order.detail,
+        title: '订单详情',
       })
       // e.id = 1234
       // e.payOrderNo = 'ZF2411231847541110'
@@ -75,8 +75,8 @@ Page({
       wx.hideLoading()
       if (res.code != 0) {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
+          confirmText: '确定',
+          cancelText: '取消',
           content: res.msg,
           showCancel: false
         })
@@ -118,7 +118,7 @@ Page({
         // 余额足够
         WXAPI.orderPay(wx.getStorageSync('token'), this.data.orderDetail.orderInfo.id).then(res => {
           wx.showToast({
-            title: this.data.$t.asset.success,
+            title: '支付成功',
             icon: 'success'
           })
           this.orderDetail();
@@ -165,9 +165,9 @@ Page({
       let that = this;
       let orderId = this.data.orderId;
       wx.showModal({
-        confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: this.data.$t.order.askConfirm,
+        confirmText: '确定',
+          cancelText: '取消',
+          content: '确认您已收到商品？',
           success: function(res) {
             if (res.confirm) {
               WXAPI.orderDelivery(wx.getStorageSync('token'), orderId).then(function (res) {

@@ -1,7 +1,254 @@
+/* ===== 签到卡片 ===== */
+.checkin-section {
+  margin: 20rpx 28rpx 0;
+  background: #252525;
+  border-radius: 24rpx;
+  padding: 28rpx 32rpx 24rpx;
+  border: 1rpx solid rgba(212,175,55,0.15);
+}
+
+.checkin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.checkin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.checkin-section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.checkin-streak-tag {
+  font-size: 22rpx;
+  color: #D4AF37;
+  background: rgba(212,175,55,0.12);
+  border-radius: 20rpx;
+  padding: 4rpx 16rpx;
+}
+
+.checkin-action-btn {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  border-radius: 32rpx;
+  padding: 12rpx 28rpx;
+}
+
+.checkin-action-btn--done {
+  background: rgba(255,255,255,0.06);
+}
+
+.checkin-action-btn--loading {
+  opacity: 0.6;
+}
+
+.checkin-action-text {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.checkin-action-btn--done .checkin-action-text {
+  color: #555;
+}
+
+/* 周历 */
+.cal-week {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cal-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.cal-label {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.cal-label--today {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+.cal-circle {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx solid transparent;
+  position: relative;
+}
+
+.cal-circle--past {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.cal-circle--future {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.04);
+}
+
+.cal-circle--today {
+  background: rgba(212,175,55,0.08);
+  border-color: #D4AF37;
+  border-width: 2rpx;
+}
+
+.cal-circle--checked {
+  background: rgba(212,175,55,0.18);
+  border-color: rgba(212,175,55,0.5);
+}
+
+.cal-circle--today-checked {
+  background: #D4AF37;
+  border-color: #D4AF37;
+}
+
+.cal-date {
+  font-size: 26rpx;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.cal-date--past    { color: #888; }
+.cal-date--future  { color: #444; }
+.cal-date--today   { color: #D4AF37; }
+.cal-date--checked { color: #D4AF37; }
+.cal-date--today-checked { color: #1A1A1A; }
+
+.cal-check {
+  font-size: 16rpx;
+  line-height: 1;
+  color: #D4AF37;
+  margin-top: 2rpx;
+}
+
+.cal-circle--today-checked .cal-check {
+  color: #1A1A1A;
+}
+
+/* ===== 签到规则弹窗 ===== */
+.rule-drag-bar {
+  width: 72rpx;
+  height: 8rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 4rpx;
+  margin: 0 auto 36rpx;
+}
+
+.rule-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.rule-section-label {
+  font-size: 22rpx;
+  color: #666;
+  letter-spacing: 2rpx;
+  margin-bottom: 16rpx;
+}
+
+.rule-reward-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 8rpx;
+}
+
+.rule-reward-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.rule-reward-day {
+  width: 100%;
+  padding: 10rpx 0;
+  background: rgba(255,255,255,0.04);
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid rgba(255,255,255,0.06);
+}
+
+.rule-reward-day--current {
+  background: rgba(212,175,55,0.15);
+  border-color: rgba(212,175,55,0.4);
+}
+
+.rule-reward-day-num {
+  font-size: 18rpx;
+  color: #888;
+}
+
+.rule-reward-day--current .rule-reward-day-num {
+  color: #D4AF37;
+  font-weight: 600;
+}
+
+.rule-reward-pts {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #555;
+}
+
+.rule-reward-pts--current {
+  color: #D4AF37;
+}
+
+.rule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.rule-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background: #D4AF37;
+  flex-shrink: 0;
+  margin-top: 12rpx;
+}
+
+.rule-text {
+  font-size: 26rpx;
+  color: #AAAAAA;
+  line-height: 1.7;
+  flex: 1;
+}
+
 /* 页面容器 */
 .page-container {
   min-height: 100vh;
-  background: linear-gradient(180deg, #FFF5E6 0%, #FFFFFF 50%);
+  background: #1A1A1A;
   padding-bottom: 40rpx;
 }
 
@@ -11,6 +258,10 @@
   width: 100%;
   height: 280rpx;
   overflow: hidden;
+}
+
+.header-section-short {
+  height: 160rpx;
 }
 
 .header-bg {
@@ -30,11 +281,74 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(245, 222, 179, 0.9) 0%, 
-    rgba(210, 180, 140, 0.85) 50%,
-    rgba(139, 115, 85, 0.8) 100%
+  background: linear-gradient(135deg,
+    rgba(26, 26, 26, 0.85) 0%,
+    rgba(44, 14, 14, 0.88) 50%,
+    rgba(139, 32, 32, 0.9) 100%
   );
+}
+
+/* ==================== 未登录卡片 ==================== */
+.login-card {
+  margin: 24rpx 32rpx 32rpx;
+  background: #2C2C2C;
+  border-radius: 32rpx;
+  padding: 48rpx 32rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
+}
+
+.login-avatar-placeholder {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #3A3A3A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24rpx;
+}
+
+.login-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 12rpx;
+  letter-spacing: 2rpx;
+}
+
+.login-sub {
+  font-size: 24rpx;
+  color: #888888;
+  margin-bottom: 36rpx;
+  text-align: center;
+}
+
+.login-wechat-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #07C160 0%, #06AD56 100%);
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.login-wechat-btn::after {
+  border: none;
+}
+
+.login-btn-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
 }
 
 /* ==================== 用户信息卡片 ==================== */
@@ -43,10 +357,11 @@
   bottom: 32rpx;
   left: 32rpx;
   right: 32rpx;
-  background: #FFFFFF;
+  background: #2C2C2C;
   border-radius: 32rpx;
   padding: 40rpx 32rpx;
-  box-shadow: 0 8rpx 32rpx rgba(139, 115, 85, 0.15);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
   z-index: 10;
 }
 
@@ -121,7 +436,7 @@
 .nickname {
   font-size: 36rpx;
   font-weight: 600;
-  color: #333333;
+  color: #FFFFFF;
   margin-bottom: 8rpx;
   max-width: 300rpx;
   overflow: hidden;
@@ -477,6 +792,26 @@
   color: #757575;
 }
 
+.phone-icon {
+  background: linear-gradient(135deg, #E8EAF6 0%, #C5CAE9 100%);
+  color: #3F51B5;
+}
+
+.lottery-icon {
+  background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+  color: #FB8C00;
+}
+
+.invite-icon {
+  background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%);
+  color: #E91E63;
+}
+
+.phone-right {
+  display: flex;
+  align-items: center;
+}
+
 .list-text {
   font-size: 28rpx;
   color: #333333;
@@ -521,3 +856,26 @@
 .userinfo-nickname::after {
   border: none;
 }
+
+/* ===== 登录 popup ===== */
+.lp-title { font-size: 40rpx; font-weight: 700; color: #FFFFFF; text-align: center; margin-bottom: 8rpx; }
+.lp-sub { font-size: 24rpx; color: #888; text-align: center; margin-bottom: 48rpx; }
+.lp-avatar-btn { width: 160rpx; height: 160rpx; border-radius: 50%; padding: 0; margin: 0 auto 32rpx; background: transparent; border: none; position: relative; display: block; }
+.lp-avatar-btn::after { border: none; }
+.lp-avatar-img { width: 160rpx; height: 160rpx; border-radius: 50%; border: 4rpx solid #D4AF37; }
+.lp-camera { position: absolute; bottom: 0; right: 0; width: 48rpx; height: 48rpx; background: #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24rpx; }
+.lp-nick-input { width: 100%; height: 88rpx; background: #2C2C2C; border-radius: 20rpx; padding: 0 28rpx; font-size: 30rpx; color: #FFFFFF; border: 2rpx solid rgba(212,175,55,0.2); margin-bottom: 32rpx; box-sizing: border-box; }
+.lp-placeholder { color: #555; }
+.lp-confirm-btn { width: 100%; height: 96rpx; background: linear-gradient(135deg, #D4AF37, #B8941F); border-radius: 48rpx; font-size: 34rpx; font-weight: 700; color: #1A1A1A; border: none; box-shadow: 0 12rpx 40rpx rgba(212,175,55,0.4); }
+.lp-confirm-btn::after { border: none; }
+
+/* ===== 修改昵称弹窗 ===== */
+.nick-drag-bar { width: 80rpx; height: 8rpx; background: rgba(255,255,255,0.2); border-radius: 4rpx; margin: 0 auto 40rpx; }
+.nick-popup-title { font-size: 36rpx; font-weight: 700; color: #FFFFFF; text-align: center; margin-bottom: 32rpx; }
+.nick-edit-input { width: 100%; height: 88rpx; background: #1A1A1A; border-radius: 16rpx; padding: 0 28rpx; font-size: 30rpx; color: #FFFFFF; border: 2rpx solid rgba(212,175,55,0.2); margin-bottom: 32rpx; box-sizing: border-box; }
+
+/* ===== 后台管理验证弹窗 ===== */
+.admin-drag-bar { width: 80rpx; height: 8rpx; background: rgba(255,255,255,0.2); border-radius: 4rpx; margin: 0 auto 40rpx; }
+.admin-popup-title { font-size: 36rpx; font-weight: 700; color: #FFFFFF; text-align: center; margin-bottom: 8rpx; }
+.admin-popup-sub { font-size: 24rpx; color: #888; text-align: center; margin-bottom: 32rpx; }
+.admin-pass-input { width: 100%; height: 88rpx; background: #1A1A1A; border-radius: 16rpx; padding: 0 28rpx; font-size: 30rpx; color: #FFFFFF; border: 2rpx solid rgba(212,175,55,0.2); margin-bottom: 32rpx; box-sizing: border-box; }

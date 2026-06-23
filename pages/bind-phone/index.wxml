@@ -1,0 +1,31 @@
+<view class="page">
+
+  <!-- 已绑定 -->
+  <view wx:if="{{isBound}}" class="state-card">
+    <view class="icon-wrap success-bg">
+      <van-icon name="passed" color="#4CAF50" size="72rpx" />
+    </view>
+    <text class="state-phone">{{maskedPhone}}</text>
+    <text class="state-label">手机号已绑定</text>
+    <text class="state-hint">如需更换手机号，请联系管理员</text>
+  </view>
+
+  <!-- 未绑定 -->
+  <view wx:else class="state-card">
+    <view class="icon-wrap phone-bg">
+      <van-icon name="phone-o" color="#D4AF37" size="72rpx" />
+    </view>
+    <text class="state-label">绑定手机号</text>
+    <text class="state-hint">绑定后可在消费时快速验证身份，保障账户安全</text>
+
+    <button
+      class="bind-btn"
+      open-type="getPhoneNumber"
+      bind:getphonenumber="onGetPhoneNumber"
+      loading="{{binding}}"
+    >微信一键授权手机号</button>
+
+    <text class="tip-text">点击按钮后，微信将询问是否授权手机号\n该手机号为您在微信注册时使用的手机号</text>
+  </view>
+
+</view>

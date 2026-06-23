@@ -1,0 +1,31 @@
+<view class="login-page">
+
+  <view class="brand-section">
+    <view class="suits">♠ ♥ ♣ ♦</view>
+    <view class="logo">NUTS</view>
+    <view class="tagline">德扑主题酒吧</view>
+  </view>
+
+  <view class="features">
+    <view class="feature-item">
+      <text class="f-icon">🃏</text>
+      <text class="f-text">牌局预约 · 实时桌况</text>
+    </view>
+    <view class="feature-item">
+      <text class="f-icon">🏆</text>
+      <text class="f-text">战力排行 · 赛季积分</text>
+    </view>
+    <view class="feature-item">
+      <text class="f-icon">🎁</text>
+      <text class="f-text">会员特权 · 专属优惠</text>
+    </view>
+  </view>
+
+  <view class="bottom-section">
+    <button class="wechat-btn" bindtap="doLogin" loading="{{loading}}">
+      <text class="btn-text">微信一键登录</text>
+    </button>
+    <view class="privacy-tip">登录即同意用户协议与隐私政策</view>
+  </view>
+
+</view>

@@ -10,9 +10,9 @@ Page({
     },
   },
   onLoad: function(options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.my.signDaily,
+      title: '每日签到',
     })
     this.scoreSignLogs()
   },
@@ -46,7 +46,7 @@ Page({
             return ele.dateAdd.indexOf(`${year}-${month}-${date}`) == 0
           })
           if (_log) {
-            day.bottomInfo = _this.data.$t.sign.signed
+            day.bottomInfo = '已签到'
           }
           return day;
         }
@@ -57,7 +57,7 @@ Page({
     const res = await WXAPI.scoreSign(wx.getStorageSync('token'))
     if (res.code == 10000) {
       wx.showToast({
-        title: this.data.$t.sign.signSuccess,
+        title: '签到成功',
         icon: 'success'
       })
       this.scoreSignLogs()
@@ -70,7 +70,7 @@ Page({
       })
     } else {
       wx.showToast({
-        title: this.data.$t.sign.signSuccess,
+        title: '签到成功',
         icon: 'success'
       })
       this.scoreSignLogs()

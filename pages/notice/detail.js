@@ -8,9 +8,9 @@ Page({
 
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.notice.title,
+      title: '公告',
     })
     this.noticeDetail(options.id)
   },

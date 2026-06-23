@@ -1,6 +1,5 @@
 const WXAPI = require('apifm-wxapi')
-const i18n = require("../i18n/index")
-const $t = i18n.$t()
+
 
 /**
  * type: order 支付订单 recharge 充值 paybill 优惠买单
@@ -20,7 +19,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
     };
   }
   if (type === 'paybill') {
-    postData.remark = $t.my.youhuimaidan + " ：" + data.money;
+    postData.remark = '优惠买单' + " ：" + data.money;
     postData.nextAction = {
       type: 4,
       uid: wx.getStorageSync('uid'),
@@ -54,7 +53,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         success: function () {
           // 提示支付成功
           wx.showToast({
-            title: $t.asset.success
+            title: '支付成功'
           })
           if (redirectUrl) {
             wx.redirectTo({
@@ -65,8 +64,8 @@ function wxpay(type, money, orderId, redirectUrl, data) {
       })
     } else {
       wx.showModal({
-        confirmText: $t.common.confirm,
-        cancelText: $t.common.cancel,
+        confirmText: '确定',
+        cancelText: '取消',
         content: JSON.stringify(res),
         showCancel: false
       })      

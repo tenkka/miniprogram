@@ -37,7 +37,7 @@ Component({
   },
   lifetimes: {
     attached() {
-      getApp().initLanguage(this)
+
     },
     detached() {
       // 在组件实例被从页面节点树移除时执行
@@ -93,7 +93,7 @@ Component({
         res = await WXAPI.alipayQrcode(postData)
       } else {
         wx.showModal({
-          content: this.data.$t.payment.notSupport,
+          content: '暂不支持该支付方式',
           showCancel: false
         })
         this.close()
@@ -123,7 +123,7 @@ Component({
           },
           success: () => {
             wx.showToast({
-              title: this.data.$t.asset.success
+              title: '支付成功'
             })
             this.triggerEvent('ok', this.data)
           }

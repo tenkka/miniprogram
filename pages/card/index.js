@@ -4,9 +4,9 @@ Page({
     active: 0
   },
   onLoad(e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.card.title,
+      title: '礼品卡',
     })
     this.banners()
     this.cardList()
@@ -32,14 +32,14 @@ Page({
   },
   onShareAppMessage() {
     return {
-      title: this.data.$t.card.title,
+      title: '礼品卡',
       path: '/pages/card/index?inviter_id=' + (wx.getStorageSync('uid') || ''),
       imageUrl: wx.getStorageSync('share_pic')
     }
   },
   onShareTimeline() {
     return {
-      title: this.data.$t.card.title,
+      title: '礼品卡',
       query: 'inviter_id=' + (wx.getStorageSync('uid') || ''),
       imageUrl: wx.getStorageSync('share_pic')
     }
@@ -96,7 +96,7 @@ Page({
     this.setData({
       paymentShow: true,
       money: item.price,
-      remark: this.data.$t.card.buy + ': ' + item.name,
+      remark: '购买礼品卡' + ': ' + item.name,
       nextAction: { // https://www.yuque.com/apifm/doc/aetmlb
         type: 10,
         id: item.id

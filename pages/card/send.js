@@ -9,13 +9,13 @@ Page({
     wx.hideShareMenu({
       menus: ['shareAppMessage', 'shareTimeline']
     })
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.card.cardShareOpen,
+      title: '送给好友',
     })
     this.setData({
       cardUser: wx.getStorageSync('sendCard'),
-      remark: this.data.$t.card.shareplaceholder
+      remark: '请你喝杯奶茶~'
     })
     this.cardShareOpen()
     wx.setStorageSync('cardmyrefresh', true)

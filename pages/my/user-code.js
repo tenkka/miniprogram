@@ -10,9 +10,9 @@ Page({
     userCode: undefined
   },
   onLoad(e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.my.userCode,
+      title: '会员码',
     })
     this.getUserAmount()
     this.dynamicUserCode()

@@ -1,6 +1,4 @@
 const WXAPI = require('apifm-wxapi')
-const i18n = require("../i18n/index")
-const $t = i18n.$t()
 
 async function checkSession(){
   return new Promise((resolve, reject) => {
@@ -16,37 +14,16 @@ async function checkSession(){
 }
 
 async function bindSeller() {
-  const token = wx.getStorageSync('token')
-  const referrer = wx.getStorageSync('referrer')
-  if (!token) {
-    return
-  }
-  if (!referrer) {
-    return
-  }
-  const res = await WXAPI.bindSeller({
-    token,
-    uid: referrer
-  })
+  // 老带新已迁移到云开发：绑定改由邀请页手动输入邀请码 → 云函数 bindReferrer 完成。
+  // 此处保留空实现，避免旧 apifm 接口被调用。
+  return
 }
 
 // 检测登录状态，返回 true / false
-async function checkHasLogined() {
-  const token = wx.getStorageSync('token')
-  if (!token) {
-    return false
-  }
-  const loggined = await checkSession()
-  if (!loggined) {
-    wx.removeStorageSync('token')
-    return false
-  }
-  const checkTokenRes = await WXAPI.checkToken(token)
-  if (checkTokenRes.code != 0) {
-    wx.removeStorageSync('token')
-    return false
-  }
-  return true
+// 云开发模式下 openid 是永久的，不依赖 wx.checkSession
+function checkHasLogined() {
+  const openid = wx.getStorageSync('openid')
+  return Promise.resolve(!!openid)
 }
 
 async function wxaCode(){
@@ -57,10 +34,10 @@ async function wxaCode(){
       },
       fail() {
         wx.showToast({
-          title: $t.common.getCodeError,
+          title: '获取code失败',
           icon: 'none'
         })
-        return resolve($t.common.getCodeError)
+        return resolve('获取code失败')
       }
     })
   })
@@ -84,9 +61,9 @@ async function login(page){
           if (res.code != 0) {
             // 登录错误
             wx.showModal({
-              confirmText: $t.common.confirm,
-              cancelText: $t.common.cancel,
-              title: $t.common.loginFail,
+              confirmText: '确定',
+              cancelText: '取消',
+              title: '无法登录',
               content: res.msg,
               showCancel: false
             })
@@ -108,9 +85,9 @@ async function login(page){
           if (res.code != 0) {
             // 登录错误
             wx.showModal({
-              confirmText: $t.common.confirm,
-              cancelText: $t.common.cancel,
-              title: $t.common.loginFail,
+              confirmText: '确定',
+              cancelText: '取消',
+              title: '无法登录',
               content: res.msg,
               showCancel: false
             })
@@ -130,53 +107,18 @@ async function login(page){
 
 async function authorize() {
   return new Promise((resolve, reject) => {
-    wx.login({
-      success: function (res) {
-        const code = res.code
-        let referrer = '' // 推荐人
-        let referrer_storge = wx.getStorageSync('referrer');
-        if (referrer_storge) {
-          referrer = referrer_storge;
-        }
-        // 下面开始调用注册接口
-        const componentAppid = wx.getStorageSync('componentAppid')
-        if (componentAppid) {
-          WXAPI.wxappServiceAuthorize({
-            code: code,
-            referrer: referrer
-          }).then(function (res) {
-            if (res.code == 0) {
-              wx.setStorageSync('token', res.data.token)
-              wx.setStorageSync('uid', res.data.uid)
-              resolve(res)
-            } else {
-              wx.showToast({
-                title: res.msg,
-                icon: 'none'
-              })
-              reject(res.msg)
-            }
-          })
-        } else {
-          WXAPI.authorize({
-            code: code,
-            referrer: referrer
-          }).then(function (res) {
-            if (res.code == 0) {
-              wx.setStorageSync('token', res.data.token)
-              wx.setStorageSync('uid', res.data.uid)
-              resolve(res)
-            } else {
-              wx.showToast({
-                title: res.msg,
-                icon: 'none'
-              })
-              reject(res.msg)
-            }
-          })
-        }
+    wx.cloud.callFunction({
+      name: 'login',
+      success: (res) => {
+        const { openid, userInfo } = res.result
+        wx.setStorageSync('openid', openid)
+        wx.setStorageSync('token', openid)  // 兼容现有代码
+        wx.setStorageSync('userInfo', userInfo)
+        resolve(res.result)
       },
-      fail: err => {
+      fail: (err) => {
+        console.error('cloud login error:', err)
+        wx.showToast({ title: '登录失败，请重试', icon: 'none' })
         reject(err)
       }
     })
@@ -185,7 +127,8 @@ async function authorize() {
 
 function loginOut(){
   wx.removeStorageSync('token')
-  wx.removeStorageSync('uid')
+  wx.removeStorageSync('openid')
+  wx.removeStorageSync('userInfo')
 }
 
 async function checkAndAuthorize (scope) {
@@ -207,9 +150,9 @@ async function checkAndAuthorize (scope) {
               //   })
               // }
               wx.showModal({
-                content: $t.common.authorizeRequired,
+                content: '需要获得您的授权',
                 showCancel: false,
-                confirmText: $t.common.authorize,
+                confirmText: '立即授权',
                 confirmColor: '#e64340',
                 success(res) {
                   wx.openSetting();

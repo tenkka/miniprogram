@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "幸运抽奖",
+  "navigationBarBackgroundColor": "#1A1A1A",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#1A1A1A",
+  "usingComponents": {
+    "van-popup": "@vant/weapp/popup/index"
+  }
+}

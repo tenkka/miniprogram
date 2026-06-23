@@ -11,9 +11,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.shop.join,
+      title: '商家入驻',
     })
   },
   onShow: function() {
@@ -21,14 +21,14 @@ Page({
   async bindSave() {    
     if (!this.data.name) {
       wx.showToast({
-        title: this.data.$t.shop.nameRequired,
+        title: '请填写您的姓名',
         icon: 'none',
       })
       return
     }
     if (!this.data.mobile) {
       wx.showToast({
-        title: this.data.$t.shop.mobileRequired,
+        title: '请填写您的联系电话',
         icon: 'none',
       })
       return
@@ -38,7 +38,7 @@ Page({
     }
     if (!this.data.content) {
       wx.showToast({
-        title: this.data.$t.shop.contentRequired,
+        title: '请填写反馈信息',
         icon: 'none',
       })
       return
@@ -66,7 +66,7 @@ Page({
     })
     if (res.code == 0) {
       wx.showToast({
-        title: this.data.$t.common.submitSuccess,
+        title: '提交成功',
       })
       setTimeout(() => {
         wx.navigateBack({

@@ -2,10 +2,10 @@
 	<!-- 空状态设计 -->
 	<view wx:if="{{apiOk && !orderList}}" class="no-order">
 		<view class="empty-icon">☕</view>
-		<view class="content-1">{{ $t.order.empty.t1 }}</view>
-		<view class="content-2">{{ $t.order.empty.t2 }}</view>
+		<view class="content-1">您还没有点餐</view>
+		<view class="content-2">快去犒劳一下自己吧！</view>
 		<view class="to-index-btn" bindtap="toIndexPage">
-			<text class="btn-text">{{ $t.order.empty.btn }}</text>
+			<text class="btn-text">去点餐</text>
 		</view>
 	</view>
 
@@ -41,14 +41,14 @@
 				<view class="detail-row">
 					<view class="detail-label">
 						<text class="label-icon">📅</text>
-						<text>{{ $t.order.dateAdd }}</text>
+						<text>下单时间</text>
 					</view>
 					<view class="detail-value">{{item.dateAdd}}</view>
 				</view>
 				<view class="detail-row">
 					<view class="detail-label">
 						<text class="label-icon">🔖</text>
-						<text>{{ $t.order.orderNumber }}</text>
+						<text>订单编号</text>
 					</view>
 					<view class="detail-value">{{item.orderNumber}}</view>
 				</view>
@@ -66,18 +66,18 @@
 				<view class="action-btns">
 					<view wx:if="{{item.status > 0}}" class="order-btn btn-secondary" bindtap="callShop" data-shopid="{{item.shopIdZt}}">
 						<text class="btn-icon">📞</text>
-						<text>{{ $t.order.callShop }}</text>
+						<text>联系商家</text>
 					</view>
 					<view wx:if="{{item.status== -1}}" class="order-btn btn-danger" bindtap="deleteOrder" data-id="{{item.id}}">
 						<text class="btn-icon">🗑</text>
-						<text>{{ $t.order.deleteOrder }}</text>
+						<text>删除订单</text>
 					</view>
 					<view wx:if="{{item.status== 0}}" class="order-btn btn-cancel" bindtap="cancelOrderTap" data-id="{{item.id}}">
-						<text>{{ $t.order.cancelOrder }}</text>
+						<text>关闭订单</text>
 					</view>
 					<view wx:if="{{item.status== 0}}" class="order-btn btn-primary" bindtap="toPayTap" data-id="{{item.id}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">
 						<text class="btn-icon">💳</text>
-						<text>{{ $t.order.toPayTap }}</text>
+						<text>立即支付</text>
 					</view>
 				</view>
 			</view>
@@ -91,7 +91,7 @@
 <!-- 支付组件 -->
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.order }} ：{{ orderId }}"
+  remark="支付订单 ：{{ orderId }}"
   nextAction="{{ nextAction }}"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"

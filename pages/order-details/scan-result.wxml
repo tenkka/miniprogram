@@ -29,7 +29,7 @@
   <view class="card-section goods-section">
     <view class="card-header">
       <view class="card-icon goods-icon">🥤</view>
-      <view class="card-title">{{ $t.PickingUp.goodsInfo }}</view>
+      <view class="card-title">商品信息</view>
     </view>
     <form bindsubmit="submitReputation" report-submit="true">
       <block wx:for="{{orderDetail.goods}}" wx:key="{{index}}">
@@ -62,7 +62,7 @@
     <view class="coupon-list">
       <block wx:for="{{orderDetail.goodsCoupons}}" wx:key="{{item.id}}">
         <view wx:if="{{item.type == 0}}" class="coupon-item">
-          <view class="coupon-label">{{ $t.coupons.title }}</view>
+          <view class="coupon-label">优惠券</view>
           <view class="coupon-value">{{item.coupon}}</view>
         </view>
         <image mode="widthFix" wx:if="{{item.type == 1}}" src="{{item.coupon}}" class="coupon-image"></image>
@@ -78,16 +78,16 @@
     </view>
     <view class="amount-list">
       <view class="amount-item">
-        <view class="amount-label">{{ $t.PickingUp.goodsAmount }}</view>
+        <view class="amount-label">商品金额</view>
         <view class="amount-value">¥ {{orderDetail.orderInfo.amount}}</view>
       </view>
       <view class="amount-item">
-        <view class="amount-label">{{ $t.PickingUp.freight }}</view>
+        <view class="amount-label">运费</view>
         <view class="amount-value">+ ¥ {{orderDetail.orderInfo.amountLogistics}}</view>
       </view>
       <view class="amount-divider"></view>
       <view class="amount-item total-amount">
-        <view class="amount-label">{{ $t.PickingUp.realAmount }}</view>
+        <view class="amount-label">应付总额</view>
         <view class="amount-value total-price">
           <text class="price-symbol">¥</text>
           <text class="price-number">{{orderDetail.orderInfo.amountReal}}</text>
@@ -103,6 +103,6 @@
 <!-- 核销按钮 -->
 <view wx:if="{{orderDetail.orderInfo.status ==1 || orderDetail.orderInfo.status ==2}}" class="confirm-button-wrap">
   <view class="confirm-button" bindtap="doneHx">
-    <text class="button-text">{{ $t.PickingUp.ConfirmVerification }}</text>
+    <text class="button-text">确认核销</text>
   </view>
 </view>

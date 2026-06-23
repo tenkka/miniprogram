@@ -1,0 +1,338 @@
+page {
+  background: #1A1A1A;
+}
+.lottery-page {
+  min-height: 100vh;
+  padding: 0 32rpx 60rpx;
+  box-sizing: border-box;
+}
+
+/* 顶部信息 */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2a2310, #1f1f1f);
+  border: 1rpx solid rgba(212, 175, 55, 0.3);
+  border-radius: 20rpx;
+  padding: 28rpx 0;
+  margin-top: 24rpx;
+}
+.top-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.top-num {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #D4AF37;
+}
+.top-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 6rpx;
+}
+.top-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: rgba(212, 175, 55, 0.3);
+}
+
+/* 转盘 */
+.wheel-wrap {
+  position: relative;
+  width: 580rpx;
+  height: 580rpx;
+  margin: 56rpx auto 24rpx;
+}
+.pointer {
+  position: absolute;
+  top: -18rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 22rpx solid transparent;
+  border-right: 22rpx solid transparent;
+  border-top: 40rpx solid #D4AF37;
+  filter: drop-shadow(0 4rpx 6rpx rgba(0,0,0,0.5));
+  z-index: 6;
+}
+.wheel {
+  width: 580rpx;
+  height: 580rpx;
+  border-radius: 50%;
+  position: relative;
+  border: 8rpx solid #D4AF37;
+  box-shadow: 0 0 0 6rpx #1f1a0c, 0 8rpx 30rpx rgba(0,0,0,0.6);
+  background: conic-gradient(
+    #2b2b2b 0deg 36deg,
+    #3a2f15 36deg 72deg,
+    #2b2b2b 72deg 108deg,
+    #3a2f15 108deg 144deg,
+    #2b2b2b 144deg 180deg,
+    #3a2f15 180deg 216deg,
+    #2b2b2b 216deg 252deg,
+    #3a2f15 252deg 288deg,
+    #2b2b2b 288deg 324deg,
+    #3a2f15 324deg 360deg
+  );
+  transition: transform 4.2s cubic-bezier(0.15, 0.45, 0.25, 1);
+}
+.sector-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  transform-origin: 50% 50%;
+}
+.label-text {
+  margin-top: 30rpx;
+  width: 130rpx;
+  text-align: center;
+  font-size: 20rpx;
+  line-height: 1.25;
+  color: #E8D9A8;
+  font-weight: 600;
+}
+
+/* 中心抽奖按钮 */
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 168rpx;
+  height: 168rpx;
+  margin: -84rpx 0 0 -84rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F5DEB3, #D4AF37);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6rpx 18rpx rgba(0,0,0,0.5);
+  z-index: 5;
+}
+.wheel-center--disabled {
+  opacity: 0.7;
+}
+.wheel-center:active {
+  transform: scale(0.95);
+}
+.center-spade {
+  font-size: 56rpx;
+  color: #1A1A1A;
+  line-height: 1;
+}
+.center-text {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-top: 4rpx;
+  letter-spacing: 2rpx;
+}
+.wheel-deco {
+  position: absolute;
+  bottom: -52rpx;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 24rpx;
+}
+.deco-spade { color: #D4AF37; font-size: 30rpx; opacity: 0.7; }
+.deco-heart { color: #A0826D; font-size: 30rpx; opacity: 0.7; }
+
+.draw-hint {
+  text-align: center;
+  color: #888;
+  font-size: 24rpx;
+  margin: 40rpx 0 16rpx;
+}
+
+/* 通用 section */
+.section {
+  background: #232323;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-top: 32rpx;
+}
+.section-head {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 24rpx;
+}
+.section-icon {
+  font-size: 30rpx;
+  margin-right: 12rpx;
+}
+.section-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #D4AF37;
+}
+.section-sub {
+  font-size: 22rpx;
+  color: #888;
+  margin-left: 16rpx;
+}
+
+/* 兑换列表 */
+.exchange-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #2e2e2e;
+}
+.exchange-item:last-child { border-bottom: none; }
+.ex-left { display: flex; flex-direction: column; }
+.ex-name { font-size: 28rpx; color: #EEE; font-weight: 600; }
+.ex-price { font-size: 22rpx; color: #888; margin-top: 8rpx; }
+.ex-right { display: flex; align-items: center; }
+.ex-cost { font-size: 26rpx; color: #D4AF37; margin-right: 20rpx; }
+.ex-btn {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #1A1A1A;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 12rpx 28rpx;
+  border-radius: 40rpx;
+}
+.ex-btn--disabled {
+  background: #444;
+  color: #888;
+}
+
+/* 中奖记录 */
+.record-empty {
+  text-align: center;
+  color: #777;
+  font-size: 24rpx;
+  padding: 36rpx 0;
+}
+.record-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #2e2e2e;
+}
+.record-item:last-child { border-bottom: none; }
+.rec-name { font-size: 26rpx; color: #E8D9A8; }
+.rec-time { font-size: 22rpx; color: #777; }
+
+/* 中奖/兑换结果弹窗 */
+.result-card {
+  width: 560rpx;
+  background: linear-gradient(160deg, #2a2310, #1f1f1f);
+  border: 1rpx solid rgba(212, 175, 55, 0.4);
+  border-radius: 28rpx;
+  padding: 56rpx 40rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.result-spade {
+  font-size: 80rpx;
+  color: #D4AF37;
+}
+.result-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 20rpx;
+}
+.result-prize {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #D4AF37;
+  margin-top: 24rpx;
+}
+.result-tip {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 20rpx;
+}
+.ex-code {
+  font-size: 48rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: #D4AF37;
+  margin: 24rpx 0;
+}
+.result-btn {
+  margin-top: 36rpx;
+  width: 360rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #1A1A1A;
+  font-size: 30rpx;
+  font-weight: 700;
+  padding: 22rpx 0;
+  border-radius: 48rpx;
+}
+.result-btn-ghost {
+  margin-top: 20rpx;
+  width: 360rpx;
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
+  padding: 16rpx 0;
+}
+
+/* 兑换确认弹窗 */
+.pop-drag {
+  width: 64rpx;
+  height: 8rpx;
+  background: #444;
+  border-radius: 4rpx;
+  margin: 0 auto 28rpx;
+}
+.pop-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+.confirm-body { margin-bottom: 32rpx; }
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #bbb;
+  padding: 14rpx 0;
+}
+.confirm-val { color: #fff; font-weight: 600; }
+.confirm-note {
+  font-size: 22rpx;
+  color: #888;
+  margin-top: 12rpx;
+}
+.confirm-actions {
+  display: flex;
+  gap: 24rpx;
+}
+.confirm-cancel,
+.confirm-ok {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.confirm-cancel {
+  background: #333;
+  color: #ccc;
+}
+.confirm-ok {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #1A1A1A;
+}

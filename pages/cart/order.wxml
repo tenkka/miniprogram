@@ -1,4 +1,4 @@
-<van-empty wx:if="{{ !paySuccess && !orderInfo }}" description="{{ $t.cart.empty }}" />
+<van-empty wx:if="{{ !paySuccess && !orderInfo }}" description="暂无菜品" />
 
 <block wx:if="{{ !paySuccess && orderInfo }}">
   <!-- 顶部桌号区域 -->
@@ -6,7 +6,7 @@
     <view class="table-card">
       <view class="table-icon">🪑</view>
       <view class="table-info">
-        <view class="table-label">{{$t.cart.tableNum }}</view>
+        <view class="table-label">桌号</view>
         <view class="table-number">{{ orderInfo.tableCode }}</view>
       </view>
     </view>
@@ -15,7 +15,7 @@
   <!-- 已点菜品标题 -->
   <view class="section-title">
     <view class="title-line"></view>
-    <view class="title-text">{{$t.cart.ordered }}</view>
+    <view class="title-text">已点菜品</view>
     <view class="title-line"></view>
   </view>
 
@@ -26,9 +26,9 @@
         <image class="goods-image" src="{{ item.pic }}" mode="aspectFill" />
         <!-- 状态角标 -->
         <view class="status-badge status-{{ item.cyTableStatus }}">
-          <text wx:if="{{ item.cyTableStatus == 0 }}">{{$t.cart.Tobeconfirmed }}</text>
-          <text wx:if="{{ item.cyTableStatus == 1 }}">{{$t.cart.Cooked }}</text>
-          <text wx:if="{{ item.cyTableStatus == 2 }}">{{$t.cart.Served }}</text>
+          <text wx:if="{{ item.cyTableStatus == 0 }}">待确认</text>
+          <text wx:if="{{ item.cyTableStatus == 1 }}">已下厨</text>
+          <text wx:if="{{ item.cyTableStatus == 2 }}">已上菜</text>
         </view>
       </view>
       <view class="goods-info">
@@ -45,16 +45,16 @@
   <!-- 价格统计区域 -->
   <view class="price-summary">
     <view class="summary-item">
-      <view class="summary-label">{{$t.cart.Numofdishes }}</view>
+      <view class="summary-label">菜品数量</view>
       <view class="summary-value">{{ orderInfo.goodsNumber }} 份</view>
     </view>
     <view class="summary-item">
-      <view class="summary-label">{{$t.cart.Consumptionamount }}</view>
+      <view class="summary-label">消费金额</view>
       <view class="summary-value">¥{{ orderInfo.amount }}</view>
     </view>
     <view class="summary-divider"></view>
     <view class="summary-item summary-total">
-      <view class="summary-label">{{$t.cart.Payableamount }}</view>
+      <view class="summary-label">应付金额</view>
       <view class="summary-value-total">¥{{ orderInfo.amountReal }}</view>
     </view>
   </view>
@@ -64,11 +64,11 @@
   <!-- 底部结账栏 -->
   <view class="checkout-bar">
     <view class="checkout-total">
-      <view class="checkout-label">{{ $t.PickingUp.total }}</view>
+      <view class="checkout-label">合计</view>
       <view class="checkout-price">¥{{ orderInfo.amountReal }}</view>
     </view>
     <view class="checkout-button" bindtap="goPayOrder">
-      <text>{{ $t.cart.Check }}</text>
+      <text>结账买单</text>
     </view>
   </view>
 </block>
@@ -80,13 +80,13 @@
       <van-icon name="checked" size="120rpx" color="#fff" />
     </view>
   </view>
-  <view class="success-title">{{ $t.asset.success }}</view>
+  <view class="success-title">支付成功</view>
   <view class="success-subtitle">感谢您的光临</view>
 </view>
 
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.maidan }}"
+  remark="优惠买单"
   nextAction="{{ nextAction }}"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"

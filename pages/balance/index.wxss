@@ -1,0 +1,162 @@
+page { background: #1A1A1A; }
+
+.page {
+  min-height: 100vh;
+  background: #1A1A1A;
+  padding-bottom: 60rpx;
+}
+
+/* ===== 加载 ===== */
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+/* ===== 余额卡片 ===== */
+.balance-card {
+  margin: 32rpx 32rpx 0;
+  background: linear-gradient(135deg, #8B2020, #C8952A);
+  border-radius: 28rpx;
+  padding: 48rpx 40rpx 40rpx;
+}
+
+.balance-total-label {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 2rpx;
+  margin-bottom: 12rpx;
+}
+
+.balance-total-amount {
+  font-size: 72rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 2rpx;
+  margin-bottom: 40rpx;
+}
+
+.balance-split-row {
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,0.15);
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+}
+
+.balance-split-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.balance-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: rgba(255,255,255,0.2);
+}
+
+.split-label {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.6);
+}
+
+.split-value {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* ===== 交易记录 ===== */
+.logs-section {
+  margin: 32rpx 32rpx 0;
+}
+
+.section-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 2rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+  padding: 100rpx 0;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #444;
+}
+
+.log-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #252525;
+  border-radius: 20rpx;
+  padding: 28rpx 28rpx;
+  margin-bottom: 16rpx;
+  border: 1rpx solid rgba(255,255,255,0.05);
+}
+
+.log-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  flex: 1;
+}
+
+.log-type-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  margin-top: 10rpx;
+  flex-shrink: 0;
+}
+
+.dot-add { background: #4CAF50; }
+.dot-minus { background: #E64340; }
+
+.log-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.log-type-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.log-date {
+  font-size: 22rpx;
+  color: #555;
+}
+
+.log-note {
+  font-size: 22rpx;
+  color: #888;
+  background: rgba(255,255,255,0.04);
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  margin-top: 4rpx;
+}
+
+.log-amount {
+  font-size: 28rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+  text-align: right;
+  line-height: 1.5;
+}
+
+.amount-add { color: #4CAF50; }
+.amount-minus { color: #E64340; }

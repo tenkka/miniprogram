@@ -1,0 +1,7 @@
+{
+  "name": "updateBookingStatus",
+  "version": "1.0.0",
+  "description": "管理员修改预约状态",
+  "main": "index.js",
+  "dependencies": { "wx-server-sdk": "~2.6.3" }
+}

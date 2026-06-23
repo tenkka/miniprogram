@@ -1,0 +1,9 @@
+{
+  "name": "adminGetUsers",
+  "version": "1.0.0",
+  "description": "管理员获取所有用户列表",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

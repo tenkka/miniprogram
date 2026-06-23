@@ -34,7 +34,7 @@
           <view class="card-value">
             <view wx:if="{{ cardUser.type == 0 }}" class="value-container">
               <text class="value-number">{{ cardUser.amount }}</text>
-              <text class="value-unit">{{ $t.card.times }}</text>
+              <text class="value-unit">杯</text>
             </view>
             <view wx:if="{{ cardUser.type == 1 }}" class="value-container">
               <text class="value-symbol">¥</text>
@@ -57,7 +57,7 @@
           type="textarea"
           autosize="{{ autosize }}"
           input-class="message-input"
-          placeholder="{{ $t.card.shareplaceholder }}"
+          placeholder="请你喝杯奶茶~"
           border="{{ false }}"
         />
       </view>
@@ -75,7 +75,7 @@
       >
         <view class="button-content">
           <text class="button-icon">✨</text>
-          <text class="button-text">{{ $t.card.cardShareOpen }}</text>
+          <text class="button-text">送给好友</text>
         </view>
       </van-button>
     </view>

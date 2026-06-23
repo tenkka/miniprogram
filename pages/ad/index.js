@@ -71,9 +71,9 @@ Page({
                
       } else {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: this.data.$t.ad_index.apiError,
+          confirmText: '确定',
+          cancelText: '取消',
+          content: '无法获取快递地址数据',
           showCancel: false
         })
       }
@@ -99,9 +99,9 @@ Page({
     const id = e.currentTarget.dataset.id;
     console.log(id)
     wx.showModal({
-      confirmText: this.data.$t.common.confirm,
-      cancelText: this.data.$t.common.cancel,
-      content: this.data.$t.ad_index.deleteProfile,
+      confirmText: '确定',
+      cancelText: '取消',
+      content: '确定要删除该收货地址吗？',
       success: function (res) {
         if (res.confirm) {
           WXAPI.deleteAddress(wx.getStorageSync('token'), id).then(function () {
@@ -158,8 +158,8 @@ Page({
       if (res.code === 0) {
         let _pickerRegionRange = []
         _pickerRegionRange.push(res.data)
-        _pickerRegionRange.push([{ name: this.data.$t.common.select }])
-        _pickerRegionRange.push([{ name: this.data.$t.common.select }])
+        _pickerRegionRange.push([{ name: '请选择' }])
+        _pickerRegionRange.push([{ name: '请选择' }])
         this.data.pickerRegionRange = _pickerRegionRange
         this.bindcolumnchange({ detail: { column: 0, value: 0 } })
       }
@@ -246,11 +246,11 @@ Page({
       return
     }
     if (column === 1) {
-      this.data.pickerRegionRange[2] = [{ name: this.data.$t.common.select }]
+      this.data.pickerRegionRange[2] = [{ name: '请选择' }]
     }
     if (column === 0) {
-      this.data.pickerRegionRange[1] = [{ name: this.data.$t.common.select }]
-      this.data.pickerRegionRange[2] = [{ name: this.data.$t.common.select }]
+      this.data.pickerRegionRange[1] = [{ name: '请选择' }]
+      this.data.pickerRegionRange[2] = [{ name: '请选择' }]
     }
     // // 后面的数组全部清空
     // this.data.pickerRegionRange.splice(column+1)
@@ -340,35 +340,35 @@ Page({
 
     if (!linkMan){
       wx.showToast({
-        title: this.data.$t.ad_index.linkManPlaceholder,
+        title: '填写收件人姓名',
         icon: 'none',        
       })
       return
     }
     if (!mobile){
       wx.showToast({
-        title: this.data.$t.ad_index.mobilePlaceholder,
+        title: '填写手机号码',
         icon: 'none',        
       })
       return
     }
     if (!this.data.pObject || !this.data.cObject || !this.data.dObject){
       wx.showToast({
-        title: this.data.$t.ad_index.region,
+        title: '选择地区',
         icon: 'none',        
       })
       return
     }
     if (!latitude){
       wx.showToast({
-        title: this.data.$t.ad_index.location,
+        title: '选择定位',
         icon: 'none',       
       })
       return
     }
     if (!address){
       wx.showToast({
-        title: this.data.$t.ad_index.address,
+        title: '详细地址',
         icon: 'none',       
       })
       return
@@ -427,12 +427,12 @@ Page({
     
   },
   onLoad(e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.ad_index.title,
+      title: '地址管理',
     })
     this.setData({
-      showRegionStr: this.data.$t.ad_index.regionPlaceholder
+      showRegionStr: '选择行政地址（省、市、区县）'
     })
     const _this = this
     this.initRegionPicker() // 初始化省市区选择器
@@ -448,9 +448,9 @@ Page({
           return;
         } else {
           wx.showModal({
-            confirmText: this.data.$t.common.confirm,
-            cancelText: this.data.$t.common.cancel,
-            content: this.data.$t.ad_index.apiError,
+            confirmText: '确定',
+            cancelText: '取消',
+            content: '无法获取快递地址数据',
             showCancel: false
           })
         }
@@ -463,9 +463,9 @@ Page({
         this.initShippingAddress();
       } else {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: this.data.$t.auth.needLogin,
+          confirmText: '确定',
+          cancelText: '取消',
+          content: '登陆后才能访问',
           showCancel: false,
           success: () => {
             wx.navigateBack()

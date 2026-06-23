@@ -1,11 +1,11 @@
 <view class="page-container">
-  <!-- 顶部背景区域 -->
-  <view class="header-section">
+  <!-- 顶部背景区域（已登录时含用户卡片） -->
+  <view class="header-section {{isLogined ? '' : 'header-section-short'}}">
     <image mode='aspectFill' class='header-bg' src='{{myBg}}'></image>
     <view class="header-gradient"></view>
-    
-    <!-- 用户信息卡片 -->
-    <view class="user-card">
+
+    <!-- 已登录：用户信息卡片 -->
+    <view wx:if="{{isLogined}}" class="user-card">
       <view class="user-info-row">
         <view class="avatar-section">
           <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
@@ -13,39 +13,36 @@
           </button>
           <view class="avatar-ring"></view>
         </view>
-        
+
         <view class="user-details">
           <view class="nickname" bindtap="editNick">
-            {{ nick ? nick : $t.my.nickSet }}
+            {{ nick ? nick : '点击设置昵称' }}
           </view>
-          <view class="uid-row" bindtap="copyuid">
-            <text class="uid-label">{{ $t.my.uid }}</text>
-            <text class="uid-value">{{ apiUserInfoMap.base.id }}</text>
-          </view>
-          <view class="vip-badge" bindtap="govip">
-            <text wx:if="{{apiUserInfoMap.userLevel}}" class="vip-text">{{apiUserInfoMap.userLevel.name}}</text>
-            <text wx:else class="vip-text">{{ $t.vip.notVIP }}</text>
-          </view>
-        </view>
-        
-        <view class="qr-section" bindtap="goUserCode">
-          <view class="qr-icon-wrapper">
-            <van-icon name="qr" size="48rpx" color="#8B7355" />
-          </view>
-          <view class="qr-text">{{ $t.my.userCode }}</view>
         </view>
       </view>
     </view>
   </view>
 
+  <!-- 未登录：登录卡片（流式布局，不受 header 高度限制） -->
+  <view wx:if="{{!isLogined}}" class="login-card">
+    <view class="login-avatar-placeholder">
+      <van-icon name="contact" size="96rpx" color="#666666" />
+    </view>
+    <view class="login-title">欢迎来到 NUTS</view>
+    <view class="login-sub">登录后查看余额、订单、优惠券</view>
+    <button class="login-wechat-btn" bindtap="doLogin">
+      <text class="login-btn-text">微信一键登录</text>
+    </button>
+  </view>
+
   <!-- 资产卡片区域 -->
-  <view wx:if="{{apiUserInfoMap}}" class="assets-section">
+  <!-- <view wx:if="{{apiUserInfoMap}}" class="assets-section">
     <view class="asset-card" bindtap="goCoupons">
       <view class="asset-icon coupon-icon">
         <van-icon name="coupon-o" size="48rpx" color="#FF9800" />
       </view>
       <view class="asset-value">{{couponStatistics.canUse}}</view>
-      <view class="asset-label">{{ $t.coupons.title }}</view>
+      <view class="asset-label">优惠券</view>
     </view>
     
     <view class="asset-card highlight-card" bindtap="goBalance">
@@ -56,7 +53,7 @@
         <text class="currency">¥</text>
         <text class="amount">{{balance}}</text>
       </view>
-      <view class="asset-label">{{ $t.order.balance }}</view>
+      <view class="asset-label">可用余额</view>
     </view>
     
     <view class="asset-card" bindtap="goScorelog">
@@ -64,14 +61,41 @@
         <van-icon name="gold-coin-o" size="48rpx" color="#FFD700" />
       </view>
       <view class="asset-value">{{score}}</view>
-      <view class="asset-label">{{ $t.my.score }}</view>
+      <view class="asset-label">积分</view>
+    </view>
+  </view> -->
+
+  <!-- 每周签到卡片 -->
+  <view wx:if="{{isLogined}}" class="checkin-section">
+    <view class="checkin-header">
+      <view class="checkin-header-left">
+        <text class="checkin-section-title">每周签到</text>
+        <van-icon name="question-o" size="32rpx" color="#555" bindtap="showCheckInRule" />
+        <text class="checkin-streak-tag">本周第 {{checkInStreak}} 次</text>
+      </view>
+      <view
+        class="checkin-action-btn {{checkInDone ? 'checkin-action-btn--done' : ''}} {{checkingIn ? 'checkin-action-btn--loading' : ''}}"
+        bindtap="doCheckIn"
+      >
+        <text class="checkin-action-text">{{checkingIn ? '签到中' : checkInDone ? '已签到' : '+' + checkInPoints + '积分'}}</text>
+      </view>
+    </view>
+
+    <!-- 周历 -->
+    <view class="cal-week">
+      <view wx:for="{{calendarDays}}" wx:key="dateStr" class="cal-col">
+        <text class="cal-label {{item.isToday ? 'cal-label--today' : ''}}">{{item.label}}</text>
+        <view class="cal-circle cal-circle--{{item.circleType}}">
+          <text class="cal-date cal-date--{{item.circleType}}">{{item.dateNum}}</text>
+          <view wx:if="{{item.checked}}" class="cal-check">✓</view>
+        </view>
+      </view>
     </view>
   </view>
 
   <!-- 功能菜单区域 -->
   <view class="menu-section">
-    <!-- 常用功能 -->
-    <view class="menu-group">
+    <!-- <view class="menu-group">
       <view class="menu-title">
         <view class="title-dot"></view>
         <text>常用功能</text>
@@ -81,14 +105,14 @@
           <view class="menu-icon-wrapper scan-icon">
             <van-icon name="scan" size="44rpx" />
           </view>
-          <text class="menu-text">{{ $t.my.scanHx }}</text>
+          <text class="menu-text">扫码核销</text>
         </view>
         <view class="menu-item" url="/pages/sign/index">
           <navigator url="/pages/sign/index" hover-class="none">
             <view class="menu-icon-wrapper sign-icon">
               <van-icon name="calendar-o" size="44rpx" />
             </view>
-            <text class="menu-text">{{ $t.my.signDaily }}</text>
+            <text class="menu-text">每日签到</text>
           </navigator>
         </view>
         <view class="menu-item">
@@ -96,7 +120,7 @@
             <view class="menu-icon-wrapper booking-icon">
               <van-icon name="clock-o" size="44rpx" />
             </view>
-            <text class="menu-text">{{ $t.booking.title }}</text>
+            <text class="menu-text">在线订位</text>
           </navigator>
         </view>
         <view class="menu-item">
@@ -104,50 +128,75 @@
             <view class="menu-icon-wrapper pay-icon">
               <van-icon name="gold-coin-o" size="44rpx" />
             </view>
-            <text class="menu-text">{{ $t.my.youhuimaidan }}</text>
+            <text class="menu-text">优惠买单</text>
           </navigator>
         </view>
       </view>
-    </view>
+    </view> -->
 
     <!-- 我的服务 -->
     <view class="menu-group">
-      <view class="menu-title">
+      <view class="menu-title" style="padding-top: 20px;">
         <view class="title-dot"></view>
         <text>我的服务</text>
       </view>
       <view class="menu-list">
-        <navigator url="/pages/member-center/index" hover-class="none">
+        <navigator url="/pages/recharge/index" hover-class="none">
           <view class="menu-list-item">
             <view class="item-left">
               <view class="list-icon vip-icon">
                 <van-icon name="gem-o" size="40rpx" />
               </view>
-              <text class="list-text">{{ $t.vip.title }}</text>
+              <text class="list-text">充值</text>
             </view>
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
-        <navigator url="/pages/all-orders/index" hover-class="none">
+        <navigator url="/pages/lottery/index" hover-class="none">
+          <view class="menu-list-item">
+            <view class="item-left">
+              <view class="list-icon lottery-icon">
+                <van-icon name="gift-o" size="40rpx" />
+              </view>
+              <text class="list-text">幸运抽奖</text>
+            </view>
+            <van-icon name="arrow" size="32rpx" color="#999" />
+          </view>
+        </navigator>
+        <navigator url="/pages/invite/index" hover-class="none">
+          <view class="menu-list-item">
+            <view class="item-left">
+              <view class="list-icon invite-icon">
+                <van-icon name="friends-o" size="40rpx" />
+              </view>
+              <text class="list-text">邀请有礼</text>
+            </view>
+            <van-icon name="arrow" size="32rpx" color="#999" />
+          </view>
+        </navigator>
+        <navigator url="/pages/my-orders/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
               <view class="list-icon order-icon">
                 <van-icon name="orders-o" size="40rpx" />
               </view>
-              <text class="list-text">{{ $t.order.title }}</text>
+              <text class="list-text">历史订单</text>
             </view>
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
-        <navigator url="/pages/ad/index" hover-class="none">
+        <navigator url="/pages/bind-phone/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
-              <view class="list-icon address-icon">
-                <van-icon name="location-o" size="40rpx" />
+              <view class="list-icon phone-icon">
+                <van-icon name="phone-o" size="40rpx" />
               </view>
-              <text class="list-text">{{ $t.ad_index.title }}</text>
+              <text class="list-text">绑定手机号</text>
             </view>
-            <van-icon name="arrow" size="32rpx" color="#999" />
+            <view class="phone-right">
+              <van-icon wx:if="{{isPhoneBound}}" name="passed" size="36rpx" color="#4CAF50" />
+              <van-icon wx:else name="arrow" size="32rpx" color="#999" />
+            </view>
           </view>
         </navigator>
       </view>
@@ -160,13 +209,13 @@
         <text>其他设置</text>
       </view>
       <view class="menu-list">
-        <navigator url="/pages/about/index" hover-class="none">
+        <!-- <navigator url="/pages/about/index" hover-class="none">
           <view class="menu-list-item">
             <view class="item-left">
               <view class="list-icon about-icon">
                 <van-icon name="info-o" size="40rpx" />
               </view>
-              <text class="list-text">{{ $t.my.aboutUs }}</text>
+              <text class="list-text">关于我们</text>
             </view>
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
@@ -176,7 +225,7 @@
             <view class="list-icon service-icon">
               <van-icon name="service-o" size="40rpx" />
             </view>
-            <text class="list-text">{{ $t.my.Contact }}</text>
+            <text class="list-text">联系客服</text>
           </view>
           <van-icon name="arrow" size="32rpx" color="#999" />
         </view>
@@ -186,7 +235,7 @@
               <view class="list-icon feedback-icon">
                 <van-icon name="chat-o" size="40rpx" />
               </view>
-              <text class="list-text">{{ $t.feedback.title }}</text>
+              <text class="list-text">意见反馈</text>
             </view>
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
@@ -196,19 +245,29 @@
             <view class="list-icon clear-icon">
               <van-icon name="delete-o" size="40rpx" />
             </view>
-            <text class="list-text">{{ $t.my.clearStorage }}</text>
+            <text class="list-text">清除缓存</text>
           </view>
           <van-icon name="arrow" size="32rpx" color="#999" />
-        </view>
-        <view class="menu-list-item" bindtap="goadmin">
+        </view> -->
+        <view class="menu-list-item" bindtap="showAdminPopup" wx:if="{{isLogined}}">
           <view class="item-left">
             <view class="list-icon admin-icon">
               <van-icon name="manager-o" size="40rpx" />
             </view>
-            <text class="list-text">{{ $t.auth.goAdmin }}</text>
+            <text class="list-text">后台管理</text>
           </view>
           <van-icon name="arrow" size="32rpx" color="#999" />
         </view>
+        <view class="menu-list-item" bindtap="doLogout" wx:if="{{isLogined}}">
+          <view class="item-left">
+            <view class="list-icon clear-icon">
+              <van-icon name="revoke" size="40rpx" />
+            </view>
+            <text class="list-text">退出登录</text>
+          </view>
+          <van-icon name="arrow" size="32rpx" color="#999" />
+        </view>
+        
       </view>
     </view>
   </view>
@@ -217,19 +276,90 @@
   <view class="version-text">v{{version}}</view>
 </view>
 
-<!-- 编辑昵称弹窗 -->
-<van-dialog
-  use-slot
-  title="{{ $t.my.nickEdit }}"
-  show="{{ nickShow }}"
-  show-cancel-button
-  bind:confirm="_editNick"
->
-  <van-field
-    model:value="{{ nick }}"
-    type="nickname"
-    placeholder="{{ $t.my.nickRequired }}"
-    size="large"
-    clearable
+<!-- 登录 popup -->
+<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup" custom-style="background:#1A1A1A;padding:48rpx 40rpx 80rpx;">
+  <view class="lp-title">加入 NUTS</view>
+  <view class="lp-sub">选择头像和昵称开始游戏</view>
+  <button class="lp-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onPickAvatar">
+    <image class="lp-avatar-img" src="{{pendingAvatar || '/images/who.png'}}" mode="aspectFill"/>
+    <view class="lp-camera">📷</view>
+  </button>
+  <input class="lp-nick-input" type="nickname" placeholder="输入昵称（可直接使用微信昵称）" placeholder-class="lp-placeholder" value="{{pendingNick}}" bindinput="onNickInput" bindchange="onNickChange" maxlength="20" />
+  <button class="lp-confirm-btn" loading="{{loginLoading}}" bindtap="confirmLogin">完成登录</button>
+</van-popup>
+
+<!-- 后台管理验证弹窗 -->
+<van-popup show="{{adminPopupShow}}" position="bottom" round bind:close="closeAdminPopup" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;">
+  <view class="admin-drag-bar"></view>
+  <view class="admin-popup-title">后台管理</view>
+  <view class="admin-popup-sub">请输入管理员密码</view>
+  <input
+    class="admin-pass-input"
+    password
+    value="{{adminPassword}}"
+    placeholder="密码"
+    placeholder-style="color:#555;"
+    bindinput="onAdminPasswordInput"
   />
-</van-dialog>
+  <van-button
+    type="primary" block loading="{{adminVerifying}}" bind:click="confirmAdmin"
+    custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:600;letter-spacing:4rpx;"
+  >进入后台</van-button>
+</van-popup>
+
+<!-- 签到规则弹窗 -->
+<van-popup show="{{checkInRuleShow}}" position="bottom" round bind:close="closeCheckInRule" custom-style="background:#252525;padding:40rpx 40rpx 72rpx;">
+  <view class="rule-drag-bar"></view>
+  <view class="rule-title">签到规则与奖励</view>
+
+  <view class="rule-section-label">奖励积分</view>
+  <view class="rule-reward-grid">
+    <view class="rule-reward-item" wx:for="{{[{d:1,p:10},{d:2,p:20},{d:3,p:30},{d:4,p:40},{d:5,p:60},{d:6,p:80},{d:7,p:100}]}}" wx:key="d">
+      <view class="rule-reward-day {{item.d === checkInStreak ? 'rule-reward-day--current' : ''}}">
+        <text class="rule-reward-day-num">第{{item.d}}天</text>
+      </view>
+      <text class="rule-reward-pts {{item.d === checkInStreak ? 'rule-reward-pts--current' : ''}}">+{{item.p}}</text>
+    </view>
+  </view>
+
+  <view class="rule-section-label" style="margin-top:32rpx;">签到规则</view>
+  <view class="rule-list">
+    <view class="rule-item">
+      <view class="rule-dot"></view>
+      <text class="rule-text">每天可签到一次，积分实时加入个人战力值</text>
+    </view>
+    <view class="rule-item">
+      <view class="rule-dot"></view>
+      <text class="rule-text">本周签到次数越多，当次获得的积分越高</text>
+    </view>
+    <view class="rule-item">
+      <view class="rule-dot"></view>
+      <text class="rule-text">断签不影响本周内的签到计数，无需连续</text>
+    </view>
+    <view class="rule-item">
+      <view class="rule-dot"></view>
+      <text class="rule-text">每周（周一至周日）结束后签到进度自动重置</text>
+    </view>
+  </view>
+</van-popup>
+
+<!-- 编辑昵称弹窗 -->
+<van-popup show="{{ nickShow }}" position="bottom" round bind:close="closeNickDialog" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;">
+  <view class="nick-drag-bar"></view>
+  <view class="nick-popup-title">修改昵称</view>
+  <input
+    class="nick-edit-input"
+    type="nickname"
+    value="{{ pendingNick }}"
+    placeholder="请填写昵称"
+    placeholder-style="color:#555;"
+    bindinput="onPendingNickInput"
+    bindchange="onPendingNickChange"
+    maxlength="20"
+    focus="{{ nickShow }}"
+  />
+  <van-button
+    type="primary" block bind:click="_editNick"
+    custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:600;letter-spacing:4rpx;"
+  >保存昵称</van-button>
+</van-popup>

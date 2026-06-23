@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp d:/miniprogram/images/nav/qh-off.png d:/miniprogram/images/nav/booking-off.png)",
+      "Bash(cp d:/miniprogram/images/nav/qh-on.png d:/miniprogram/images/nav/booking-on.png)",
+      "Bash(node _remove_i18n.js)",
+      "Bash(node _cleanup_i18n.js)",
+      "Bash(grep -rn \"$t\\\\.\" d:/miniprogram/pages d:/miniprogram/utils d:/miniprogram/components --include=\"*.js\" --include=\"*.wxml\")",
+      "Bash(grep -rn $t. d:/miniprogram/pages d:/miniprogram/utils d:/miniprogram/components --include=*.js --include=*.wxml)",
+      "Bash(grep -rn \"initLanguage\\\\|changeLang\\\\|i18n\\\\b\\\\|language:\" d:/miniprogram/pages d:/miniprogram/utils d:/miniprogram/components --include=*.js)",
+      "Bash(grep -rn \"$t\\\\.\\\\|initLanguage\\\\|changeLang\\\\|i18n\\\\b\" d:/miniprogram/pages d:/miniprogram/utils d:/miniprogram/components --include=*.js --include=*.wxml)"
+    ]
+  }
+}

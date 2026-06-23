@@ -1,0 +1,9 @@
+{
+  "name": "purchaseProduct",
+  "version": "1.0.0",
+  "description": "余额购买商品，赠送余额优先扣除",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

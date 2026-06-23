@@ -2,7 +2,7 @@
   <!-- 空状态 -->
   <view wx:if="{{ !shippingCarInfo }}" class="empty-state">
     <view class="empty-icon">🛒</view>
-    <view class="empty-text">{{ $t.cart.empty }}</view>
+    <view class="empty-text">暂无菜品</view>
     <view class="empty-tip">去添加您喜欢的饮品吧</view>
   </view>
 
@@ -17,7 +17,7 @@
       </view>
       <view class="clear-btn" bindtap="clearCart">
         <van-icon name="delete-o" size="16px" color="#999" />
-        <text>{{ $t.cart.clear }}</text>
+        <text>清空购物车</text>
       </view>
     </view>
 
@@ -80,10 +80,10 @@
             <text class="currency">¥</text>
             <text class="amount">{{ shippingCarInfo.price }}</text>
           </view>
-          <view class="total-tip">共{{shippingCarInfo.number}}{{ $t.cart.num }}</view>
+          <view class="total-tip">共{{shippingCarInfo.number}}个商品</view>
         </view>
         <view class="submit-btn" bindtap="goCreateOrder">
-          <text>{{ $t.cart.btn }}</text>
+          <text>立即下单</text>
           <van-icon name="arrow" color="#fff" size="16px" />
         </view>
       </view>

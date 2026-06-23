@@ -1,0 +1,383 @@
+<view class="admin-page">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <van-loading color="#D4AF37" size="48rpx" />
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <block wx:else>
+
+    <!-- tabs -->
+    <van-tabs
+      active="{{activeTab}}"
+      bind:change="onTabChange"
+      color="#D4AF37"
+      background="#1A1A1A"
+      title-active-color="#D4AF37"
+      title-inactive-color="#888"
+      line-height="4rpx"
+      line-width="60rpx"
+      sticky
+      custom-style="border-bottom:1rpx solid rgba(255,255,255,0.08);"
+    >
+      <van-tab title="桌台 ({{tables.length}})" />
+      <van-tab title="预约 ({{bookings.length}})" />
+      <van-tab title="广场 ({{posts.length}})" />
+      <van-tab title="用户 ({{users.length}})" />
+    </van-tabs>
+
+    <!-- ===== Tab 0: 桌台管理 ===== -->
+    <view wx:if="{{activeTab === 0}}" class="tab-content">
+      <view wx:if="{{tables.length === 0}}" class="empty-state">
+        <text class="empty-text">暂无桌台数据</text>
+      </view>
+      <view wx:for="{{tables}}" wx:key="_id" wx:for-item="table" class="table-card">
+        <view class="table-card-top">
+          <view class="table-left">
+            <view class="store-badge {{table.storeId === 'east' ? 'badge-east' : 'badge-west'}}">
+              {{table.storeId === 'east' ? '东区' : '西区'}}
+            </view>
+            <text class="table-name-text">{{table.name}}</text>
+          </view>
+          <van-switch
+            checked="{{table.isOpen}}"
+            active-color="#D4AF37"
+            inactive-color="#3A3A3A"
+            size="44rpx"
+            bind:change="toggleOpen"
+            data-table-id="{{table._id}}"
+          />
+        </view>
+        <view class="table-card-bottom">
+          <text class="table-meta">最多 {{table.maxplayer}} 人入座</text>
+          <view class="edit-btn" bindtap="openEditMaxplayer" data-table="{{table}}">
+            <van-icon name="edit" size="28rpx" color="#D4AF37" />
+            <text class="edit-text">修改人数</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== Tab 1: 预约管理 ===== -->
+    <view wx:if="{{activeTab === 1}}" class="tab-content">
+      <view class="clear-bar">
+        <text class="clear-bar-count">共 {{bookings.length}} 条预约</text>
+        <view class="clear-all-btn" bindtap="clearAllBookings">
+          <van-icon name="delete-o" size="28rpx" color="#E64340" />
+          <text class="clear-all-text">清空所有</text>
+        </view>
+      </view>
+      <view wx:if="{{bookings.length === 0}}" class="empty-state">
+        <text class="empty-text">暂无进行中的预约</text>
+      </view>
+      <view
+        wx:for="{{bookings}}"
+        wx:key="_id"
+        wx:for-item="b"
+        class="booking-card"
+        bindtap="changeStatus"
+        data-booking-id="{{b._id}}"
+        data-status="{{b.status}}"
+      >
+        <view class="booking-left">
+          <image wx:if="{{b.avatarUrl}}" class="booking-avatar" src="{{b.avatarUrl}}" mode="aspectFill" />
+          <view wx:else class="booking-avatar-placeholder">
+            <van-icon name="contact" size="44rpx" color="#555" />
+          </view>
+        </view>
+        <view class="booking-info">
+          <view class="booking-nick">{{b.nick || '未知用户'}}</view>
+          <view class="booking-meta">
+            <text>{{b.tableName}}</text>
+            <text wx:if="{{b.arrivalTime}}">  ·  {{b.arrivalTime}}</text>
+          </view>
+          <view class="booking-tags">
+            <view class="type-tag {{b.type === 'queue' ? 'tag-queue' : 'tag-booking'}}">
+              {{b.type === 'queue' ? '排队' : '预约'}}
+            </view>
+          </view>
+        </view>
+        <view class="booking-right">
+          <view class="status-badge status-{{b.status}}">
+            {{b.status === 'pending' ? '待确认' : b.status === 'confirmed' ? '已确认' : b.status === 'seated' ? '已入座' : '已取消'}}
+          </view>
+          <van-icon name="arrow" size="24rpx" color="#555" style="margin-top:8rpx;" />
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== Tab 2: 广场管理 ===== -->
+    <view wx:if="{{activeTab === 2}}" class="tab-content">
+      <view class="publish-bar">
+        <text class="publish-bar-count">共 {{posts.length}} 条动态</text>
+        <view class="publish-btn" bindtap="openPublish">
+          <van-icon name="plus" size="28rpx" color="#1A1A1A" />
+          <text class="publish-btn-text">发布动态</text>
+        </view>
+      </view>
+      <view wx:if="{{posts.length === 0}}" class="empty-state">
+        <text class="empty-text">暂无动态</text>
+      </view>
+      <view wx:for="{{posts}}" wx:key="_id" wx:for-item="post" class="post-card">
+        <view class="post-header">
+          <view wx:if="{{post.pinned}}" class="pin-badge">📌 置顶</view>
+          <text class="post-date">{{post.formattedTime || ''}}</text>
+        </view>
+        <text class="post-content">{{post.content}}</text>
+        <image wx:if="{{post.imageUrl}}" class="post-thumb" src="{{post.imageUrl}}" mode="aspectFill" />
+        <view class="post-actions">
+          <view
+            class="post-action-btn {{post.pinned ? 'btn-unpin' : 'btn-pin'}}"
+            bindtap="togglePin"
+            data-post-id="{{post._id}}"
+            data-pinned="{{post.pinned}}"
+          >{{post.pinned ? '取消置顶' : '置顶'}}</view>
+          <view class="post-action-btn btn-delete" bindtap="deletePost" data-post-id="{{post._id}}">删除</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== Tab 3: 用户管理 ===== -->
+    <view wx:if="{{activeTab === 3}}" class="tab-content">
+      <view wx:if="{{loadingUsers}}" class="loading-wrap" style="padding-top:80rpx;">
+        <van-loading color="#D4AF37" size="40rpx" />
+      </view>
+      <block wx:else>
+        <!-- 搜索栏 -->
+        <view class="user-search-bar">
+          <van-icon name="search" size="32rpx" color="#666" />
+          <input
+            class="user-search-input"
+            type="number"
+            value="{{userSearchPhone}}"
+            placeholder="按手机号搜索"
+            placeholder-style="color:#555;"
+            bindinput="onUserSearchInput"
+            maxlength="11"
+          />
+        </view>
+
+        <view wx:if="{{filteredUsers.length === 0}}" class="empty-state">
+          <text class="empty-text">{{userSearchPhone ? '未找到匹配用户' : '暂无用户数据'}}</text>
+        </view>
+        <view
+          wx:for="{{filteredUsers}}"
+          wx:key="_id"
+          wx:for-item="u"
+          class="user-card"
+          bindtap="openEditUser"
+          data-user="{{u}}"
+        >
+          <image class="user-avatar" src="{{u.avatarUrl || '/images/who.png'}}" mode="aspectFill" />
+          <view class="user-info">
+            <text class="user-nick">{{u.nick}}</text>
+            <view class="user-phone-row">
+              <van-icon wx:if="{{u.phone}}" name="passed" size="24rpx" color="#4CAF50" style="margin-right:6rpx;" />
+              <text class="user-phone {{u.phone ? 'phone-bound' : 'phone-unbound'}}">{{u.phone || '未绑定手机号'}}</text>
+            </view>
+            <view class="user-stats">
+              <text class="user-stat power-stat">⚡ {{u.power || 0}}</text>
+              <text class="user-stat champ-stat">🏆 {{u.champion || 0}}</text>
+              <text class="user-stat balance-stat">¥ {{u.totalBalance || '0.00'}}</text>
+            </view>
+          </view>
+          <van-icon name="edit" size="32rpx" color="#555" />
+        </view>
+      </block>
+    </view>
+
+  </block>
+
+</view>
+
+<!-- 发布动态弹窗 -->
+<van-popup show="{{publishShow}}" position="bottom" round bind:close="closePublish" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;max-height:92vh;overflow-y:auto;">
+  <view class="drag-bar"></view>
+  <view class="popup-title">发布动态</view>
+
+  <textarea
+    class="publish-textarea"
+    value="{{publishContent}}"
+    placeholder="分享今晚的精彩时刻..."
+    placeholder-style="color:#555;"
+    bindinput="onPublishContentInput"
+    maxlength="500"
+    auto-height
+  />
+  <view class="publish-char-count">{{publishContent.length}}/500</view>
+
+  <!-- 图片区域 -->
+  <view class="publish-img-grid">
+    <view wx:for="{{publishImages}}" wx:key="tempFilePath" wx:for-index="idx" class="publish-img-wrap">
+      <image class="publish-img" src="{{item.tempFilePath}}" mode="aspectFill" />
+      <view class="publish-img-del" bindtap="removePublishImage" data-idx="{{idx}}">×</view>
+    </view>
+    <view wx:if="{{publishImages.length < 9}}" class="publish-img-add" bindtap="choosePublishImages">
+      <van-icon name="photograph" size="48rpx" color="#555" />
+      <text class="publish-img-add-text">添加图片</text>
+    </view>
+  </view>
+
+  <van-button
+    type="primary"
+    block
+    loading="{{publishing}}"
+    bind:click="submitPublish"
+    custom-style="background:linear-gradient(135deg,#D4AF37,#B8941F);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:700;color:#1A1A1A;margin-top:24rpx;"
+  >发布</van-button>
+</van-popup>
+
+<!-- 编辑人数弹窗 -->
+<van-popup show="{{editTableShow}}" position="bottom" round bind:close="closeEditTable" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;">
+  <view class="drag-bar"></view>
+  <view class="popup-title">修改人数上限</view>
+  <view wx:if="{{editingTable}}" class="popup-sub">{{editingTable.name}}</view>
+  <input
+    class="num-input"
+    type="number"
+    value="{{editMaxplayer}}"
+    placeholder="请输入人数（2~20）"
+    placeholder-style="color:#555;"
+    bindinput="onMaxplayerInput"
+    maxlength="2"
+  />
+  <van-button
+    type="primary" block bind:click="saveMaxplayer"
+    custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:600;letter-spacing:4rpx;"
+  >保存</van-button>
+</van-popup>
+
+<!-- 编辑用户数据弹窗 -->
+<van-popup show="{{editUserShow}}" position="bottom" round bind:close="closeEditUser" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;max-height:90vh;overflow-y:auto;">
+  <view class="drag-bar"></view>
+  <view wx:if="{{editingUser}}" class="edit-user-header">
+    <image class="edit-user-avatar" src="{{editingUser.avatarUrl || '/images/who.png'}}" mode="aspectFill" />
+    <view class="edit-user-meta">
+      <text class="edit-user-nick">{{editingUser.nick}}</text>
+      <view class="edit-balance-row">
+        <view class="edit-balance-display">
+          <text class="edit-balance-item recharge-color">充值 ¥{{editingUser.rechargeBalance || 0}}</text>
+          <text class="edit-balance-sep">·</text>
+          <text class="edit-balance-item gift-color">赠送 ¥{{editingUser.giftBalance || 0}}</text>
+        </view>
+        <view class="view-detail-btn" bindtap="viewUserBalance" data-openid="{{editingUser.openid}}" data-nick="{{editingUser.nick}}">
+          <van-icon name="records-o" size="22rpx" color="#D4AF37" />
+          <text class="view-detail-text">查看明细</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 战绩数据 -->
+  <view class="section-label">战绩数据</view>
+  <view class="edit-field">
+    <text class="edit-label">⚡ 战力值</text>
+    <input class="num-input" type="number" value="{{editPower}}" placeholder="0" placeholder-style="color:#555;" bindinput="onPowerInput" maxlength="6" />
+  </view>
+  <view class="edit-field">
+    <text class="edit-label">🏆 冠军次数</text>
+    <input class="num-input" type="number" value="{{editChampion}}" placeholder="0" placeholder-style="color:#555;" bindinput="onChampionInput" maxlength="4" />
+  </view>
+  <van-button
+    type="primary" block bind:click="saveUser"
+    custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:88rpx;font-size:30rpx;font-weight:600;"
+  >保存战绩</van-button>
+
+  <!-- 分割线 -->
+  <view class="popup-divider"></view>
+
+  <!-- 余额管理 -->
+  <view class="section-label">余额管理</view>
+  <view class="balance-row">
+    <view class="balance-half">
+      <text class="edit-label">充值金额（¥）</text>
+      <input class="num-input balance-input" type="digit" value="{{editRechargeAdd}}" placeholder="0.00" placeholder-style="color:#555;" bindinput="onRechargeAddInput" />
+    </view>
+    <view class="balance-half">
+      <text class="edit-label">赠送金额（¥）</text>
+      <input class="num-input balance-input" type="digit" value="{{editGiftAdd}}" placeholder="0.00" placeholder-style="color:#555;" bindinput="onGiftAddInput" />
+    </view>
+  </view>
+  <view class="edit-field">
+    <text class="edit-label">备注</text>
+    <input class="num-input" type="text" value="{{editBalanceNote}}" placeholder="可选，如：现金充值100" placeholder-style="color:#555;" bindinput="onBalanceNoteInput" maxlength="50" />
+  </view>
+  <van-button
+    type="primary" block loading="{{addingBalance}}" bind:click="addBalance"
+    custom-style="background:linear-gradient(135deg,#1A6B2A,#2E9C3F);border:none;border-radius:48rpx;height:88rpx;font-size:30rpx;font-weight:600;"
+  >确认添加余额</van-button>
+
+  <!-- 分割线 -->
+  <view class="popup-divider"></view>
+
+  <!-- 余额划扣 -->
+  <view class="section-label">余额划扣</view>
+  <view class="edit-field">
+    <text class="edit-label">划扣金额（¥）</text>
+    <input class="num-input deduct-input" type="digit" value="{{editDeductAmount}}" placeholder="0.00" placeholder-style="color:#555;" bindinput="onDeductAmountInput" />
+  </view>
+  <view class="edit-field">
+    <text class="edit-label">划扣备注</text>
+    <input class="num-input" type="text" value="{{editDeductNote}}" placeholder="可选，如：套餐消费138" placeholder-style="color:#555;" bindinput="onDeductNoteInput" maxlength="50" />
+  </view>
+  <van-button
+    type="primary" block loading="{{deducting}}" bind:click="deductBalance"
+    custom-style="background:linear-gradient(135deg,#6B1A1A,#9C2E2E);border:none;border-radius:48rpx;height:88rpx;font-size:30rpx;font-weight:600;"
+  >确认划扣</van-button>
+</van-popup>
+
+<!-- 余额明细弹窗 -->
+<van-popup show="{{balanceDetailShow}}" position="bottom" round bind:close="closeBalanceDetail" custom-style="background:#1E1E1E;height:78vh;border-radius:32rpx 32rpx 0 0;display:flex;flex-direction:column;">
+  <view class="detail-wrap">
+    <view class="drag-bar"></view>
+
+    <!-- 用户余额摘要 -->
+    <view class="detail-header" wx:if="{{balanceDetailUser}}">
+      <text class="detail-title">{{balanceDetailUser.nick}} · 余额明细</text>
+      <view class="detail-summary">
+        <view class="detail-summary-item">
+          <text class="detail-summary-label">充值余额</text>
+          <text class="detail-summary-val recharge-color">¥ {{balanceDetailUser.rechargeBalance || 0}}</text>
+        </view>
+        <view class="detail-summary-divider"></view>
+        <view class="detail-summary-item">
+          <text class="detail-summary-label">赠送余额</text>
+          <text class="detail-summary-val gift-color">¥ {{balanceDetailUser.giftBalance || 0}}</text>
+        </view>
+        <view class="detail-summary-divider"></view>
+        <view class="detail-summary-item">
+          <text class="detail-summary-label">总余额</text>
+          <text class="detail-summary-val" style="color:#fff;">¥ {{(balanceDetailUser.rechargeBalance || 0) + (balanceDetailUser.giftBalance || 0)}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 记录列表 -->
+    <view wx:if="{{loadingBalanceDetail}}" class="detail-loading">
+      <van-loading color="#D4AF37" size="40rpx" />
+    </view>
+    <scroll-view wx:else scroll-y class="detail-scroll">
+      <view wx:if="{{balanceDetailLogs.length === 0}}" class="detail-empty">
+        <text class="detail-empty-text">暂无交易记录</text>
+      </view>
+      <view
+        wx:for="{{balanceDetailLogs}}"
+        wx:key="_id"
+        wx:for-item="log"
+        class="detail-log-item"
+      >
+        <view class="detail-log-left">
+          <view class="detail-log-type-badge {{log.isPositive ? 'badge-add' : 'badge-minus'}}">
+            {{log.typeLabel}}
+          </view>
+          <view class="detail-log-date">{{log.formattedDate}}</view>
+          <view wx:if="{{log.note}}" class="detail-log-note">{{log.note}}</view>
+        </view>
+        <view class="detail-log-amount {{log.isPositive ? 'amount-add' : 'amount-minus'}}">
+          {{log.amountText}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</van-popup>

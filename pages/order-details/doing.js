@@ -14,9 +14,9 @@ Page({
     
   },
   onShow: function () {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.index.PickingUp,
+      title: '取餐',
     })
     AUTH.checkHasLogined().then(isLogined => {
       this.setData({

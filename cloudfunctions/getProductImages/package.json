@@ -1,0 +1,9 @@
+{
+  "name": "getProductImages",
+  "version": "1.0.0",
+  "description": "服务端解析商品图片 cloud:// 为临时 HTTPS URL",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

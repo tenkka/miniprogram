@@ -5,7 +5,7 @@
   <view class="balance-card">
     <view class="balance-header">
       <view class="balance-icon">💰</view>
-      <view class="balance-label">{{ $t.order.balance }}</view>
+      <view class="balance-label">可用余额</view>
     </view>
     <view class="balance-amount">
       <text class="currency">¥</text>
@@ -22,7 +22,7 @@
   <view class="recharge-section">
     <view class="section-title">
       <view class="title-icon">🎁</view>
-      <view class="title-text">{{ $t.asset.recharge }}</view>
+      <view class="title-text">余额充值</view>
       <view class="title-line"></view>
     </view>
 
@@ -39,7 +39,7 @@
           <text class="plan-currency">¥</text>
           <text class="plan-number">{{item.confine}}</text>
         </view>
-        <view class="plan-label">{{ $t.asset.confine }}</view>
+        <view class="plan-label">充</view>
         <view class="plan-check" wx:if="{{ruleSelIndex == index}}">
           <van-icon name="success" color="#fff" size="16px" />
         </view>
@@ -52,7 +52,7 @@
         data-idx="-1" 
         bindtap="changePersionNum">
         <view class="custom-icon">✏️</view>
-        <view class="custom-text">{{ $t.asset.other }}</view>
+        <view class="custom-text">其他</view>
         <view class="plan-check" wx:if="{{ruleSelIndex == -1}}">
           <van-icon name="success" color="#fff" size="16px" />
         </view>
@@ -63,7 +63,7 @@
     <!-- 确认按钮 -->
     <view class="action-btn">
       <view class="submit-btn" bind:tap="submit1">
-        <text>{{ $t.asset.confirmBtn }}</text>
+        <text>确认充值</text>
       </view>
     </view>
   </view>
@@ -82,7 +82,7 @@
           <text class="function-emoji">💳</text>
         </view>
         <view class="function-content">
-          <view class="function-title">{{ $t.asset.rechargeLogs }}</view>
+          <view class="function-title">充值记录</view>
           <view class="function-desc">查看充值明细</view>
         </view>
         <van-icon name="arrow" color="#bbb" />
@@ -93,7 +93,7 @@
           <text class="function-emoji">💸</text>
         </view>
         <view class="function-content">
-          <view class="function-title">{{ $t.cashLog.title }}</view>
+          <view class="function-title">资金明细</view>
           <view class="function-desc">查看提现记录</view>
         </view>
         <van-icon name="arrow" color="#bbb" />
@@ -114,18 +114,18 @@
   <view class="popup-content">
     <view class="popup-title">自定义充值金额</view>
     <van-field
-      label="{{ $t.asset.amount }}"
+      label="充值金额"
       size="large"
       type="digit"
       clearable
       model:value="{{ amount2 }}"
-      placeholder="{{ $t.asset.amountPlaceholder }}"
+      placeholder="请输入充值金额"
       bind:change="onChange"
       input-align="right"
     />
     <view class="popup-btn">
       <view class="submit-btn" bind:tap="submit2">
-        <text>{{ $t.asset.confirmBtn }}</text>
+        <text>确认充值</text>
       </view>
     </view>
   </view>
@@ -134,7 +134,7 @@
 
 <payment
   money="{{ money }}"
-  remark="{{ $t.payment.recharge }}"
+  remark="在线充值"
   show="{{ paymentShow }}"
   bind:cancel="paymentCancel"
   bind:ok="paymentOk"

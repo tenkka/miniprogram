@@ -1,19 +1,19 @@
 <van-sticky>
   <view class="header">
     <view class="search">
-      <input type="text" placeholder="{{ $t.common.searchPlaceholder }}" value="{{name}}" bindinput="bindinput" bindconfirm="bindconfirm"></input>
+      <input type="text" placeholder="输入搜索关键词" value="{{name}}" bindinput="bindinput" bindconfirm="bindconfirm"></input>
       <image src="/images/icon/search.svg" bindtap="search"></image>
     </view>
     <image class="show-type" src="/images/icon/list{{listType}}.svg" bindtap="changeShowType"></image>
   </view>
   <view class="filters">
-    <view class="item {{orderBy==''?'active':''}}" data-val="" bindtap="filter">{{ $t.goodsList.sort.zh }}</view>
-    <view class="item {{orderBy=='addedDown'?'active':''}}" data-val="addedDown" bindtap="filter">{{ $t.goodsList.sort.xp }}</view>
-    <view class="item {{orderBy=='ordersDown'?'active':''}}" data-val="ordersDown" bindtap="filter">{{ $t.goodsList.sort.xl }}</view>
-    <view class="item {{orderBy=='priceUp'?'active':''}}" data-val="priceUp" bindtap="filter">{{ $t.goodsList.sort.jg }}</view>
+    <view class="item {{orderBy==''?'active':''}}" data-val="" bindtap="filter">综合</view>
+    <view class="item {{orderBy=='addedDown'?'active':''}}" data-val="addedDown" bindtap="filter">新品</view>
+    <view class="item {{orderBy=='ordersDown'?'active':''}}" data-val="ordersDown" bindtap="filter">销量</view>
+    <view class="item {{orderBy=='priceUp'?'active':''}}" data-val="priceUp" bindtap="filter">价格</view>
   </view>
 </van-sticky>
-<van-empty wx:if="{{ !goods || goods.length == 0 }}" description="{{ $t.common.empty }}" />
+<van-empty wx:if="{{ !goods || goods.length == 0 }}" description="暂无数据" />
 <wxs module="goodsDetailPage">
 module.exports = {
   url : function(item) {
@@ -86,7 +86,7 @@ module.exports = {
       </view>
     </view>
     <view class="num">
-      <view class="t">{{ $t.goodsDetail.buyNumber }}</view>
+      <view class="t">购买数量</view>
       <view class="num-box">
         <text class="a" bindtap="storesJian">-</text>
         <text class="b">{{skuCurGoods.basicInfo.storesBuy}}</text>
@@ -94,5 +94,5 @@ module.exports = {
       </view>
     </view>
   </view>
-  <view class="sku-btn" bindtap="addCarSku">{{ $t.goodsDetail.addCartBtn }}</view>
+  <view class="sku-btn" bindtap="addCarSku">加入购物车</view>
 </block>

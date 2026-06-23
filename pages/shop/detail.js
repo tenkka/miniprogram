@@ -9,7 +9,7 @@ Page({
     markers: [],
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     // options.id = 36
     this.data.id = options.id
     this.shopSubdetail()
@@ -18,8 +18,8 @@ Page({
     const res = await WXAPI.shopSubdetail(this.data.id)
     if (res.code != 0) {
       wx.showModal({
-        confirmText: this.data.$t.common.confirm,
-        cancelText: this.data.$t.common.cancel,
+        confirmText: '确定',
+        cancelText: '取消',
         content: res.msg,
         showCancel: false
       })

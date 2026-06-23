@@ -1,5 +1,6 @@
 const WXAPI = require('apifm-wxapi')
 const AUTH = require('../../utils/auth')
+const { requirePhone } = require('../../utils/phoneCheck')
 const APP = getApp()
 APP.configLoadOK = () => {
 
@@ -120,15 +121,15 @@ Page({
   },
 
   onLoad(e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.pay.title,
+      title: '确认订单',
     })
     let _data = {
       kjId: e.kjId,
       create_order_select_time: wx.getStorageSync('create_order_select_time'),
       packaging_fee: wx.getStorageSync('packaging_fee'),
-      curCouponShowText: this.data.$t.pay.choose,
+      curCouponShowText: '请选择使用优惠券',
       tihuodianOpen: wx.getStorageSync('tihuodianOpen'),
     }
     if (e.orderType) {
@@ -183,14 +184,14 @@ Page({
     const mobile = this.data.mobile
     if (this.data.peisongType == 'zq' && !mobile) {
       wx.showToast({
-        title: this.data.$t.pay.inputphoneNO,
+        title: '请输入手机号码',
         icon: 'none'
       })
       return
     }
     if (!this.data.diningTime && this.data.create_order_select_time == '1') {
       wx.showToast({
-        title: this.data.$t.pay.select,
+        title: '请选择自取/配送时间',
         icon: 'none'
       })
       return
@@ -216,7 +217,7 @@ Page({
     } else {
       if (this.data.shopInfo.serviceDistance && this.data.distance && this.data.distance > this.data.shopInfo.serviceDistance * 1 && this.data.peisongType == 'kd') {
         wx.showToast({
-          title: this.data.$t.pay.address,
+          title: '当前地址超出配送范围',
           icon: 'none'
         })
         return
@@ -225,6 +226,7 @@ Page({
     }
   },
   async createOrder(e) {
+    if (!requirePhone('下单需要先绑定手机号')) return
     var that = this;
     var loginToken = wx.getStorageSync('token') // 用户登录 token
     var remark = this.data.remark; // 备注信息
@@ -249,9 +251,9 @@ Page({
     if (this.data.shopInfo) {
       if (!this.data.shopInfo.openWaimai && !this.data.shopInfo.openZiqu) {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: this.data.$t.pay.servicesclosed,
+          confirmText: '确定',
+          cancelText: '取消',
+          content: '堂食和外卖服务已关闭',
           showCancel: false
         })
         return;
@@ -295,7 +297,7 @@ Page({
       if (!that.data.curAddressData) {
         wx.hideLoading();
         wx.showToast({
-          title: this.data.$t.pay.setaddress,
+          title: '请设置配送地址',
           icon: 'none'
         })
         return;
@@ -308,7 +310,7 @@ Page({
       if (!that.data.curAddressData) {
         wx.hideLoading();
         wx.showToast({
-          title: this.data.$t.pay.Receivingaddress,
+          title: '请设置收货地址',
           icon: 'none'
         })
         return;
@@ -339,8 +341,8 @@ Page({
       console.log(res.data) 
       if (res.code != 0) {
         wx.showModal({
-          confirmText: that.data.$t.common.confirm,
-          cancelText: that.data.$t.common.cancel,
+          confirmText: '确定',
+          cancelText: '取消',
           content: res.msg,
           showCancel: false
         })
@@ -360,9 +362,9 @@ Page({
               moneyUnit = '%'
             }
             if (ele.moneyHreshold) {
-              ele.nameExt = ele.name + + ' ['+ that.data.$t.pay.Fullconsumption +'' + ele.moneyHreshold + that.data.$t.pay.RMBreduced + ele.money + moneyUnit +']'
+              ele.nameExt = ele.name + + ' ['+ '消费满' +'' + ele.moneyHreshold + '元可减' + ele.money + moneyUnit +']'
             } else {
-              ele.nameExt = ele.name + ' ['+ that.data.$t.pay.Fullconsumption +'' + ele.money + moneyUnit + ']'
+              ele.nameExt = ele.name + ' ['+ '消费满' +'' + ele.money + moneyUnit + ']'
             }
           })
         }
@@ -402,7 +404,7 @@ Page({
     const res1 = await WXAPI.userAmount(token)
     if (res1.code != 0) {
       wx.showToast({
-        title: this.data.$t.pay.information,
+        title: '无法获取用户资金信息',
         icon: 'none'
       })
       wx.redirectTo({
@@ -492,7 +494,7 @@ Page({
       console.log('distance', distance);
       if (this.data.shopInfo.serviceDistance && distance > this.data.shopInfo.serviceDistance * 1 && this.data.peisongType == 'kd') {
         wx.showToast({
-          title: this.data.$t.pay.address,
+          title: '当前地址超出配送范围',
           icon: 'none'
         })
       }
@@ -624,14 +626,14 @@ Page({
     })
     if (res.code === 10002) {
       wx.showToast({
-        title: this.data.$t.pay.login,
+        title: '授权登陆',
         icon: 'none'
       })
       return
     }
     if (res.code == 0) {
       wx.showToast({
-        title: this.data.$t.pay.fetchsuccessful,
+        title: '读取成功',
         icon: 'success'
       })
       this.setData({
@@ -663,7 +665,7 @@ Page({
   updateUserInfo(e) {
     wx.getUserProfile({
       lang: 'zh_CN',
-      desc: this.data.$t.pay.memberinformation,
+      desc: '用于完善会员资料',
       success: res => {
         console.log(res);
         this._updateUserInfo(res.userInfo)
@@ -695,7 +697,7 @@ Page({
       return
     }
     wx.showToast({
-      title: this.data.$t.pay.Loginsuccessful,
+      title: '登陆成功',
     })
     getApp().getUserApiInfo().then(apiUserInfoMap => {
       this.processGotUserDetail(apiUserInfoMap)

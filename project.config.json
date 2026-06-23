@@ -37,7 +37,11 @@
     "lazyloadPlaceholderEnable": false,
     "useStaticServer": true,
     "ignoreUploadUnusedFiles": true,
-    "condition": false
+    "condition": false,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",
@@ -61,9 +65,11 @@
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "appid": "wx47586bbed56a5001",
+  "appid": "wx8edd0d8a513f30eb",
   "packOptions": {
     "ignore": [],
     "include": []
-  }
+  },
+  "libVersion": "3.7.12",
+  "cloudfunctionRoot": "cloudfunctions/"
 }

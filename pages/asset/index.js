@@ -16,9 +16,9 @@ Page({
     showRechargePop: false
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.asset.title,
+      title: '我的钱包',
     })
     this.rechargeRule()
   },
@@ -73,7 +73,7 @@ Page({
   submit2() {
     if (!this.data.amount2) {
       wx.showToast({
-        title: this.data.$t.asset.amountPlaceholder,
+        title: '请输入充值金额',
         icon: 'none'
       })
       return

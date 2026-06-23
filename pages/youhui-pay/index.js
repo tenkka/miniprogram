@@ -9,9 +9,9 @@ Page({
     rechargeSendRules: []
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.my.youhuimaidan,
+      title: '优惠买单',
     })
     WXAPI.payBillDiscounts().then(res => {
       if (res.code === 0) {
@@ -32,7 +32,7 @@ Page({
     console.log(amount)
     if (amount == "" || amount * 1 < 0) {
       wx.showToast({
-        title: this.data.$t.youhuipay.amountRequired,
+        title: '请填写正确的消费金额',
         icon: 'none'
       })
       return
@@ -54,14 +54,14 @@ Page({
     }).find(ele => {
       return amount >= ele.consume
     })
-    let _msg = this.data.$t.youhuipay.curAmount + ' ￥' + amount + ' '
+    let _msg = '您本次消费' + ' ￥' + amount + ' '
     let needPayAmount = amount*1
     if (rechargeSendRule) {
       needPayAmount -= rechargeSendRule.discounts
-      _msg += ','+ this.data.$t.youhuipay.youhui +' ￥' + rechargeSendRule.discounts + ' '
+      _msg += ','+ '优惠' +' ￥' + rechargeSendRule.discounts + ' '
     }
     if (userMoney.data.balance*1 > 0) {
-      _msg += ',' + this.data.$t.order.balance + ' ￥' + userMoney.data.balance + ' '
+      _msg += ',' + '可用余额' + ' ￥' + userMoney.data.balance + ' '
     }
     needPayAmount = needPayAmount.toFixed(2) // 需要买单支付的金额
     const wxpayAmount = (needPayAmount - userMoney.data.balance).toFixed(2) // 需要额外微信支付的金额
@@ -69,12 +69,12 @@ Page({
     console.log(wxpayAmount)
     
     if (wxpayAmount > 0) {
-      _msg += ',' + this.data.$t.order.payAmount + ' ￥' + wxpayAmount
+      _msg += ',' + '仍需支付' + ' ￥' + wxpayAmount
     }
     wx.showModal({
       content: _msg,
-      confirmText: this.data.$t.common.confirm,
-      cancelText: this.data.$t.common.cancel,
+      confirmText: '确定',
+      cancelText: '取消',
       success: function (res) {
         console.log(res);
         if (res.confirm) {
@@ -99,15 +99,15 @@ Page({
       WXAPI.payBill(wx.getStorageSync('token'), amount).then(function (res) {
         if (res.code == 0) {
           wx.showModal({
-            confirmText: _this.data.$t.common.confirm,
-            cancelText: _this.data.$t.common.cancel,
-            content: _this.data.$t.asset.success,
+            confirmText: '确定',
+            cancelText: '取消',
+            content: '支付成功',
             showCancel: false
           })
         } else {
           wx.showModal({
-            confirmText: _this.data.$t.common.confirm,
-            cancelText: _this.data.$t.common.cancel,
+            confirmText: '确定',
+            cancelText: '取消',
             content: res.msg,
             showCancel: false
           })

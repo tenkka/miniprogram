@@ -1,4 +1,6 @@
 {
+  "cloud": true,
+  "cloudfunctionRoot": "cloudfunctions/",
   "pages": [
     "pages/home/index",
     "pages/index/index",
@@ -19,6 +21,9 @@
     "pages/about/index",
     "pages/coupons/index",
     "pages/booking/index",
+    "pages/booking/table-detail/index",
+    "pages/order/index",
+    "pages/rank/index",
     "pages/asset/index",
     "pages/asset/recharge-log",
     "pages/asset/cash-log",
@@ -34,24 +39,39 @@
     "pages/card/logs",
     "pages/card/exchange",
     "pages/card/send",
-    "pages/card/receive"
-  ],
-  "requiredPrivateInfos": [
-    "getLocation",
-    "chooseLocation",
-    "chooseAddress"
+    "pages/card/receive",
+    "pages/admin/index",
+    "pages/balance/index",
+    "pages/bind-phone/index",
+    "pages/recharge/index",
+    "pages/my-orders/index",
+    "pages/lottery/index",
+    "pages/invite/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#1A1A1A",
+    "navigationBarTitleText": "NUTS",
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "color": "#6e6d6b",
-    "selectedColor": "#e64340",
-    "backgroundColor": "#fff",
+    "color": "#888888",
+    "selectedColor": "#D4AF37",
+    "backgroundColor": "#1A1A1A",
+    "borderStyle": "black",
     "list": [
+      {
+        "pagePath": "pages/booking/index",
+        "iconPath": "images/nav/booking-off.png",
+        "selectedIconPath": "images/nav/booking-on.png",
+        "text": "预约"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/nav/index-off.png",
+        "selectedIconPath": "images/nav/index-on.png",
+        "text": "广场"
+      },
       {
         "pagePath": "pages/home/index",
         "iconPath": "images/nav/home-off.png",
@@ -59,22 +79,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/index/index",
-        "iconPath": "images/nav/index-off.png",
-        "selectedIconPath": "images/nav/index-on.png",
-        "text": "点餐"
-      },
-      {
-        "pagePath": "pages/queue/index",
-        "iconPath": "images/nav/qh-off.png",
-        "selectedIconPath": "images/nav/qh-on.png",
-        "text": "取号"
-      },
-      {
-        "pagePath": "pages/order-details/doing",
-        "iconPath": "images/nav/qc-off.png",
-        "selectedIconPath": "images/nav/qc-on.png",
-        "text": "取餐"
+        "pagePath": "pages/rank/index",
+        "iconPath": "images/nav/booking-off.png",
+        "selectedIconPath": "images/nav/booking-on.png",
+        "text": "排行"
       },
       {
         "pagePath": "pages/my/index",
@@ -83,11 +91,6 @@
         "text": "我的"
       }
     ]
-  },
-  "permission": {
-    "scope.userLocation": {
-      "desc": "获取离你最近的门店"
-    }
   },
   "usingComponents": {
     "parser":"/components/parser.20200731.min/parser",

@@ -1,0 +1,9 @@
+{
+  "name": "adminManagePost",
+  "version": "1.0.0",
+  "description": "管理员管理广场动态",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

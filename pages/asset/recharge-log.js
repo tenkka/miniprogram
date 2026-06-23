@@ -14,9 +14,9 @@ Page({
 
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.asset.rechargeLogs,
+      title: '充值记录',
     })
     this.payLogs()
   },

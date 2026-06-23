@@ -48,7 +48,7 @@
         <text class="info-icon">💰</text>
       </view>
       <view class="info-content">
-        <text class="info-label">{{ $t.order.balance }}</text>
+        <text class="info-label">可用余额</text>
         <text class="info-value">¥{{ balance }}</text>
       </view>
     </view>
@@ -60,7 +60,7 @@
         <text class="info-icon">⭐</text>
       </view>
       <view class="info-content">
-        <text class="info-label">{{ $t.my.score }}</text>
+        <text class="info-label">积分</text>
         <text class="info-value">{{ score }}</text>
       </view>
     </view>

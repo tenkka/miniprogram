@@ -9,9 +9,9 @@ Page({
     totleConsumed: 0
   },
   onLoad: function (options) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.vip.title,
+      title: '会员',
     })
     this.userLevelList()
     getApp().getUserApiInfo().then(apiUserInfoMap => {

@@ -3,9 +3,9 @@ Page({
   data: {
   },
   onLoad (e) {
-    getApp().initLanguage(this)
+
     wx.setNavigationBarTitle({
-      title: this.data.$t.card.shareplaceholder,
+      title: '请你喝杯奶茶~',
     })
     this.setData({
       id: e.id,
@@ -37,9 +37,9 @@ Page({
         })
       } else {
         wx.showModal({
-          content: this.data.$t.card.fetchSuccess,
+          content: '礼品卡已存入卡包',
           showCancel: false,
-          confirmText: this.data.$t.common.gotIt,
+          confirmText: '知道了',
           success: (res) => {
             wx.reLaunch({
               url: '/pages/home/index',
@@ -49,9 +49,9 @@ Page({
       }
     } else {
       wx.showModal({
-        content: this.data.$t.card.receiveEmpty,
+        content: '当前礼品卡不存在或已被领取',
         showCancel: false,
-        confirmText: this.data.$t.common.gotIt,
+        confirmText: '知道了',
         success: (res) => {
           wx.reLaunch({
             url: '/pages/home/index',

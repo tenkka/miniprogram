@@ -1,0 +1,189 @@
+<view class="detail-container">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="center-loading">
+    <van-loading color="#D4AF37" size="56rpx" />
+  </view>
+
+  <block wx:elif="{{table}}">
+
+    <!-- 桌台标题栏 -->
+    <view class="table-header">
+      <view class="table-name">{{table.name}}</view>
+      <view class="table-stat">
+        <text class="stat-num">{{occupiedCount}}</text>
+        <text class="stat-slash">/</text>
+        <text class="stat-total">{{table.maxplayer}}</text>
+        <text class="stat-unit"> 人</text>
+      </view>
+    </view>
+
+    <!-- 桌台可视化 -->
+    <view class="table-stage">
+      <!-- 椭圆桌面 -->
+      <view class="oval-table">
+        <text class="oval-label">♠ NUTS ♠</text>
+      </view>
+
+      <!-- 座位圈 -->
+      <view
+        wx:for="{{seats}}"
+        wx:key="index"
+        class="seat {{item.booking ? (item.booking.status === 'seated' ? 'seat-seated' : item.booking.status === 'confirmed' ? 'seat-confirmed' : 'seat-pending') : 'seat-empty'}}"
+        style="left:{{item.left}}rpx;top:{{item.top}}rpx;"
+        data-booking="{{item.booking}}"
+        bindtap="tapSeat"
+      >
+        <image
+          wx:if="{{item.booking && item.booking.avatarUrl}}"
+          class="seat-avatar"
+          src="{{item.booking.avatarUrl}}"
+          mode="aspectFill"
+        />
+        <van-icon
+          wx:elif="{{item.booking}}"
+          name="contact"
+          size="40rpx"
+          color="#D4AF37"
+        />
+        <van-icon
+          wx:else
+          name="plus"
+          size="32rpx"
+          color="#444"
+        />
+        <view class="seat-nick" wx:if="{{item.booking}}">
+          <text>{{item.booking.nick || '用户'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 座位状态图例 -->
+    <view class="legend-row">
+      <view class="legend-item"><view class="dot dot-empty"></view><text>空位</text></view>
+      <view class="legend-item"><view class="dot dot-pending"></view><text>待确认</text></view>
+      <view class="legend-item"><view class="dot dot-confirmed"></view><text>已预约</text></view>
+      <view class="legend-item"><view class="dot dot-seated"></view><text>已入座</text></view>
+    </view>
+
+    <!-- 排队列表 -->
+    <view wx:if="{{queueList.length > 0}}" class="section">
+      <view class="section-title">排队等候（{{queueList.length}}人）</view>
+      <view
+        wx:for="{{queueList}}"
+        wx:key="_id"
+        class="queue-row {{isAdmin ? 'tappable' : ''}}"
+        data-booking="{{item}}"
+        bindtap="tapBookingRow"
+      >
+        <text class="queue-no">{{item.queueNo}}</text>
+        <image class="queue-avatar" src="{{item.avatarUrl || '/images/who.png'}}" mode="aspectFill" />
+        <text class="queue-nick">{{item.nick || '用户'}}</text>
+        <text class="queue-status pending">等候中</text>
+      </view>
+    </view>
+
+    <!-- 我的状态 -->
+    <view wx:if="{{myBooking}}" class="my-section">
+      <view class="my-title">我的预约</view>
+      <view class="my-card">
+        <view class="my-info">
+          <text class="my-type-label booking" wx:if="{{myBooking.type === 'booking' && myBooking.status === 'pending'}}">⏳ 待确认</text>
+          <text class="my-type-label confirmed" wx:elif="{{myBooking.type === 'booking' && myBooking.status === 'confirmed'}}">✓ 已确认预约</text>
+          <text class="my-type-label seated" wx:elif="{{myBooking.status === 'seated'}}">✓ 已入座</text>
+          <text class="my-type-label queue" wx:elif="{{myBooking.type === 'queue'}}">⏳ 排队第 {{myBooking.queueNo}} 位</text>
+          <text class="my-arrival" wx:if="{{myBooking.arrivalTime}}">到场时间：{{myBooking.arrivalTime}}</text>
+        </view>
+        <view class="cancel-btn" bindtap="cancelMyBooking">取消</view>
+      </view>
+    </view>
+
+    <!-- 操作按钮（未预约） -->
+    <view wx:else class="action-bar">
+      <view wx:if="{{!table.isFull}}">
+        <van-button
+          type="primary"
+          block
+          bind:click="showBookingForm"
+          custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:100rpx;font-size:34rpx;font-weight:700;letter-spacing:4rpx;"
+        >预约座位</van-button>
+      </view>
+      <view wx:else>
+        <van-button
+          type="default"
+          block
+          bind:click="tapQueue"
+          custom-style="background:#252525;border-color:#555;border-radius:48rpx;height:100rpx;font-size:34rpx;font-weight:700;color:#888;letter-spacing:4rpx;"
+        >加入排队</van-button>
+      </view>
+    </view>
+
+    <!-- 管理员预约列表 -->
+    <view wx:if="{{isAdmin}}" class="section admin-section">
+      <view class="section-title">管理员视图 · 点击修改状态</view>
+      <view
+        wx:for="{{seats}}"
+        wx:key="index"
+        wx:if="{{item.booking}}"
+        class="admin-row tappable"
+        data-booking="{{item.booking}}"
+        bindtap="tapBookingRow"
+      >
+        <image class="admin-avatar" src="{{item.booking.avatarUrl || '/images/who.png'}}" mode="aspectFill" />
+        <view class="admin-info">
+          <text class="admin-nick">{{item.booking.nick || '用户'}}</text>
+          <text class="admin-arrival" wx:if="{{item.booking.arrivalTime}}">{{item.booking.arrivalTime}}</text>
+        </view>
+        <view class="status-tag {{item.booking.status}}">
+          <text wx:if="{{item.booking.status === 'pending'}}">待确认</text>
+          <text wx:elif="{{item.booking.status === 'confirmed'}}">已预约</text>
+          <text wx:elif="{{item.booking.status === 'seated'}}">已入座</text>
+        </view>
+      </view>
+    </view>
+
+  </block>
+
+</view>
+
+<!-- 预约弹窗 -->
+<van-popup show="{{showBookingForm}}" position="bottom" round bind:close="closeBookingForm" custom-style="background:#252525;">
+  <view class="join-form">
+    <view class="form-drag-bar"></view>
+    <view class="form-title">预约座位</view>
+    <view class="form-subtitle" wx:if="{{table}}">
+      <text class="subtitle-table">{{table.name}}</text>
+    </view>
+    <view class="form-item">
+      <text class="form-label">预计到场时间 <text class="required">*</text></text>
+      <van-field
+        value="{{arrivalTime}}"
+        placeholder="点击选择时间"
+        readonly
+        is-link
+        bindtap="showTimePicker"
+        custom-style="background:#1A1A1A;border-radius:16rpx;"
+      />
+    </view>
+    <van-button
+      type="primary"
+      block
+      loading="{{submitting}}"
+      bind:click="confirmBooking"
+      custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:600;letter-spacing:4rpx;margin-top:16rpx;"
+    >确认预约</van-button>
+  </view>
+</van-popup>
+
+<!-- 时间选择器 -->
+<van-popup show="{{showDatetimePop}}" position="bottom" bind:close="hideDatetimePop">
+  <van-datetime-picker
+    type="datetime"
+    value="{{currentDate}}"
+    min-date="{{minDate}}"
+    confirm-button-text="确定"
+    cancel-button-text="取消"
+    bind:confirm="confirmTime"
+    bind:cancel="hideDatetimePop"
+  />
+</van-popup>

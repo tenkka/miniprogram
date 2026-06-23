@@ -28,12 +28,12 @@
       <view class="field-item">
         <view class="field-label">
           <text class="label-icon">👤</text>
-          <text class="label-text">{{ $t.shop.name }}</text>
+          <text class="label-text">姓名</text>
           <text class="required-mark">*</text>
         </view>
         <van-field
           model:value="{{ name }}"
-          placeholder="{{ $t.shop.namePlaceholder }}"
+          placeholder="如何称呼您"
           clearable
           border="{{ false }}"
           custom-style="padding: 20rpx 0; background: #f8f8f8; border-radius: 16rpx; padding-left: 24rpx;"
@@ -43,13 +43,13 @@
       <view class="field-item">
         <view class="field-label">
           <text class="label-icon">📱</text>
-          <text class="label-text">{{ $t.shop.mobile }}</text>
+          <text class="label-text">联系电话</text>
           <text class="required-mark">*</text>
         </view>
         <van-field
           type="number"
           model:value="{{ mobile }}"
-          placeholder="{{ $t.shop.mobilePlaceholder }}"
+          placeholder="方便我们与您联系"
           clearable
           border="{{ false }}"
           custom-style="padding: 20rpx 0; background: #f8f8f8; border-radius: 16rpx; padding-left: 24rpx;"
@@ -75,7 +75,7 @@
           <van-uploader
             accept="media"
             multiple
-            upload-text="{{ $t.feedback.imageOrVideo }}"
+            upload-text="图片/视频"
             image-fit="aspectFill"
             file-list="{{ picsList }}"
             bind:after-read="afterPicRead"
@@ -94,7 +94,7 @@
         <view class="textarea-wrapper">
           <van-field
             model:value="{{ content }}"
-            placeholder="{{ $t.shop.contentPlaceholder }}"
+            placeholder="如有更多信息请填写～"
             type="textarea"
             autosize="{{ autosize }}"
             border="{{ false }}"
@@ -121,7 +121,7 @@
       bind:click="bindSave"
       custom-class="submit-button"
     >
-      {{ $t.shop.joinBtn }}
+      申请入驻
     </van-button>
   </view>
 
