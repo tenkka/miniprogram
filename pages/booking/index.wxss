@@ -45,6 +45,12 @@ page { background: #1A1A1A; }
   text-shadow: 0 0 40rpx rgba(212,175,55,0.3);
 }
 
+.hall-store-switch {
+  font-size: 22rpx;
+  color: rgba(212,175,55,0.7);
+  letter-spacing: 1rpx;
+}
+
 .hall-stats { display: flex; align-items: center; gap: 28rpx; }
 
 .stat-item { display: flex; flex-direction: column; align-items: center; gap: 4rpx; }

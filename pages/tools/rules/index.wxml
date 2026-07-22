@@ -1,0 +1,200 @@
+<scroll-view class="page" scroll-y>
+
+  <!-- 简介 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">♠</text>
+      <text class="section-title">游戏简介</text>
+    </view>
+    <text class="section-body">德州扑克（Texas Hold'em）是目前全球最流行的扑克游戏，2至10人参与。每位玩家获得2张底牌（手牌），结合桌面5张公共牌，组成最佳5张牌型决出胜负。</text>
+  </view>
+
+  <view class="divider"></view>
+
+  <!-- 牌型大小 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">🏆</text>
+      <text class="section-title">牌型大小</text>
+    </view>
+    <text class="section-sub">从大到小排列</text>
+
+    <view class="hand-list">
+      <view class="hand-row">
+        <view class="hand-rank gold">1</view>
+        <view class="hand-info">
+          <text class="hand-name">皇家同花顺</text>
+          <text class="hand-eg">A K Q J 10 同花色</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">2</view>
+        <view class="hand-info">
+          <text class="hand-name">同花顺</text>
+          <text class="hand-eg">连续5张同花色，如 9 8 7 6 5♥</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">3</view>
+        <view class="hand-info">
+          <text class="hand-name">四条（金刚）</text>
+          <text class="hand-eg">4张相同点数，如 K K K K</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">4</view>
+        <view class="hand-info">
+          <text class="hand-name">葫芦（满堂红）</text>
+          <text class="hand-eg">三条 + 一对，如 Q Q Q 7 7</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">5</view>
+        <view class="hand-info">
+          <text class="hand-name">同花</text>
+          <text class="hand-eg">5张同花色，不连续</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">6</view>
+        <view class="hand-info">
+          <text class="hand-name">顺子</text>
+          <text class="hand-eg">连续5张不同花色，如 8 7 6 5 4</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">7</view>
+        <view class="hand-info">
+          <text class="hand-name">三条</text>
+          <text class="hand-eg">3张相同点数，如 J J J</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">8</view>
+        <view class="hand-info">
+          <text class="hand-name">两对</text>
+          <text class="hand-eg">两个不同的一对，如 A A 9 9</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">9</view>
+        <view class="hand-info">
+          <text class="hand-name">一对</text>
+          <text class="hand-eg">2张相同点数，如 K K</text>
+        </view>
+      </view>
+      <view class="hand-row">
+        <view class="hand-rank">10</view>
+        <view class="hand-info">
+          <text class="hand-name">高牌</text>
+          <text class="hand-eg">无以上组合，以最大单张比较</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="divider"></view>
+
+  <!-- 游戏流程 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">♥</text>
+      <text class="section-title">游戏流程</text>
+    </view>
+
+    <view class="step-list">
+      <view class="step">
+        <view class="step-num">1</view>
+        <view class="step-content">
+          <text class="step-name">盲注</text>
+          <text class="step-desc">庄家左边第一位玩家下小盲注，第二位下大盲注（大盲 = 2×小盲）。</text>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-num">2</view>
+        <view class="step-content">
+          <text class="step-name">发底牌（Pre-Flop）</text>
+          <text class="step-desc">每人发2张暗牌，从大盲左边开始顺时针第一轮下注：跟注 / 加注 / 弃牌。</text>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-num">3</view>
+        <view class="step-content">
+          <text class="step-name">翻牌（Flop）</text>
+          <text class="step-desc">发3张公共牌翻开，进行第二轮下注。</text>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-num">4</view>
+        <view class="step-content">
+          <text class="step-name">转牌（Turn）</text>
+          <text class="step-desc">再翻开1张公共牌，进行第三轮下注。</text>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-num">5</view>
+        <view class="step-content">
+          <text class="step-name">河牌（River）</text>
+          <text class="step-desc">翻开最后1张公共牌，进行最后一轮下注。</text>
+        </view>
+      </view>
+      <view class="step">
+        <view class="step-num">6</view>
+        <view class="step-content">
+          <text class="step-name">摊牌（Showdown）</text>
+          <text class="step-desc">未弃牌玩家亮出手牌，结合5张公共牌选最优5张，牌型最大者赢得底池。</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="divider"></view>
+
+  <!-- 下注动作 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">♣</text>
+      <text class="section-title">下注动作</text>
+    </view>
+
+    <view class="action-list">
+      <view class="action-row">
+        <text class="action-name">Check（过牌）</text>
+        <text class="action-desc">无需下注，将行动权传给下家。仅在无人加注时可用。</text>
+      </view>
+      <view class="action-row">
+        <text class="action-name">Call（跟注）</text>
+        <text class="action-desc">跟上当前最大注额，继续留在牌局。</text>
+      </view>
+      <view class="action-row">
+        <text class="action-name">Raise（加注）</text>
+        <text class="action-desc">在当前最大注额基础上增加筹码，迫使其他玩家决策。</text>
+      </view>
+      <view class="action-row">
+        <text class="action-name">Fold（弃牌）</text>
+        <text class="action-desc">放弃手牌退出本局，已下注筹码归入底池。</text>
+      </view>
+      <view class="action-row">
+        <text class="action-name">All-in（全押）</text>
+        <text class="action-desc">将全部筹码押入，可参与对应边池。</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="divider"></view>
+
+  <!-- 牌点大小 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-icon">♦</text>
+      <text class="section-title">单牌点数大小</text>
+    </view>
+    <view class="card-rank-row">
+      <text class="card-rank-text">A  K  Q  J  10  9  8  7  6  5  4  3  2</text>
+    </view>
+    <text class="card-rank-note">A 既可作最大牌，也可在 A-2-3-4-5 顺子中作最小牌。</text>
+  </view>
+
+  <view class="footer-space"></view>
+
+</scroll-view>

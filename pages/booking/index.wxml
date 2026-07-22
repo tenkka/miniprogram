@@ -1,26 +1,12 @@
 <view class="hall-container">
 
-  <!-- 门店切换 -->
-  <van-tabs
-    active="{{storeTabIndex}}"
-    bind:change="onStoreTabChange"
-    color="#D4AF37"
-    background="#1A1A1A"
-    title-active-color="#D4AF37"
-    title-inactive-color="#888"
-    line-height="4rpx"
-    line-width="60rpx"
-    custom-style="border-bottom:1rpx solid rgba(255,255,255,0.08);"
-  >
-    <van-tab wx:for="{{stores}}" wx:key="id" title="{{item.name}}" />
-  </van-tabs>
-
   <!-- 顶部统计 -->
   <view class="hall-header">
     <view class="header-content">
-      <view class="hall-title-area">
+      <view class="hall-title-area" bindtap="goStores">
         <text class="hall-suits">♠♥♣♦</text>
-        <text class="hall-title">{{storeName}}</text>
+        <text class="hall-title">{{currentStore.name || '选择门店'}}</text>
+        <text class="hall-store-switch">切换 ›</text>
       </view>
       <view class="hall-stats">
         <view class="stat-item">

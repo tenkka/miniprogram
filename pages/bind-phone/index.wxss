@@ -88,3 +88,21 @@ page { background: #1A1A1A; }
   text-align: center;
   line-height: 1.8;
 }
+
+.privacy-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+  margin-top: 48rpx;
+  padding: 24rpx 28rpx;
+  background: rgba(255,255,255,0.04);
+  border: 1rpx solid rgba(255,255,255,0.08);
+  border-radius: 16rpx;
+}
+
+.privacy-text {
+  font-size: 22rpx;
+  color: #555;
+  line-height: 1.7;
+  flex: 1;
+}

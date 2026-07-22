@@ -26,6 +26,11 @@
     >微信一键授权手机号</button>
 
     <text class="tip-text">点击按钮后，微信将询问是否授权手机号\n该手机号为您在微信注册时使用的手机号</text>
+
+    <view class="privacy-box">
+      <van-icon name="shield-o" size="28rpx" color="#555" />
+      <text class="privacy-text">隐私声明：您的手机号仅用于账号登录与身份识别，NUTS 承诺不向任何第三方披露或出售您的手机号码。</text>
+    </view>
   </view>
 
 </view>

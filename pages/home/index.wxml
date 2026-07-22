@@ -15,32 +15,24 @@
       indicator-active-color="#D4AF37"
       bindchange="onBannerChange"
     >
-      <swiper-item wx:for="{{banners}}" wx:key="_id" bindtap="onBannerTap" data-detail="{{item.detailImageUrl}}">
-        <image class="hero-swiper-image" src="{{item.imageUrl}}" mode="aspectFill" />
+      <swiper-item wx:for="{{banners}}" wx:key="_id">
+        <image class="hero-swiper-image" src="{{item.imageUrl}}" mode="aspectFill" bindtap="onBannerTap" data-index="{{index}}" />
       </swiper-item>
     </swiper>
     <!-- 无轮播时显示 Logo -->
     <image wx:else class="hero-bg" src="/images/logo.jpg" mode="aspectFit" />
 
     <view class="hero-overlay"></view>
+  </view>
 
-    <!-- 顶部导航栏 -->
-    <view class="hero-nav">
-      <view class="hero-store-btn" bindtap="switchStore">
-        <text class="hero-store-text">{{storeName}} ></text>
-      </view>
-      <view class="hero-avatar-wrap" bindtap="onAvatarTap">
-        <image class="hero-avatar" src="{{avatarUrl || '/images/who.png'}}" mode="aspectFill" />
-        <view class="login-hint" wx:if="{{!avatarUrl}}">登录</view>
-      </view>
+  <!-- 当前门店 -->
+  <view class="store-strip" bindtap="goStores" wx:if="{{currentStore}}">
+    <text class="store-strip-icon">📍</text>
+    <view class="store-strip-info">
+      <text class="store-strip-name">{{currentStore.name}}</text>
+      <text class="store-strip-addr" wx:if="{{currentStore.address}}">{{currentStore.address}}</text>
     </view>
-
-    <!-- 活动条 -->
-    <view class="activity-bar">
-      <van-icon name="volume-o" color="#D4AF37" size="28rpx" />
-      <text class="activity-text">今晚开战！欢迎来到 NUTS核 Cafe&Bar</text>
-      <van-icon name="arrow" color="#888" size="24rpx" />
-    </view>
+    <text class="store-strip-arrow">›</text>
   </view>
 
   <!-- 欢迎卡 -->
@@ -51,62 +43,23 @@
     </view>
   </view>
 
-  <!-- 快捷入口（两列大卡） -->
+  <!-- 快捷入口（两行两列大卡） -->
   <view class="quick-cards">
     <view class="quick-card" bindtap="goOrder">
       <text class="quick-card-icon">🍺</text>
-      <text class="quick-card-name">点单</text>
+      <text class="quick-card-name">自助点单</text>
     </view>
     <view class="quick-card" bindtap="goGame">
       <text class="quick-card-icon">♠</text>
       <text class="quick-card-name">预约</text>
     </view>
-  </view>
-
-  <!-- 战力分数条 -->
-  <view class="score-strip" wx:if="{{userPower}}" bindtap="goScorelog">
-    <view class="score-left">
-      <text class="score-label">我的战力</text>
-      <text class="score-val">{{userPower}}</text>
+    <view class="quick-card" bindtap="goActivities">
+      <text class="quick-card-icon">🎯</text>
+      <text class="quick-card-name">每日活动</text>
     </view>
-    <view class="score-right">
-      <text class="score-action-text">排行榜</text>
-      <van-icon name="arrow" color="#D4AF37" size="24rpx" />
-    </view>
-  </view>
-
-  <!-- 排行榜 Top 5 -->
-  <view class="section-card">
-    <view class="card-header">
-      <view class="card-title-row">
-        <text class="card-title-icon">🏆</text>
-        <text class="card-title-text">本赛季排行榜</text>
-      </view>
-      <view class="card-more" bindtap="goScorelog">
-        <text>查看全部</text>
-        <van-icon name="arrow" color="#D4AF37" size="24rpx" />
-      </view>
-    </view>
-    <view class="leaderboard-list">
-      <view wx:for="{{topPlayers}}" wx:key="id" class="player-row">
-        <view class="rank-col">
-          <text wx:if="{{index == 0}}" class="rank-medal">🥇</text>
-          <text wx:elif="{{index == 1}}" class="rank-medal">🥈</text>
-          <text wx:elif="{{index == 2}}" class="rank-medal">🥉</text>
-          <text wx:else class="rank-num">{{index + 1}}</text>
-        </view>
-        <image class="player-avatar" src="{{item.avatar || '/images/who.png'}}" mode="aspectFill" />
-        <view class="player-info">
-          <text class="player-name">{{item.name}}</text>
-        </view>
-        <view class="player-points">
-          <text class="points-val">{{item.points}}</text>
-          <text class="points-unit">分</text>
-        </view>
-      </view>
-      <view wx:if="{{topPlayers.length === 0}}" class="empty-rank">
-        <text class="empty-rank-text">暂无排行数据</text>
-      </view>
+    <view class="quick-card" bindtap="goTools">
+      <text class="quick-card-icon">🛠️</text>
+      <text class="quick-card-name">实用工具</text>
     </view>
   </view>
 
@@ -157,8 +110,17 @@
   </view>
 </view>
 
+<!-- 轮播图细则弹窗 -->
+<van-popup show="{{showDetailImage}}" position="bottom" round bind:close="closeDetail" custom-style="background:#111008;max-height:88vh;overflow-y:auto;border-top:1rpx solid rgba(212,175,55,0.2);">
+  <view wx:if="{{selectedBanner}}" class="bd-wrap">
+    <view class="bd-drag"></view>
+    <image class="bd-img" src="{{selectedBanner.detailImageUrl || selectedBanner.imageUrl}}" mode="widthFix" />
+    <view class="bd-close" bindtap="closeDetail">关闭</view>
+  </view>
+</van-popup>
+
 <!-- 登录 popup -->
-<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup" custom-style="background:#1A1A1A;padding:48rpx 40rpx 80rpx;">
+<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup" custom-style="background:#111008;padding:48rpx 40rpx 80rpx;border-top:1rpx solid rgba(212,175,55,0.2);">
   <view class="lp-title">加入 NUTS</view>
   <view class="lp-sub">选择头像和昵称开始游戏</view>
   <button class="lp-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onPickAvatar">

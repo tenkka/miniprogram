@@ -1,0 +1,203 @@
+page { background: #0C0B09; }
+
+.page {
+  height: 100vh;
+  background: #0C0B09;
+}
+
+/* ===== Section ===== */
+.section {
+  padding: 40rpx 32rpx 32rpx;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.section-icon {
+  font-size: 36rpx;
+  color: #D4AF37;
+}
+
+.section-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #F0E8CC;
+  letter-spacing: 2rpx;
+}
+
+.section-sub {
+  font-size: 22rpx;
+  color: #7A6E58;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.section-body {
+  font-size: 28rpx;
+  color: #B0A890;
+  line-height: 1.9;
+}
+
+.divider {
+  height: 1rpx;
+  background: rgba(212,175,55,0.1);
+  margin: 0 32rpx;
+}
+
+/* ===== 牌型 ===== */
+.hand-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.hand-row {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid rgba(255,255,255,0.04);
+}
+
+.hand-rank {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1rpx solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  color: #888;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.hand-rank.gold {
+  background: rgba(212,175,55,0.15);
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+
+.hand-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.hand-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #E8D5A0;
+}
+
+.hand-eg {
+  font-size: 24rpx;
+  color: #7A6E58;
+}
+
+/* ===== 流程步骤 ===== */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: 24rpx;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid rgba(255,255,255,0.04);
+}
+
+.step-num {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 800;
+  color: #0C0B09;
+  flex-shrink: 0;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding-top: 10rpx;
+}
+
+.step-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #E8D5A0;
+}
+
+.step-desc {
+  font-size: 26rpx;
+  color: #9A8F78;
+  line-height: 1.7;
+}
+
+/* ===== 下注动作 ===== */
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.action-row {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.action-name {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #D4AF37;
+}
+
+.action-desc {
+  font-size: 26rpx;
+  color: #9A8F78;
+  line-height: 1.7;
+}
+
+/* ===== 牌点 ===== */
+.card-rank-row {
+  background: rgba(212,175,55,0.06);
+  border: 1rpx solid rgba(212,175,55,0.15);
+  border-radius: 14rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+}
+
+.card-rank-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #E8D5A0;
+  letter-spacing: 4rpx;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-rank-note {
+  font-size: 24rpx;
+  color: #7A6E58;
+  line-height: 1.7;
+}
+
+.footer-space {
+  height: 80rpx;
+}

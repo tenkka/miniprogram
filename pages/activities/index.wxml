@@ -1,0 +1,57 @@
+<view class="page">
+
+  <!-- 日期选择条 -->
+  <scroll-view class="date-scroll" scroll-x scroll-into-view="date-today" enhanced>
+    <view class="date-row">
+      <view
+        wx:for="{{dates}}"
+        wx:key="dateStr"
+        id="{{item.isToday ? 'date-today' : ''}}"
+        class="date-chip {{selectedDate === item.dateStr ? 'date-chip--on' : ''}} {{item.isToday ? 'date-chip--today' : ''}}"
+        data-date="{{item.dateStr}}"
+        bindtap="selectDate"
+      >
+        <text class="date-week">{{item.weekLabel}}</text>
+        <text class="date-num">{{item.dayNum}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 活动列表 -->
+  <view class="body">
+
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="state-box">
+      <text class="state-text">加载中…</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:elif="{{activities.length === 0}}" class="state-box">
+      
+      <text class="empty-title">{{storeName || '该门店'}}暂无活动</text>
+      <text class="empty-sub">敬请期待，精彩活动即将上线</text>
+    </view>
+
+    <!-- 活动卡片列表 -->
+    <view wx:else class="activity-list">
+      <view wx:for="{{activities}}" wx:key="_id" class="activity-card">
+        <view class="activity-card-left">
+          <view class="activity-type-dot"></view>
+        </view>
+        <view class="activity-card-body">
+          <view class="activity-header">
+            <text class="activity-title">{{item.title}}</text>
+            <text wx:if="{{item.tag}}" class="activity-tag">{{item.tag}}</text>
+          </view>
+          <view class="activity-time-row" wx:if="{{item.startTime}}">
+            <text class="activity-time-icon">🕐</text>
+            <text class="activity-time">{{item.startTime}}{{item.endTime ? ' – ' + item.endTime : ''}}</text>
+          </view>
+          <text wx:if="{{item.description}}" class="activity-desc">{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+</view>

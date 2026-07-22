@@ -2,11 +2,6 @@ const WXAPI = require('apifm-wxapi')
 const AUTH = require('../../utils/auth')
 const loginMixin = require('../../utils/loginMixin')
 
-const STORES = [
-  { id: 'east', name: '东区店' },
-  { id: 'west', name: '西区店' },
-]
-
 Page({
   data: {
     ...loginMixin.data,
@@ -17,9 +12,8 @@ Page({
     banners: [],
     bannerIndex: 0,
     showDetailImage: false,
-    detailImageUrl: '',
-    topPlayers: [],
-    storeName: '东区店',
+    selectedBanner: null,
+    currentStore: null,
     // 签到
     checkInShow: false,
     checkInDone: false,
@@ -34,26 +28,46 @@ Page({
       this.processGotUserDetail(apiUserInfoMap)
     }
     this.loadBanners()
-    this.loadTopPlayers()
+    this.loadCurrentStore()
   },
   onShow() {
-    const savedId = wx.getStorageSync('selectedStoreId') || 'east'
-    const store = STORES.find(s => s.id === savedId) || STORES[0]
-    this.setData({ storeName: store.name })
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 2 })
+    }
+    // 从门店页返回时刷新
+    const saved = wx.getStorageSync('currentStore')
+    if (saved) this.setData({ currentStore: saved })
     getApp().getUserApiInfo().then(apiUserInfoMap => {
       this.processGotUserDetail(apiUserInfoMap)
     })
     this._maybeShowCheckIn()
   },
-  switchStore() {
-    wx.showActionSheet({
-      itemList: STORES.map(s => s.name),
-      success: (res) => {
-        const store = STORES[res.tapIndex]
-        wx.setStorageSync('selectedStoreId', store.id)
-        this.setData({ storeName: store.name })
-      },
-    })
+  async loadCurrentStore() {
+    const saved = wx.getStorageSync('currentStore')
+    if (saved) {
+      this.setData({ currentStore: saved })
+      return
+    }
+    // 显示占位，避免条目完全消失
+    this.setData({ currentStore: { name: '加载中…', address: '' } })
+    try {
+      const res = await wx.cloud.callFunction({ name: 'getStores' })
+      const list = res.result.list || []
+      // id 可能是数字或字符串，统一转字符串比较
+      const store = list.find(s => String(s.id) === '1') || list[0]
+      if (store) {
+        wx.setStorageSync('currentStore', store)
+        this.setData({ currentStore: store })
+      } else {
+        this.setData({ currentStore: null })
+      }
+    } catch (e) {
+      console.error('loadCurrentStore error:', e)
+      this.setData({ currentStore: null })
+    }
+  },
+  goStores() {
+    wx.navigateTo({ url: '/pages/stores/index' })
   },
   async processGotUserDetail(apiUserInfoMap) {
     if (!apiUserInfoMap) return
@@ -62,29 +76,6 @@ Page({
       nick: apiUserInfoMap.base.nick || '',
       userTitle: apiUserInfoMap.userLevel ? apiUserInfoMap.userLevel.name : '',
     })
-    // 从排行榜数据里找自己的战力
-    const openid = wx.getStorageSync('openid')
-    if (openid && this.data.topPlayers && this.data.topPlayers.length) {
-      const me = this.data.topPlayers.find(p => p._id && p._id.includes && p._id === openid)
-      if (me) this.setData({ userPower: me.points })
-    }
-  },
-  async loadTopPlayers() {
-    try {
-      const res = await wx.cloud.callFunction({ name: 'getRankings' })
-      const power = res.result.power || []
-      this.setData({
-        topPlayers: power.slice(0, 5).map(p => ({
-          _id: p._id,
-          name: p.nick,
-          avatar: p.avatarUrl || '',
-          points: p.power,
-          title: '',
-        }))
-      })
-    } catch (e) {
-      console.error('loadTopPlayers error:', e)
-    }
   },
   // ===== 签到 =====
   async _maybeShowCheckIn() {
@@ -163,9 +154,15 @@ Page({
     this.setData({ bannerIndex: e.detail.current })
   },
   onBannerTap(e) {
-    const detailImageUrl = e.currentTarget.dataset.detail
-    if (!detailImageUrl) return
-    wx.previewImage({ urls: [detailImageUrl], current: detailImageUrl })
+    const index = e.currentTarget.dataset.index
+    const banner = this.data.banners[index]
+    if (!banner) return
+    const detailUrl = banner.detailImageUrl || banner.imageUrl
+    if (!detailUrl) return
+    this.setData({ showDetailImage: true, selectedBanner: { ...banner, detailImageUrl: detailUrl } })
+  },
+  closeDetail() {
+    this.setData({ showDetailImage: false, selectedBanner: null })
   },
   onAvatarTap() {
     if (this.data.avatarUrl) {
@@ -184,12 +181,11 @@ Page({
   goRank() {
     wx.switchTab({ url: '/pages/rank/index' })
   },
-  goScorelog() {
-    wx.switchTab({ url: '/pages/rank/index' })
-  },
   goMy() {
     wx.switchTab({ url: '/pages/my/index' })
   },
+  goActivities() { wx.navigateTo({ url: '/pages/activities/index' }) },
+  goTools()      { wx.navigateTo({ url: '/pages/tools/index' }) },
   onShareAppMessage() {
     return {
       title: 'NUTS 德扑酒吧 — 今晚来战！',

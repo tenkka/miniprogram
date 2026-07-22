@@ -1,0 +1,226 @@
+page { background: #0C0B09; }
+
+.page {
+  min-height: 100vh;
+  background: #0C0B09;
+  padding-bottom: 60rpx;
+}
+
+/* ===== 位置选择器 ===== */
+.pos-scroll {
+  white-space: nowrap;
+  padding: 28rpx 28rpx 0;
+}
+
+.pos-row {
+  display: inline-flex;
+  gap: 16rpx;
+  padding-bottom: 4rpx;
+  padding-right: 28rpx;
+}
+
+.pos-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 18rpx 28rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  min-width: 100rpx;
+}
+
+.pos-chip--on {
+  background: rgba(212,175,55,0.14);
+  border-color: #D4AF37;
+}
+
+.pos-label {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #555;
+  letter-spacing: 1rpx;
+}
+
+.pos-chip--on .pos-label {
+  color: #D4AF37;
+}
+
+.pos-sublabel {
+  font-size: 20rpx;
+  color: #444;
+}
+
+.pos-chip--on .pos-sublabel {
+  color: rgba(212,175,55,0.7);
+}
+
+/* ===== 位置描述 ===== */
+.desc-box {
+  margin: 24rpx 28rpx 0;
+  background: rgba(212,175,55,0.06);
+  border-left: 4rpx solid rgba(212,175,55,0.5);
+  border-radius: 0 12rpx 12rpx 0;
+  padding: 20rpx 24rpx;
+}
+
+.desc-text {
+  font-size: 26rpx;
+  color: #9A8F78;
+  line-height: 1.7;
+}
+
+/* ===== 内容区 ===== */
+.content {
+  padding: 20rpx 28rpx 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* ===== 手牌卡片 ===== */
+.tier-card {
+  border-radius: 20rpx;
+  padding: 28rpx;
+  border: 1rpx solid transparent;
+}
+
+.tier-strong {
+  background: linear-gradient(145deg, #1E1A0E 0%, #141108 100%);
+  border-color: rgba(212,175,55,0.3);
+  box-shadow: 0 6rpx 24rpx rgba(0,0,0,0.6);
+}
+
+.tier-playable {
+  background: linear-gradient(145deg, #0E1418 0%, #080E12 100%);
+  border-color: rgba(100,180,240,0.2);
+  box-shadow: 0 6rpx 24rpx rgba(0,0,0,0.6);
+}
+
+.tier-marginal {
+  background: linear-gradient(145deg, #141414 0%, #0C0C0C 100%);
+  border-color: rgba(255,255,255,0.07);
+  box-shadow: 0 6rpx 24rpx rgba(0,0,0,0.6);
+}
+
+/* ===== 手牌卡片标题 ===== */
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  margin-bottom: 20rpx;
+}
+
+.tier-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tier-dot--strong   { background: #D4AF37; }
+.tier-dot--playable { background: #5BB8F5; }
+.tier-dot--marginal { background: #666; }
+
+.tier-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #E8D5A0;
+}
+
+.tier-hint {
+  font-size: 22rpx;
+  color: #555;
+  margin-left: auto;
+}
+
+/* ===== 手牌标签网格 ===== */
+.hand-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.hand-tag {
+  border-radius: 10rpx;
+  padding: 10rpx 18rpx;
+  border: 1rpx solid transparent;
+}
+
+.hand-tag--strong {
+  background: rgba(212,175,55,0.12);
+  border-color: rgba(212,175,55,0.35);
+}
+
+.hand-tag--playable {
+  background: rgba(91,184,245,0.1);
+  border-color: rgba(91,184,245,0.25);
+}
+
+.hand-tag--marginal {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
+
+.hand-tag-text {
+  font-size: 26rpx;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5rpx;
+}
+
+.hand-tag--strong   .hand-tag-text { color: #E8C94A; }
+.hand-tag--playable .hand-tag-text { color: #7FCAFF; }
+.hand-tag--marginal .hand-tag-text { color: #666; }
+
+/* ===== 备注 ===== */
+.note-box {
+  background: rgba(255,255,255,0.03);
+  border: 1rpx solid rgba(255,255,255,0.07);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  gap: 16rpx;
+  align-items: flex-start;
+}
+
+.note-icon { font-size: 28rpx; flex-shrink: 0; }
+
+.note-text {
+  font-size: 26rpx;
+  color: #7A6E58;
+  line-height: 1.7;
+  flex: 1;
+}
+
+/* ===== 图例 ===== */
+.legend {
+  display: flex;
+  gap: 28rpx;
+  flex-wrap: wrap;
+  padding: 8rpx 0 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.legend-code {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #D4AF37;
+  background: rgba(212,175,55,0.1);
+  border: 1rpx solid rgba(212,175,55,0.25);
+  border-radius: 8rpx;
+  padding: 4rpx 12rpx;
+}
+
+.legend-desc {
+  font-size: 22rpx;
+  color: #555;
+}
+
+.footer-space { height: 60rpx; }

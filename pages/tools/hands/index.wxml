@@ -1,0 +1,95 @@
+<view class="page">
+
+  <!-- 位置选择器 -->
+  <scroll-view class="pos-scroll" scroll-x>
+    <view class="pos-row">
+      <view
+        wx:for="{{positions}}"
+        wx:key="key"
+        class="pos-chip {{selectedPos === item.key ? 'pos-chip--on' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="selectPos"
+      >
+        <text class="pos-label">{{item.label}}</text>
+        <text class="pos-sublabel">{{item.sublabel}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 位置说明 -->
+  <view wx:if="{{current}}" class="desc-box">
+    <text class="desc-text">{{current.desc}}</text>
+  </view>
+
+  <!-- 手牌分级 -->
+  <view wx:if="{{current}}" class="content">
+
+    <!-- 强牌 -->
+    <view class="tier-card tier-strong">
+      <view class="tier-header">
+        <view class="tier-dot tier-dot--strong"></view>
+        <text class="tier-title">强牌</text>
+        <text class="tier-hint">首选加注</text>
+      </view>
+      <view class="hand-grid">
+        <view wx:for="{{current.strong}}" wx:key="*this" class="hand-tag hand-tag--strong">
+          <text class="hand-tag-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 可玩牌 -->
+    <view class="tier-card tier-playable">
+      <view class="tier-header">
+        <view class="tier-dot tier-dot--playable"></view>
+        <text class="tier-title">可玩牌</text>
+        <text class="tier-hint">视情况跟注或加注</text>
+      </view>
+      <view class="hand-grid">
+        <view wx:for="{{current.playable}}" wx:key="*this" class="hand-tag hand-tag--playable">
+          <text class="hand-tag-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 边缘牌 -->
+    <view class="tier-card tier-marginal">
+      <view class="tier-header">
+        <view class="tier-dot tier-dot--marginal"></view>
+        <text class="tier-title">边缘牌</text>
+        <text class="tier-hint">谨慎参与，需有利条件</text>
+      </view>
+      <view class="hand-grid">
+        <view wx:for="{{current.marginal}}" wx:key="*this" class="hand-tag hand-tag--marginal">
+          <text class="hand-tag-text">{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 位置特殊说明 -->
+    <view wx:if="{{current.note}}" class="note-box">
+      <text class="note-icon">💡</text>
+      <text class="note-text">{{current.note}}</text>
+    </view>
+
+    <!-- 图例 -->
+    <view class="legend">
+      <view class="legend-item">
+        <text class="legend-code">s</text>
+        <text class="legend-desc">= 同花（suited）</text>
+      </view>
+      <view class="legend-item">
+        <text class="legend-code">o</text>
+        <text class="legend-desc">= 非同花（offsuit）</text>
+      </view>
+      <view class="legend-item">
+        <text class="legend-code">AKs</text>
+        <text class="legend-desc">= 同花 AK</text>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="footer-space"></view>
+
+</view>

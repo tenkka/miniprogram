@@ -1,0 +1,56 @@
+<view class="page">
+
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading">
+    <text class="loading-text">加载中…</text>
+  </view>
+
+  <view wx:else class="layout">
+
+    <!-- 左侧城市列 -->
+    <scroll-view class="city-col" scroll-y>
+      <view
+        wx:for="{{cities}}"
+        wx:key="*this"
+        class="city-item {{selectedCity === item ? 'city-item--on' : ''}}"
+        data-city="{{item}}"
+        bindtap="selectCity"
+      >
+        <text class="city-text">{{item}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 右侧门店列 -->
+    <scroll-view class="store-col" scroll-y>
+      <view wx:if="{{cityStores.length === 0}}" class="empty">
+        <text class="empty-text">暂无门店</text>
+      </view>
+      <view
+        wx:for="{{cityStores}}"
+        wx:key="_id"
+        class="store-card {{currentStoreId === item._id ? 'store-card--active' : ''}}"
+      >
+        <view class="store-card-header">
+          <text class="store-name">{{item.name}}</text>
+          <view
+            class="store-select-btn {{currentStoreId === item._id ? 'store-select-btn--active' : ''}}"
+            data-store="{{item}}"
+            bindtap="onSelectStore"
+          >
+            <text class="store-select-text">{{currentStoreId === item._id ? '✓ 当前' : '选择'}}</text>
+          </view>
+        </view>
+        <view class="store-row">
+          <text class="store-icon">📍</text>
+          <text class="store-addr" data-address="{{item.address}}" bindtap="copyAddress">{{item.address}}</text>
+        </view>
+        <view class="store-row" bindtap="callPhone" data-phone="{{item.phone}}">
+          <text class="store-icon">📞</text>
+          <text class="store-phone">{{item.phone}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+  </view>
+
+</view>

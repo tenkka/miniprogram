@@ -47,6 +47,9 @@ Page({
     }
   },
   async onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 4 })
+    }
     const logined = await AUTH.checkHasLogined()
     if (!logined) {
       this.setData({ isLogined: false, apiUserInfoMap: null, nick: null, isAdmin: false, phone: '', isPhoneBound: false })

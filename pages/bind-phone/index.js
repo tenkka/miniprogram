@@ -14,13 +14,35 @@ Page({
     this.checkBound()
   },
 
-  checkBound() {
-    const userInfo = wx.getStorageSync('userInfo') || {}
-    const phone = userInfo.phone || ''
-    this.setData({
-      isBound: !!phone,
-      maskedPhone: phone ? this.maskPhone(phone) : '',
-    })
+  async checkBound() {
+    // 优先从云端读取，保证与数据库一致
+    try {
+      const res = await wx.cloud.callFunction({ name: 'getUserBalance' })
+      const phone = (res.result && res.result.phone) || ''
+      if (phone) {
+        // 同步更新本地缓存
+        const userInfo = wx.getStorageSync('userInfo') || {}
+        userInfo.phone = phone
+        wx.setStorageSync('userInfo', userInfo)
+      } else {
+        // 云端无手机号，清除本地缓存里的旧值
+        const userInfo = wx.getStorageSync('userInfo') || {}
+        delete userInfo.phone
+        wx.setStorageSync('userInfo', userInfo)
+      }
+      this.setData({
+        isBound: !!phone,
+        maskedPhone: phone ? this.maskPhone(phone) : '',
+      })
+    } catch (e) {
+      // 网络失败时降级读缓存
+      const userInfo = wx.getStorageSync('userInfo') || {}
+      const phone = userInfo.phone || ''
+      this.setData({
+        isBound: !!phone,
+        maskedPhone: phone ? this.maskPhone(phone) : '',
+      })
+    }
   },
 
   maskPhone(phone) {

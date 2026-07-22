@@ -41,30 +41,6 @@
 
   <view class="draw-hint">每次签到可获得 1 次抽奖机会</view>
 
-  <!-- 兑换商城（牌桌福利阁） -->
-  <view class="section">
-    <view class="section-head">
-      <text class="section-title">牌桌福利阁</text>
-      <text class="section-sub">积分兑换酒水套餐</text>
-    </view>
-    <view class="exchange-list">
-      <view wx:for="{{exchangeItems}}" wx:key="id" class="exchange-item">
-        <view class="ex-left">
-          <text class="ex-name">{{item.name}}</text>
-          <text class="ex-price">原价 ¥{{item.comboPrice}}</text>
-        </view>
-        <view class="ex-right">
-          <text class="ex-cost">{{item.cost}} 积分</text>
-          <view
-            class="ex-btn {{power < item.cost ? 'ex-btn--disabled' : ''}}"
-            data-item="{{item}}"
-            bindtap="onSelectExchange"
-          >兑换</view>
-        </view>
-      </view>
-    </view>
-  </view>
-
   <!-- 中奖记录 -->
   <view class="section">
     <view class="section-head">
@@ -91,32 +67,5 @@
     <view wx:if="{{resultPrize.type !== 'none'}}" class="result-tip">奖励已自动到账</view>
     <view wx:else class="result-tip">再接再厉，下次好运</view>
     <view class="result-btn" bindtap="closeResult">开心收下</view>
-  </view>
-</van-popup>
-
-<!-- 兑换确认弹窗 -->
-<van-popup show="{{exchangeConfirmShow}}" position="bottom" round bind:close="closeExchangeConfirm" custom-style="background:#252525;padding:40rpx 40rpx 72rpx;">
-  <view class="pop-drag"></view>
-  <view class="pop-title">确认兑换</view>
-  <view wx:if="{{selectedExchange}}" class="confirm-body">
-    <view class="confirm-row"><text>兑换商品</text><text class="confirm-val">{{selectedExchange.name}}</text></view>
-    <view class="confirm-row"><text>消耗积分</text><text class="confirm-val">{{selectedExchange.cost}}</text></view>
-    <view class="confirm-note">兑换后生成兑换码，到店出示核销</view>
-  </view>
-  <view class="confirm-actions">
-    <view class="confirm-cancel" bindtap="closeExchangeConfirm">取消</view>
-    <view class="confirm-ok" bindtap="confirmExchange">确认兑换</view>
-  </view>
-</van-popup>
-
-<!-- 兑换结果弹窗 -->
-<van-popup show="{{exchangeResultShow}}" round bind:close="closeExchangeResult" custom-style="background:transparent;">
-  <view class="result-card">
-    <text class="result-spade">🎉</text>
-    <view class="result-title">兑换成功</view>
-    <view class="result-tip">兑换码（到店出示核销）</view>
-    <view class="ex-code">{{exchangeCode}}</view>
-    <view class="result-btn" bindtap="copyCode">复制兑换码</view>
-    <view class="result-btn-ghost" bindtap="closeExchangeResult">关闭</view>
   </view>
 </van-popup>

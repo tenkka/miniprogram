@@ -1,8 +1,4 @@
 const { requireLogin } = require('../../utils/requireLogin')
-const STORES = [
-  { id: 'east', name: '东区店' },
-  { id: 'west', name: '西区店' },
-]
 
 // 座位椭圆参数（rpx，与 WXSS 中的 stage 尺寸对应）
 const CX = 375, CY = 230, RX = 270, RY = 155, HALF = 44
@@ -22,10 +18,8 @@ function computeSeats(seatBookings, maxplayer) {
 
 Page({
   data: {
-    stores: STORES,
-    storeTabIndex: 0,
-    storeId: 'east',
-    storeName: '东区店',
+    currentStore: null,
+    storeId: '',
     tables: [],
     isAdmin: false,
     loading: true,
@@ -41,24 +35,24 @@ Page({
   },
 
   onShow() {
-    const savedId = wx.getStorageSync('selectedStoreId') || 'east'
-    const idx = STORES.findIndex(s => s.id === savedId)
-    const storeTabIndex = idx >= 0 ? idx : 0
-    const { id, name } = STORES[storeTabIndex]
-    this.setData({ storeTabIndex, storeId: id, storeName: name })
-    this.loadTables(id)
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 0 })
+    }
+    const store = wx.getStorageSync('currentStore')
+    if (store) {
+      this.setData({ currentStore: store, storeId: store.id })
+      this.loadTables(store.id)
+    } else {
+      wx.navigateTo({ url: '/pages/stores/index' })
+    }
   },
 
   onPullDownRefresh() {
     this.loadTables(this.data.storeId).then(() => wx.stopPullDownRefresh())
   },
 
-  onStoreTabChange(e) {
-    const idx = e.detail.index
-    const { id, name } = STORES[idx]
-    wx.setStorageSync('selectedStoreId', id)
-    this.setData({ storeTabIndex: idx, storeId: id, storeName: name })
-    this.loadTables(id)
+  goStores() {
+    wx.navigateTo({ url: '/pages/stores/index' })
   },
 
   async loadTables(storeId) {

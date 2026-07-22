@@ -36,7 +36,7 @@
     "useCompilerPlugins": false,
     "lazyloadPlaceholderEnable": false,
     "useStaticServer": true,
-    "ignoreUploadUnusedFiles": true,
+    "ignoreUploadUnusedFiles": false,
     "condition": false,
     "compileWorklet": false,
     "localPlugins": false,
@@ -68,7 +68,16 @@
   "appid": "wx8edd0d8a513f30eb",
   "packOptions": {
     "ignore": [],
-    "include": []
+    "include": [
+      {
+        "value": "pages/lottery/**",
+        "type": "glob"
+      },
+      {
+        "value": "pages/invite/**",
+        "type": "glob"
+      }
+    ]
   },
   "libVersion": "3.7.12",
   "cloudfunctionRoot": "cloudfunctions/"

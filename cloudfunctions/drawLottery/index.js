@@ -7,18 +7,22 @@ const _ = db.command
 // type: none=谢谢参与 / power=加积分 / gift=加赠送余额
 const PRIZES = [
   { index: 0, name: '谢谢参与', type: 'none', value: 0 },
-  { index: 1, name: '5000积分券', type: 'power', value: 5000 },
-  { index: 2, name: '3000积分券', type: 'power', value: 3000 },
-  { index: 3, name: '1000积分券', type: 'power', value: 1000 },
+  { index: 1, name: '5000积分', type: 'power', value: 5000 },
+  { index: 2, name: '3000积分', type: 'power', value: 3000 },
+  { index: 3, name: '1000积分', type: 'power', value: 1000 },
   { index: 4, name: '50元代金券', type: 'gift', value: 50 },
   { index: 5, name: '5元代金券', type: 'gift', value: 5 },
   { index: 6, name: '10元代金券', type: 'gift', value: 10 },
-  { index: 7, name: '+100积分带入', type: 'power', value: 100 },
-  { index: 8, name: '+200积分带入', type: 'power', value: 200 },
-  { index: 9, name: '+500积分带入', type: 'power', value: 500 },
+  { index: 7, name: '100积分', type: 'power', value: 100 },
+  { index: 8, name: '200积分', type: 'power', value: 200 },
+  { index: 9, name: '500积分', type: 'power', value: 500 },
 ]
-// 中奖权重（店主可改）。本期各 10% 等概率。
-const WEIGHTS = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+// 中奖权重（与 PRIZES 数组下标一一对应）
+// 代金券爆率最低；积分类：价值越低权重越高
+// index: 0=谢谢参与 1=5000积分 2=3000积分 3=1000积分 4=50元券 5=5元券 6=10元券 7=+100 8=+200 9=+500
+const WEIGHTS = [15, 2, 3, 5, 1, 2, 1, 25, 18, 12]
+// 合计84，各项概率约：谢谢参与17.9% / 5000积分2.4% / 3000积分3.6% / 1000积分6.0%
+//   50元券1.2% / 5元券2.4% / 10元券1.2% / +100积分29.8% / +200积分21.4% / +500积分14.3%
 
 function pickPrize() {
   const total = WEIGHTS.reduce((a, b) => a + b, 0)

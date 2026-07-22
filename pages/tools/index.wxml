@@ -1,0 +1,29 @@
+<view class="page">
+
+  <view class="tool-card" bindtap="goRules">
+    <view class="tool-card-left">
+      <view class="tool-icon-wrap">
+        <text class="tool-icon">🃏</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">游戏规则</text>
+        <text class="tool-desc">德州扑克完整玩法介绍</text>
+      </view>
+    </view>
+    <text class="tool-arrow">›</text>
+  </view>
+
+  <view class="tool-card" bindtap="goHands">
+    <view class="tool-card-left">
+      <view class="tool-icon-wrap">
+        <text class="tool-icon">💪</text>
+      </view>
+      <view class="tool-info">
+        <text class="tool-name">手牌强度</text>
+        <text class="tool-desc">不同位置的起手牌参考</text>
+      </view>
+    </view>
+    <text class="tool-arrow">›</text>
+  </view>
+
+</view>

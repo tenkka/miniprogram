@@ -34,7 +34,7 @@ exports.main = async () => {
       _id: b._id,
       imageUrl: resolve(b.imageUrl),
       detailImageUrl: resolve(b.detailImageUrl),
-      sortOrder: b.sortOrder,
+sortOrder: b.sortOrder,
     })),
   }
 }

@@ -46,18 +46,24 @@
     "pages/recharge/index",
     "pages/my-orders/index",
     "pages/lottery/index",
-    "pages/invite/index"
+    "pages/invite/index",
+    "pages/stores/index",
+    "pages/tools/index",
+    "pages/tools/rules/index",
+    "pages/tools/hands/index",
+    "pages/activities/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#1A1A1A",
+    "navigationBarBackgroundColor": "#0C0B09",
     "navigationBarTitleText": "NUTS",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
+    "custom": true,
     "color": "#888888",
     "selectedColor": "#D4AF37",
-    "backgroundColor": "#1A1A1A",
+    "backgroundColor": "#0C0B09",
     "borderStyle": "black",
     "list": [
       {
