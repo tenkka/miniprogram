@@ -1,6 +1,6 @@
 <view class="hall-container">
 
-  <!-- 顶部统计 -->
+  <!-- 顶部 -->
   <view class="hall-header">
     <view class="header-content">
       <view class="hall-title-area" bindtap="goStores">
@@ -22,86 +22,55 @@
     </view>
   </view>
 
+  <!-- 筛选 Tabs -->
+  <view class="filter-bar">
+    <view
+      wx:for="{{filterLabels}}"
+      wx:key="index"
+      class="filter-chip {{filterTab === index ? 'filter-chip--on' : ''}}"
+      data-tab="{{index}}"
+      bindtap="setFilter"
+    >{{item}}</view>
+  </view>
+
   <!-- 加载中 -->
   <view wx:if="{{loading}}" class="center-state">
     <van-loading color="#D4AF37" size="48rpx" />
   </view>
 
-  <!-- 暂无桌台 -->
-  <view wx:elif="{{tables.length === 0}}" class="center-state">
+  <!-- 空状态 -->
+  <view wx:elif="{{filteredTables.length === 0}}" class="center-state">
     <text class="empty-icon">🃏</text>
-    <text class="empty-text">暂无开放桌台</text>
+    <text class="empty-text">暂无{{filterTab === 1 ? '可预约' : filterTab === 2 ? '满员' : ''}}桌台</text>
     <text class="empty-sub">请联系工作人员了解最新安排</text>
   </view>
 
-  <!-- 桌台列表（竖向排列） -->
-  <view wx:else class="tables-list">
-    <view wx:for="{{tables}}" wx:key="_id" wx:for-item="table" wx:for-index="tableIdx" class="table-block">
+  <!-- 桌台列表 -->
+  <view wx:else class="table-list">
+    <view
+      wx:for="{{filteredTables}}"
+      wx:key="_id"
+      wx:for-item="table"
+      class="table-row"
+    >
+      <!-- 桌台名称 -->
+      <text class="row-name">{{table.name}}</text>
 
-      <!-- 桌名 + 图例 -->
-      <view class="block-header">
-        <text class="block-table-name">{{table.name}}</text>
-        <view class="legend-row">
-          <view class="legend-item"><view class="dot dot-pending"></view><text>已预约</text></view>
-          <view class="legend-item"><view class="dot dot-confirmed"></view><text>已确认</text></view>
-        </view>
+      <!-- 人数 -->
+      <view class="row-count">
+        <van-icon name="friends-o" size="30rpx" color="#D4AF37" />
+        <text class="row-count-text">{{table.occupiedCount}}/{{table.maxplayer}}</text>
       </view>
 
-      <!-- 桌台可视化 -->
-      <view class="table-stage">
-        <view class="oval-table">
-          <text class="oval-name">{{table.name}}</text>
-        </view>
-
-        <!-- 座位 -->
-        <view
-          wx:for="{{table.seats}}"
-          wx:key="index"
-          wx:for-item="seat"
-          wx:for-index="seatIdx"
-          class="seat {{seat.booking ? (seat.booking.status === 'confirmed' || seat.booking.status === 'seated' ? 'seat-confirmed' : 'seat-pending') : 'seat-empty'}}"
-          style="left:{{seat.left}}rpx;top:{{seat.top}}rpx;"
-          data-booking="{{seat.booking}}"
-          data-tableidx="{{tableIdx}}"
-          bindtap="tapSeat"
-        >
-          <image wx:if="{{seat.booking && seat.booking.avatarUrl}}" class="seat-avatar" src="{{seat.booking.avatarUrl}}" mode="aspectFill" />
-          <van-icon wx:elif="{{seat.booking}}" name="contact" size="40rpx" color="#D4AF37" />
-          <van-icon wx:else name="plus" size="28rpx" color="#3A3A3A" />
-        </view>
+      <!-- 预约按钮 -->
+      <view
+        class="row-btn {{table.myBooking ? 'row-btn--booked' : table.isFull ? 'row-btn--queue' : 'row-btn--open'}}"
+        bindtap="onBookTap"
+        data-table="{{table}}"
+      >
+        <text class="row-btn-text">{{table.myBooking ? '已预约' : table.isFull ? '排队' : '预约'}}</text>
       </view>
-
     </view>
   </view>
 
 </view>
-
-<!-- 预约弹窗 -->
-<van-popup show="{{showBookingForm}}" position="bottom" round bind:close="closeBookingForm" custom-style="background:#252525;">
-  <view class="join-form">
-    <view class="form-drag-bar"></view>
-    <view class="form-title">预约座位</view>
-    <view class="form-subtitle" wx:if="{{selectedTable}}">
-      <text class="subtitle-table">{{selectedTable.name}}</text>
-      <text class="subtitle-dot"> · </text>
-      <text class="subtitle-seats">剩余 {{selectedTable.maxplayer - selectedTable.seatCount}} 个座位</text>
-    </view>
-    <view class="form-item">
-      <text class="form-label">预计到场时间 <text class="required">*</text></text>
-      <van-field value="{{arrivalTime}}" placeholder="点击选择时间" readonly is-link bindtap="showTimePicker" custom-style="background:#1A1A1A;border-radius:16rpx;" />
-    </view>
-    <van-button
-      type="primary" block loading="{{submitting}}" bind:click="confirmBooking"
-      custom-style="background:linear-gradient(135deg,#8B2020,#C8952A);border:none;border-radius:48rpx;height:96rpx;font-size:32rpx;font-weight:600;letter-spacing:4rpx;margin-top:16rpx;"
-    >确认预约</van-button>
-  </view>
-</van-popup>
-
-<!-- 时间选择器 -->
-<van-popup show="{{showDatetimePop}}" position="bottom" bind:close="hideDatetimePop">
-  <van-datetime-picker
-    type="datetime" value="{{currentDate}}" min-date="{{minDate}}"
-    confirm-button-text="确定" cancel-button-text="取消"
-    bind:confirm="confirmTime" bind:cancel="hideDatetimePop"
-  />
-</van-popup>

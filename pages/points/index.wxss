@@ -1,0 +1,244 @@
+page { background: #0C0B09; }
+
+.page {
+  min-height: 100vh;
+  background: #0C0B09;
+  padding-bottom: 60rpx;
+}
+
+/* ===== 账户卡 ===== */
+.account-card {
+  margin: 32rpx 28rpx 0;
+  border-radius: 24rpx;
+  background: linear-gradient(145deg, #221E10 0%, #161309 100%);
+  border: 1rpx solid rgba(212,175,55,0.3);
+  box-shadow: 0 16rpx 48rpx rgba(0,0,0,0.9), inset 0 1rpx 0 rgba(212,175,55,0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+.account-glow {
+  position: absolute;
+  top: -80rpx;
+  right: -80rpx;
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.account-inner {
+  padding: 40rpx 40rpx 36rpx;
+}
+
+.balance-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 36rpx;
+}
+
+.balance-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.balance-label {
+  font-size: 24rpx;
+  color: rgba(212,175,55,0.7);
+  letter-spacing: 2rpx;
+}
+
+.balance-num {
+  font-size: 72rpx;
+  font-weight: 800;
+  color: #E8C94A;
+  line-height: 1;
+  letter-spacing: -2rpx;
+  font-variant-numeric: tabular-nums;
+}
+
+.redeem-btn {
+  background: linear-gradient(135deg, #D4AF37, #B8941F);
+  color: #0C0B09;
+  font-size: 26rpx;
+  font-weight: 700;
+  padding: 16rpx 36rpx;
+  border-radius: 48rpx;
+  letter-spacing: 2rpx;
+  margin-bottom: 8rpx;
+  box-shadow: 0 4rpx 16rpx rgba(212,175,55,0.4);
+}
+
+.stats-row {
+  display: flex;
+  align-items: center;
+  padding-top: 28rpx;
+  border-top: 1rpx solid rgba(212,175,55,0.12);
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.stat-val {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #C4A94A;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-key {
+  font-size: 22rpx;
+  color: #554E38;
+  letter-spacing: 1rpx;
+}
+
+.stat-sep {
+  width: 1rpx;
+  height: 60rpx;
+  background: rgba(212,175,55,0.15);
+}
+
+/* ===== 流水标题 ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 40rpx 28rpx 20rpx;
+}
+
+.section-line {
+  width: 6rpx;
+  height: 32rpx;
+  background: linear-gradient(to bottom, #D4AF37, #8B6914);
+  border-radius: 3rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #C8A84A;
+  letter-spacing: 2rpx;
+}
+
+/* ===== 空 / 加载状态 ===== */
+.state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0 60rpx;
+  gap: 16rpx;
+}
+
+.state-icon {
+  font-size: 80rpx;
+  line-height: 1;
+}
+
+.state-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #555;
+}
+
+.state-sub {
+  font-size: 24rpx;
+  color: #383428;
+}
+
+.state-text {
+  font-size: 28rpx;
+  color: #444;
+}
+
+/* ===== 流水列表 ===== */
+.tx-list {
+  padding: 0 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 2rpx;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 28rpx;
+  background: linear-gradient(145deg, #181510 0%, #111009 100%);
+  border: 1rpx solid rgba(212,175,55,0.1);
+  border-radius: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.tx-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tx-dot--earn {
+  background: #D4AF37;
+  box-shadow: 0 0 8rpx rgba(212,175,55,0.6);
+}
+
+.tx-dot--spend {
+  background: #5A4A2A;
+}
+
+.tx-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.tx-desc {
+  font-size: 28rpx;
+  color: #C8B87A;
+  font-weight: 500;
+}
+
+.tx-time {
+  font-size: 22rpx;
+  color: #3D3526;
+}
+
+.tx-delta {
+  font-size: 32rpx;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.tx-delta--earn { color: #D4AF37; }
+.tx-delta--spend { color: #6B5830; }
+
+/* ===== 底部状态 ===== */
+.load-more {
+  text-align: center;
+  padding: 32rpx 0 16rpx;
+}
+
+.load-more-text {
+  font-size: 26rpx;
+  color: #D4AF37;
+}
+
+.list-end {
+  text-align: center;
+  padding: 32rpx 0 16rpx;
+}
+
+.list-end-text {
+  font-size: 22rpx;
+  color: #2E2820;
+  letter-spacing: 2rpx;
+}

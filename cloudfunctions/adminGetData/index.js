@@ -17,7 +17,7 @@ exports.main = async (event, context) => {
 
   if (!(await isAdmin(OPENID))) return { code: 1, msg: '无管理员权限' }
 
-  const [tablesRes, bookingsRes, postsRes] = await Promise.all([
+  const [tablesRes, bookingsRes, postsRes, storesRes] = await Promise.all([
     db.collection('tables').orderBy('storeId', 'asc').orderBy('sort', 'asc').get(),
     db.collection('bookings')
       .where({ status: _.in(['pending', 'confirmed', 'seated']) })
@@ -25,6 +25,7 @@ exports.main = async (event, context) => {
       .limit(200)
       .get(),
     db.collection('posts').orderBy('createdAt', 'desc').limit(50).get().catch(() => ({ data: [] })),
+    db.collection('stores').limit(100).get().catch(() => ({ data: [] })),
   ])
 
   const posts = postsRes.data
@@ -47,5 +48,13 @@ exports.main = async (event, context) => {
     } catch (e) {}
   }
 
-  return { code: 0, tables: tablesRes.data, bookings, posts }
+  // Build storeId → name map and enrich tables
+  const storeMap = {}
+  storesRes.data.forEach(s => { storeMap[s.id] = s.name })
+  const tables = tablesRes.data.map(t => ({
+    ...t,
+    storeName: storeMap[t.storeId] || String(t.storeId),
+  }))
+
+  return { code: 0, tables, bookings, posts }
 }

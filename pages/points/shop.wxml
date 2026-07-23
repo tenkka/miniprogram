@@ -1,0 +1,95 @@
+<view class="page">
+
+  <!-- 余额头部 -->
+  <view class="balance-bar">
+    <text class="balance-bar-label">当前积分</text>
+    <text class="balance-bar-num">{{balance}}</text>
+  </view>
+
+  <!-- 商品区 -->
+  <view wx:if="{{loading}}" class="state-box">
+    <text class="state-text">加载中…</text>
+  </view>
+
+  <view wx:elif="{{items.length === 0}}" class="state-box">
+    <text class="state-icon">🍿</text>
+    <text class="state-title">小吃商城即将上线</text>
+    <text class="state-sub">敬请期待</text>
+  </view>
+
+  <view wx:else class="items-grid">
+    <view
+      wx:for="{{items}}"
+      wx:key="_id"
+      class="item-card"
+      data-item="{{item}}"
+      bindtap="onItemTap"
+    >
+      <image
+        wx:if="{{item.imageUrl}}"
+        class="item-img"
+        src="{{item.imageUrl}}"
+        mode="aspectFill"
+      />
+      <view wx:else class="item-img-placeholder">
+        <text class="item-placeholder-icon">🍟</text>
+      </view>
+
+      <view class="item-body">
+        <text class="item-name">{{item.name}}</text>
+        <text wx:if="{{item.description}}" class="item-desc">{{item.description}}</text>
+        <view class="item-footer">
+          <view class="item-cost">
+            <text class="item-cost-icon">⭐</text>
+            <text class="item-cost-num">{{item.pointsCost}}</text>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+
+</view>
+
+<!-- 兑换确认弹窗 -->
+<van-popup
+  show="{{confirmShow}}"
+  position="bottom"
+  round
+  bind:close="closeConfirm"
+  custom-style="background:#1A1710;padding:40rpx 40rpx 80rpx;"
+>
+  <view class="confirm-drag"></view>
+  <view class="confirm-title">确认兑换</view>
+
+  <view wx:if="{{selectedItem}}" class="confirm-item-row">
+    <image
+      wx:if="{{selectedItem.imageUrl}}"
+      class="confirm-item-img"
+      src="{{selectedItem.imageUrl}}"
+      mode="aspectFill"
+    />
+    <view wx:else class="confirm-item-img confirm-item-placeholder">
+      <text>🍟</text>
+    </view>
+    <view class="confirm-item-info">
+      <text class="confirm-item-name">{{selectedItem.name}}</text>
+      <view class="confirm-cost-row">
+        <text class="confirm-cost-icon">⭐</text>
+        <text class="confirm-cost-num">{{selectedItem.pointsCost}} 积分</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="confirm-balance-tip">
+    兑换后剩余积分：<text class="confirm-balance-after">{{balance - (selectedItem ? selectedItem.pointsCost : 0)}}</text>
+  </view>
+
+  <view class="confirm-btns">
+    <view class="confirm-btn confirm-btn--cancel" bindtap="closeConfirm">取消</view>
+    <view
+      class="confirm-btn confirm-btn--ok {{redeeming ? 'confirm-btn--loading' : ''}}"
+      bindtap="confirmRedeem"
+    >{{redeeming ? '兑换中…' : '确认兑换'}}</view>
+  </view>
+</van-popup>

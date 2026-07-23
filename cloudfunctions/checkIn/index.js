@@ -3,6 +3,39 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+// Sync into new points system (idempotent via sourceId)
+async function syncNewPoints(openid, amount, sourceId, description) {
+  try {
+    const exists = await db.collection('points_transactions')
+      .where({ openid, sourceId, type: 'earn' })
+      .count()
+    if (exists.total > 0) return
+
+    const accountRes = await db.collection('user_points').where({ openid }).get()
+    const balanceBefore = accountRes.data.length ? (accountRes.data[0].balance || 0) : 0
+
+    if (accountRes.data.length === 0) {
+      await db.collection('user_points').add({
+        data: { openid, balance: amount, totalEarned: amount, totalSpent: 0, updatedAt: db.serverDate() },
+      })
+    } else {
+      await db.collection('user_points').doc(accountRes.data[0]._id).update({
+        data: { balance: _.inc(amount), totalEarned: _.inc(amount), updatedAt: db.serverDate() },
+      })
+    }
+
+    await db.collection('points_transactions').add({
+      data: {
+        openid, delta: amount, type: 'earn', source: 'checkin', sourceId, description,
+        balanceBefore, balanceAfter: balanceBefore + amount, createdAt: db.serverDate(),
+      },
+    })
+  } catch (e) {
+    // Non-fatal: new system sync failure does not block checkin
+    console.error('syncNewPoints error:', e)
+  }
+}
+
 const POINTS = [10, 20, 30, 40, 60, 80, 100]
 
 function getDateStr(offsetDays = 0) {
@@ -53,6 +86,9 @@ exports.main = async (event, context) => {
   await db.collection('checkIns').add({
     data: { openid: OPENID, date: today, streak, points, createdAt: db.serverDate() },
   })
+
+  // Sync into new points system
+  await syncNewPoints(OPENID, points, `checkin_${today}`, `签到奖励 +${points}积分`)
 
   return { code: 0, streak, points, todayCheckedIn: true }
 }

@@ -51,7 +51,9 @@
     "pages/tools/index",
     "pages/tools/rules/index",
     "pages/tools/hands/index",
-    "pages/activities/index"
+    "pages/activities/index",
+    "pages/points/index",
+    "pages/points/shop"
   ],
   "window": {
     "backgroundTextStyle": "light",

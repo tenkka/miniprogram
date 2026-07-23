@@ -152,6 +152,17 @@
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
+        <navigator url="/pages/points/index" hover-class="none" wx:if="{{isLogined}}">
+          <view class="menu-list-item">
+            <view class="item-left">
+              <view class="list-icon lottery-icon">
+                <van-icon name="gold-coin-o" size="40rpx" />
+              </view>
+              <text class="list-text">我的积分</text>
+            </view>
+            <van-icon name="arrow" size="32rpx" color="#999" />
+          </view>
+        </navigator>
         <navigator url="/pages/lottery/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
@@ -289,7 +300,7 @@
 </van-popup>
 
 <!-- 后台管理验证弹窗 -->
-<van-popup show="{{adminPopupShow}}" position="bottom" round bind:close="closeAdminPopup" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;">
+<van-popup show="{{adminPopupShow}}" position="bottom" round bind:close="closeAdminPopup" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;min-height:50vh;">
   <view class="admin-drag-bar"></view>
   <view class="admin-popup-title">后台管理</view>
   <view class="admin-popup-sub">请输入管理员密码</view>

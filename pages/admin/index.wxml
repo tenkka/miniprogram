@@ -35,8 +35,8 @@
       <view wx:for="{{tables}}" wx:key="_id" wx:for-item="table" class="table-card">
         <view class="table-card-top">
           <view class="table-left">
-            <view class="store-badge {{table.storeId === 'east' ? 'badge-east' : 'badge-west'}}">
-              {{table.storeId === 'east' ? '东区' : '西区'}}
+            <view class="store-badge">
+              {{table.storeName}}
             </view>
             <text class="table-name-text">{{table.name}}</text>
           </view>
@@ -325,6 +325,44 @@
     type="primary" block loading="{{deducting}}" bind:click="deductBalance"
     custom-style="background:linear-gradient(135deg,#6B1A1A,#9C2E2E);border:none;border-radius:48rpx;height:88rpx;font-size:30rpx;font-weight:600;"
   >确认划扣</van-button>
+
+  <!-- 分割线 -->
+  <view class="popup-divider"></view>
+
+  <!-- 积分管理 -->
+  <view class="section-label">积分管理</view>
+  <view class="points-balance-display">
+    <text class="points-balance-label">当前可用积分</text>
+    <text class="points-balance-val">{{editingUserPoints !== null ? editingUserPoints : '—'}}</text>
+  </view>
+  <view class="edit-field">
+    <text class="edit-label">调整积分（正数增加，负数扣除）</text>
+    <input
+      class="num-input"
+      type="number"
+      value="{{editPointsAmount}}"
+      placeholder="如：500 或 -200"
+      placeholder-style="color:#555;"
+      bindinput="onPointsAmountInput"
+      maxlength="7"
+    />
+  </view>
+  <view class="edit-field">
+    <text class="edit-label">备注</text>
+    <input
+      class="num-input"
+      type="text"
+      value="{{editPointsDesc}}"
+      placeholder="可选，如：活动赠送"
+      placeholder-style="color:#555;"
+      bindinput="onPointsDescInput"
+      maxlength="50"
+    />
+  </view>
+  <van-button
+    type="primary" block loading="{{addingPoints}}" bind:click="adjustPoints"
+    custom-style="background:linear-gradient(135deg,#D4AF37,#B8941F);border:none;border-radius:48rpx;height:88rpx;font-size:30rpx;font-weight:600;color:#1A1A1A;"
+  >确认调整积分</van-button>
 </van-popup>
 
 <!-- 余额明细弹窗 -->

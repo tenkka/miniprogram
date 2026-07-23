@@ -1,0 +1,65 @@
+<view class="page">
+
+  <!-- 账户概览卡 -->
+  <view class="account-card">
+    <view class="account-glow"></view>
+    <view class="account-inner">
+      <view class="balance-row">
+        <view class="balance-block">
+          <text class="balance-label">可用积分</text>
+          <text class="balance-num">{{balance}}</text>
+        </view>
+        <view class="redeem-btn" bindtap="goShop">去兑换</view>
+      </view>
+      <view class="stats-row">
+        <view class="stat-item">
+          <text class="stat-val">{{totalEarned}}</text>
+          <text class="stat-key">历史总积分</text>
+        </view>
+        <view class="stat-sep"></view>
+        <view class="stat-item">
+          <text class="stat-val">{{totalSpent}}</text>
+          <text class="stat-key">已兑换积分</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 流水列表 -->
+  <view class="section-header">
+    <view class="section-line"></view>
+    <text class="section-title">积分流水</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="state-box">
+    <text class="state-text">加载中…</text>
+  </view>
+
+  <view wx:elif="{{transactions.length === 0}}" class="state-box">
+    <text class="state-icon">🎯</text>
+    <text class="state-title">暂无积分记录</text>
+    <text class="state-sub">签到、抽奖可获得积分</text>
+  </view>
+
+  <view wx:else class="tx-list">
+    <view wx:for="{{transactions}}" wx:key="_id" class="tx-item">
+      <view class="tx-dot tx-dot--{{item.delta > 0 ? 'earn' : 'spend'}}"></view>
+      <view class="tx-info">
+        <text class="tx-desc">{{item.description}}</text>
+        <text class="tx-time">{{item.createdAt}}</text>
+      </view>
+      <text class="tx-delta tx-delta--{{item.delta > 0 ? 'earn' : 'spend'}}">
+        {{item.delta > 0 ? '+' : ''}}{{item.delta}}
+      </text>
+    </view>
+
+    <!-- 加载更多 -->
+    <view wx:if="{{hasMore}}" class="load-more" bindtap="loadMore">
+      <text class="load-more-text">{{loadingMore ? '加载中…' : '加载更多'}}</text>
+    </view>
+    <view wx:else class="list-end">
+      <text class="list-end-text">— 已显示全部记录 —</text>
+    </view>
+  </view>
+
+</view>

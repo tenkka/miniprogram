@@ -3,6 +3,37 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+async function syncNewPoints(openid, amount, sourceId, description) {
+  try {
+    const exists = await db.collection('points_transactions')
+      .where({ openid, sourceId, type: 'earn' })
+      .count()
+    if (exists.total > 0) return
+
+    const accountRes = await db.collection('user_points').where({ openid }).get()
+    const balanceBefore = accountRes.data.length ? (accountRes.data[0].balance || 0) : 0
+
+    if (accountRes.data.length === 0) {
+      await db.collection('user_points').add({
+        data: { openid, balance: amount, totalEarned: amount, totalSpent: 0, updatedAt: db.serverDate() },
+      })
+    } else {
+      await db.collection('user_points').doc(accountRes.data[0]._id).update({
+        data: { balance: _.inc(amount), totalEarned: _.inc(amount), updatedAt: db.serverDate() },
+      })
+    }
+
+    await db.collection('points_transactions').add({
+      data: {
+        openid, delta: amount, type: 'earn', source: 'lottery', sourceId, description,
+        balanceBefore, balanceAfter: balanceBefore + amount, createdAt: db.serverDate(),
+      },
+    })
+  } catch (e) {
+    console.error('syncNewPoints error:', e)
+  }
+}
+
 // 10 扇区固定顺序（前端转盘按此顺序绘制，index 与扇区一一对应）
 // type: none=谢谢参与 / power=加积分 / gift=加赠送余额
 const PRIZES = [
@@ -78,6 +109,11 @@ exports.main = async (event, context) => {
         createdAt: db.serverDate(),
       },
     })
+  }
+
+  // Sync power prizes into new points system
+  if (prize.type === 'power') {
+    await syncNewPoints(OPENID, prize.value, `lottery_${Date.now()}_${prize.index}`, `抽奖中奖：${prize.name}`)
   }
 
   // 中奖记录

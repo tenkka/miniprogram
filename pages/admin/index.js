@@ -28,6 +28,11 @@ Page({
     editDeductAmount: '',
     editDeductNote: '',
     deducting: false,
+    // 积分管理
+    editPointsAmount: '',
+    editPointsDesc: '',
+    addingPoints: false,
+    editingUserPoints: null,
     // 余额明细
     balanceDetailShow: false,
     balanceDetailUser: null,
@@ -330,7 +335,19 @@ Page({
       editBalanceNote: '',
       editDeductAmount: '',
       editDeductNote: '',
+      editPointsAmount: '',
+      editPointsDesc: '',
+      editingUserPoints: null,
     })
+    // Fetch new-system points balance
+    wx.cloud.callFunction({
+      name: 'adminGetUserPoints',
+      data: { targetOpenid: user.openid },
+    }).then(res => {
+      if (res.result && res.result.code === 0) {
+        this.setData({ editingUserPoints: res.result.balance })
+      }
+    }).catch(() => {})
   },
 
   closeEditUser() {
@@ -377,6 +394,46 @@ Page({
   onBalanceNoteInput(e) { this.setData({ editBalanceNote: e.detail.value }) },
   onDeductAmountInput(e) { this.setData({ editDeductAmount: e.detail.value }) },
   onDeductNoteInput(e) { this.setData({ editDeductNote: e.detail.value }) },
+  onPointsAmountInput(e) { this.setData({ editPointsAmount: e.detail.value }) },
+  onPointsDescInput(e) { this.setData({ editPointsDesc: e.detail.value }) },
+
+  async adjustPoints() {
+    const { editingUser, editPointsAmount, editPointsDesc } = this.data
+    const amount = parseInt(editPointsAmount)
+    if (!amount || amount === 0) {
+      wx.showToast({ title: '请输入积分数量', icon: 'none' })
+      return
+    }
+    if (this.data.addingPoints) return
+    this.setData({ addingPoints: true })
+    wx.showLoading({ title: amount > 0 ? '添加中...' : '扣除中...' })
+    try {
+      const res = await wx.cloud.callFunction({
+        name: 'adminAddPoints',
+        data: {
+          targetOpenid: editingUser.openid,
+          amount,
+          description: editPointsDesc || undefined,
+        },
+      })
+      if (res.result.code === 0) {
+        this.setData({
+          editingUserPoints: res.result.balanceAfter,
+          editPointsAmount: '',
+          editPointsDesc: '',
+        })
+        wx.showToast({ title: `操作成功，余额 ${res.result.balanceAfter}`, icon: 'success' })
+      } else {
+        wx.showToast({ title: res.result.msg || '操作失败', icon: 'none' })
+      }
+    } catch (e) {
+      console.error('adjustPoints error:', e)
+      wx.showToast({ title: e.message || '操作失败，请重试', icon: 'none' })
+    } finally {
+      wx.hideLoading()
+      this.setData({ addingPoints: false })
+    }
+  },
 
   async deductBalance() {
     const { editingUser, editDeductAmount, editDeductNote } = this.data

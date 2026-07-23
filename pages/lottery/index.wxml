@@ -3,12 +3,7 @@
   <view class="top-bar">
     <view class="top-item">
       <text class="top-num">{{tickets}}</text>
-      <text class="top-label">剩余次数</text>
-    </view>
-    <view class="top-divider"></view>
-    <view class="top-item">
-      <text class="top-num">{{power}}</text>
-      <text class="top-label">我的积分</text>
+      <text class="top-label">剩余抽奖次数</text>
     </view>
   </view>
 

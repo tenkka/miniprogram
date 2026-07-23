@@ -36,11 +36,6 @@ page {
   color: #999;
   margin-top: 6rpx;
 }
-.top-divider {
-  width: 1rpx;
-  height: 56rpx;
-  background: rgba(212, 175, 55, 0.3);
-}
 
 /* 转盘 */
 .wheel-wrap {
