@@ -57,9 +57,9 @@
       <text class="quick-card-icon">🎯</text>
       <text class="quick-card-name">每日活动</text>
     </view>
-    <view class="quick-card" bindtap="goTools">
-      <text class="quick-card-icon">🛠️</text>
-      <text class="quick-card-name">实用工具</text>
+    <view class="quick-card" bindtap="goShop">
+      <text class="quick-card-icon">⭐</text>
+      <text class="quick-card-name">战力商城</text>
     </view>
   </view>
 

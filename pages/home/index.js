@@ -186,6 +186,7 @@ Page({
   },
   goActivities() { wx.navigateTo({ url: '/pages/activities/index' }) },
   goTools()      { wx.navigateTo({ url: '/pages/tools/index' }) },
+  goShop()       { wx.navigateTo({ url: '/pages/points/shop' }) },
   onShareAppMessage() {
     return {
       title: 'NUTS 德扑酒吧 — 今晚来战！',
