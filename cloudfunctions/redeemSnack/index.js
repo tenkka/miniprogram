@@ -7,7 +7,7 @@ exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
   if (!OPENID) return { code: -1, msg: '未登录' }
 
-  const { itemId, qty = 1 } = event
+  const { itemId, qty = 1, storeId = '', storeName = '' } = event
   if (!itemId || qty < 1) return { code: -2, msg: '参数无效' }
 
   // Fetch item
@@ -52,6 +52,8 @@ exports.main = async (event, context) => {
       description: `兑换 ${item.name}${qty > 1 ? ` x${qty}` : ''}`,
       balanceBefore,
       balanceAfter,
+      storeId,
+      storeName,
       createdAt: db.serverDate(),
     },
   })
@@ -65,6 +67,8 @@ exports.main = async (event, context) => {
       qty,
       totalPoints,
       transactionId: txRes._id,
+      storeId,
+      storeName,
       status: 'pending',
       createdAt: db.serverDate(),
     },

@@ -8,7 +8,7 @@ Page({
     avatarUrl: '',
     userTitle: '',
     nick: '',
-    userPower: 0,
+    userPoints: 0,
     banners: [],
     bannerIndex: 0,
     showDetailImage: false,
@@ -40,6 +40,7 @@ Page({
     getApp().getUserApiInfo().then(apiUserInfoMap => {
       this.processGotUserDetail(apiUserInfoMap)
     })
+    this._loadPoints()
     this._maybeShowCheckIn()
   },
   async loadCurrentStore() {
@@ -185,8 +186,21 @@ Page({
     wx.switchTab({ url: '/pages/my/index' })
   },
   goActivities() { wx.navigateTo({ url: '/pages/activities/index' }) },
+  goInvite()     { wx.navigateTo({ url: '/pages/invite/index' }) },
+  goRecharge()   { wx.navigateTo({ url: '/pages/recharge/index' }) },
+  goFeedback()   { wx.showToast({ title: '感谢建议！请致电 13773481269', icon: 'none', duration: 3000 }) },
+  goRecruit()    { wx.showToast({ title: '招商合作请致电 13773481269', icon: 'none', duration: 3000 }) },
   goTools()      { wx.navigateTo({ url: '/pages/tools/index' }) },
   goShop()       { wx.navigateTo({ url: '/pages/points/shop' }) },
+  async _loadPoints() {
+    if (!wx.getStorageSync('openid')) return
+    try {
+      const res = await wx.cloud.callFunction({ name: 'getPointsInfo' })
+      if (res.result && res.result.code === 0) {
+        this.setData({ userPoints: res.result.balance || 0 })
+      }
+    } catch (e) { }
+  },
   onShareAppMessage() {
     return {
       title: 'NUTS 德扑酒吧 — 今晚来战！',

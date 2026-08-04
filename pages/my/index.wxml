@@ -8,15 +8,20 @@
     <view wx:if="{{isLogined}}" class="user-card">
       <view class="user-info-row">
         <view class="avatar-section">
-          <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onAvatarChoose">
             <image src="{{ apiUserInfoMap.base.avatarUrl ? apiUserInfoMap.base.avatarUrl : '/images/default.png' }}" mode="aspectFill" class="avatar-img"></image>
+            <view class="avatar-ring"></view>
           </button>
-          <view class="avatar-ring"></view>
         </view>
 
         <view class="user-details">
-          <view class="nickname" bindtap="editNick">
-            {{ nick ? nick : '点击设置昵称' }}
+          <view class="nickname-row">
+            <view class="nickname" bindtap="editNick">
+              {{ nick ? nick : '点击设置昵称' }}
+            </view>
+            <view wx:if="{{openidShort}}" class="qr-icon-btn" bindtap="showQRCode">
+              <van-icon name="qr" size="72rpx" color="#D4AF37" />
+            </view>
           </view>
         </view>
       </view>
@@ -163,17 +168,6 @@
             <van-icon name="arrow" size="32rpx" color="#999" />
           </view>
         </navigator>
-        <navigator url="/pages/lottery/index" hover-class="none" wx:if="{{isLogined}}">
-          <view class="menu-list-item">
-            <view class="item-left">
-              <view class="list-icon lottery-icon">
-                <van-icon name="gift-o" size="40rpx" />
-              </view>
-              <text class="list-text">幸运抽奖</text>
-            </view>
-            <van-icon name="arrow" size="32rpx" color="#999" />
-          </view>
-        </navigator>
         <navigator url="/pages/invite/index" hover-class="none" wx:if="{{isLogined}}">
           <view class="menu-list-item">
             <view class="item-left">
@@ -288,7 +282,9 @@
 </view>
 
 <!-- 登录 popup -->
-<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup" custom-style="background:#1A1A1A;padding:48rpx 40rpx 80rpx;">
+<van-popup show="{{loginPopupShow}}" position="bottom" round bind:close="closeLoginPopup"
+  safe-area-inset-bottom safe-area-tab-bar
+  custom-style="background:#1A1A1A;padding:48rpx 40rpx 48rpx;">
   <view class="lp-title">加入 NUTS</view>
   <view class="lp-sub">选择头像和昵称开始游戏</view>
   <button class="lp-avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onPickAvatar">
@@ -354,8 +350,22 @@
   </view>
 </van-popup>
 
+<!-- 二维码弹窗 -->
+<van-popup show="{{qrShow}}" round bind:close="closeQR" custom-style="background:#1A1710;padding:48rpx 48rpx 56rpx;">
+  <view class="qr-popup-drag"></view>
+  <view class="qr-popup-title">我的专属二维码</view>
+  <view class="qr-popup-sub">扫描后可在后台识别身份</view>
+  <view class="qr-img-wrap">
+    <van-loading wx:if="{{qrGenerating || !qrCodePath}}" color="#D4AF37" size="48rpx" />
+    <image wx:else class="qr-img" src="{{qrCodePath}}" mode="aspectFit" />
+  </view>
+  <view class="qr-popup-tip">二维码仅本次有效，包含当前时间戳</view>
+</van-popup>
+
 <!-- 编辑昵称弹窗 -->
-<van-popup show="{{ nickShow }}" position="bottom" round bind:close="closeNickDialog" custom-style="background:#252525;padding:40rpx 40rpx 80rpx;">
+<van-popup show="{{ nickShow }}" position="bottom" round bind:close="closeNickDialog"
+  safe-area-inset-bottom safe-area-tab-bar
+  custom-style="background:#252525;padding:40rpx 40rpx 48rpx;">
   <view class="nick-drag-bar"></view>
   <view class="nick-popup-title">修改昵称</view>
   <input

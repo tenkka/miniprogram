@@ -64,9 +64,15 @@ Page({
     if (this.data.redeeming || !this.data.selectedItem) return
     this.setData({ redeeming: true })
     try {
+      const currentStore = wx.getStorageSync('currentStore') || {}
       const res = await wx.cloud.callFunction({
         name: 'redeemSnack',
-        data: { itemId: this.data.selectedItem._id, qty: 1 },
+        data: {
+          itemId: this.data.selectedItem._id,
+          qty: 1,
+          storeId: currentStore._id || '',
+          storeName: currentStore.name || '',
+        },
       })
       if (res.result.code === 0) {
         this.setData({

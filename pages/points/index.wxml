@@ -46,7 +46,10 @@
       <view class="tx-dot tx-dot--{{item.delta > 0 ? 'earn' : 'spend'}}"></view>
       <view class="tx-info">
         <text class="tx-desc">{{item.description}}</text>
-        <text class="tx-time">{{item.createdAt}}</text>
+        <view class="tx-meta">
+          <text class="tx-time">{{item.createdAt}}</text>
+          <text wx:if="{{item.storeName}}" class="tx-store">{{item.storeName}}</text>
+        </view>
       </view>
       <text class="tx-delta tx-delta--{{item.delta > 0 ? 'earn' : 'spend'}}">
         {{item.delta > 0 ? '+' : ''}}{{item.delta}}

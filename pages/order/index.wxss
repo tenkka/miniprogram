@@ -56,6 +56,21 @@ page { background: #1A1A1A; }
   color: #D4AF37;
 }
 
+.product-points-row {
+  margin-bottom: 12rpx;
+}
+
+.product-points-text {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #D4AF37;
+  background: rgba(212,175,55,0.1);
+  border: 1rpx solid rgba(212,175,55,0.25);
+  border-radius: 8rpx;
+  padding: 4rpx 16rpx;
+  font-variant-numeric: tabular-nums;
+}
+
 .product-desc {
   display: block;
   font-size: 26rpx;
@@ -271,6 +286,29 @@ page { background: #1A1A1A; }
 
 .modal-method--balance .modal-method-text { color: #4CAF50; }
 .modal-method--wechat .modal-method-text { color: #FF9800; }
+
+.modal-bonus-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(212,175,55,0.08);
+  border: 1rpx solid rgba(212,175,55,0.2);
+  border-radius: 16rpx;
+  padding: 18rpx 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.modal-bonus-label {
+  font-size: 26rpx;
+  color: rgba(212,175,55,0.7);
+}
+
+.modal-bonus-points {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #D4AF37;
+  font-variant-numeric: tabular-nums;
+}
 
 .modal-actions {
   display: flex;

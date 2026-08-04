@@ -3,9 +3,9 @@ const { requireLogin } = require('../../utils/requireLogin')
 Page({
   data: {
     packages: [
-      { id: 1, recharge: 1966, gift: 666 },
-      { id: 2, recharge: 4966, gift: 2566 },
-      { id: 3, recharge: 9966, gift: 6166 },
+      { id: 1, recharge: 2000, bonusPoints: 170000 },
+      { id: 2, recharge: 5000, bonusPoints: 435000 },
+      { id: 3, recharge: 10000, bonusPoints: 1535000 },
     ],
     showModal: false,
     selectedPkg: null,
@@ -49,13 +49,31 @@ Page({
       })
 
       // 3. 支付成功，写入余额和流水
+      const currentStore = wx.getStorageSync('currentStore') || {}
       await wx.cloud.callFunction({
         name: 'createRecharge',
-        data: { rechargeAmount: pkg.recharge, giftAmount: pkg.gift, outTradeNo },
+        data: {
+          rechargeAmount: pkg.recharge,
+          giftAmount: 0,
+          outTradeNo,
+          storeId: currentStore._id || '',
+          storeName: currentStore.name || '',
+        },
+      })
+
+      // 4. 赠送积分
+      await wx.cloud.callFunction({
+        name: 'earnPoints',
+        data: {
+          amount: pkg.bonusPoints,
+          source: 'recharge',
+          sourceId: outTradeNo,
+          description: `充值¥${pkg.recharge}赠送${pkg.bonusPoints}积分`,
+        },
       })
 
       this.setData({ showModal: false, selectedPkg: null })
-      wx.showToast({ title: '充值成功', icon: 'success' })
+      wx.showToast({ title: `充值成功，已赠送${pkg.bonusPoints}积分`, icon: 'success' })
     } catch (e) {
       if (e && e.errMsg && e.errMsg.includes('cancel')) {
         wx.showToast({ title: '已取消支付', icon: 'none' })

@@ -2,7 +2,7 @@
 
   <view class="header">
     <text class="header-title">选择充值套餐</text>
-    <text class="header-sub">充值金额直接入账，赠送金额同步到账</text>
+    <text class="header-sub">充值后积分同步到账，可用于兑换商品</text>
   </view>
 
   <view
@@ -22,13 +22,12 @@
       </view>
       <view class="pkg-divider-line"></view>
       <view class="pkg-gift-row">
-        <text class="pkg-gift-label">额外赠送</text>
-        <text class="pkg-gift-amount">¥ {{pkg.gift}}</text>
+        <text class="pkg-gift-label">赠送积分</text>
+        <view class="pkg-gift-points-wrap">
+          <text class="pkg-gift-points">{{pkg.bonusPoints}}</text>
+          <text class="pkg-gift-unit">积分</text>
+        </view>
       </view>
-    </view>
-    <view class="pkg-total-row">
-      <text class="pkg-total-label">到账总额</text>
-      <text class="pkg-total-val">¥ {{pkg.recharge + pkg.gift}}</text>
     </view>
   </view>
 
@@ -53,18 +52,8 @@
     </view>
 
     <view class="modal-row">
-      <text class="modal-label">额外赠送</text>
-      <text class="modal-gift">+ ¥{{selectedPkg.gift}}</text>
-    </view>
-
-    <view class="modal-divider"></view>
-
-    <view class="modal-row">
-      <text class="modal-label">到账总额</text>
-      <view class="modal-val-wrap">
-        <text class="modal-currency gold">¥</text>
-        <text class="modal-total">{{selectedPkg.recharge + selectedPkg.gift}}</text>
-      </view>
+      <text class="modal-label">赠送积分</text>
+      <text class="modal-gift-points">+ {{selectedPkg.bonusPoints}} 积分</text>
     </view>
 
     <view class="modal-actions">

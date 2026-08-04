@@ -6,7 +6,7 @@ const _ = db.command
 // 微信支付成功后调用，将充值金额写入用户余额并记录流水
 exports.main = async (event, context) => {
   const { OPENID } = cloud.getWXContext()
-  const { rechargeAmount, giftAmount, outTradeNo } = event
+  const { rechargeAmount, giftAmount, outTradeNo, storeId, storeName } = event
 
   const userRes = await db.collection('users').where({ openid: OPENID }).get()
   if (!userRes.data.length) return { code: 1, msg: '用户不存在' }
@@ -29,6 +29,8 @@ exports.main = async (event, context) => {
       note: `自助充值 ¥${rechargeAmount}`,
       method: 'wechat',
       outTradeNo: outTradeNo || '',
+      storeId: storeId || '',
+      storeName: storeName || '',
       createdAt: db.serverDate(),
     },
   })

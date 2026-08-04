@@ -1,13 +1,15 @@
 Page({
   data: {
     avatarUrl: '',
+    avatarFileID: '',
     nick: '',
     loading: false,
   },
 
-  async onChooseAvatar(e) {
+  async onAvatarChoose(e) {
     const tempPath = e.detail.avatarUrl
     const openid = wx.getStorageSync('openid')
+    this.setData({ avatarUrl: tempPath })
     wx.showLoading({ title: '上传中...' })
     try {
       const ext = tempPath.split('.').pop() || 'jpg'
@@ -15,7 +17,9 @@ Page({
         cloudPath: `avatars/${openid}_${Date.now()}.${ext}`,
         filePath: tempPath,
       })
-      this.setData({ avatarUrl: uploadRes.fileID })
+      this.setData({ avatarFileID: uploadRes.fileID })
+      wx.cloud.callFunction({ name: 'checkImageSafety', data: { fileID: uploadRes.fileID } })
+        .catch(e => console.error('checkImageSafety error:', e))
     } catch (e) {
       console.error('avatar upload error:', e)
       wx.showToast({ title: '上传失败，请重试', icon: 'none' })
@@ -43,13 +47,14 @@ Page({
     this.setData({ loading: true })
     wx.showLoading({ title: '保存中...' })
     try {
+      const fileID = this.data.avatarFileID || ''
       await wx.cloud.callFunction({
         name: 'updateProfile',
-        data: { nick: nick.trim(), avatarUrl },
+        data: { nick: nick.trim(), avatarUrl: fileID },
       })
       const userInfo = wx.getStorageSync('userInfo') || {}
       userInfo.nick = nick.trim()
-      userInfo.avatarUrl = avatarUrl
+      userInfo.avatarUrl = fileID
       wx.setStorageSync('userInfo', userInfo)
       wx.switchTab({ url: '/pages/home/index' })
     } catch (e) {

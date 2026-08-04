@@ -44,7 +44,7 @@ const loginMixin = {
     this.setData({ loginPopupShow: false })
   },
 
-  async onPickAvatar(e) {
+  onPickAvatar(e) {
     const tempPath = e.detail.avatarUrl
     this.setData({ pendingAvatar: tempPath, pendingAvatarTemp: tempPath })
   },
@@ -79,6 +79,8 @@ const loginMixin = {
           filePath: pendingAvatarTemp,
         })
         avatarUrl = uploadRes.fileID
+        wx.cloud.callFunction({ name: 'checkImageSafety', data: { fileID: avatarUrl } })
+          .catch(e => console.error('checkImageSafety error:', e))
       }
 
       // 保存昵称和头像到云数据库

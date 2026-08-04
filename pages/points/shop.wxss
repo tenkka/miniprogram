@@ -129,6 +129,12 @@ page { background: #0C0B09; }
   font-variant-numeric: tabular-nums;
 }
 
+.item-unit {
+  font-size: 22rpx;
+  color: #6A5C38;
+  margin-left: 4rpx;
+}
+
 .item-stock {
   font-size: 22rpx;
   color: #3D3525;

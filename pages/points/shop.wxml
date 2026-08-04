@@ -26,9 +26,9 @@
       bindtap="onItemTap"
     >
       <image
-        wx:if="{{item.imageUrl}}"
+        wx:if="{{item.image}}"
         class="item-img"
-        src="{{item.imageUrl}}"
+        src="{{item.image}}"
         mode="aspectFill"
       />
       <view wx:else class="item-img-placeholder">
@@ -42,6 +42,7 @@
           <view class="item-cost">
             <text class="item-cost-icon">⭐</text>
             <text class="item-cost-num">{{item.pointsCost}}</text>
+            <text wx:if="{{item.unit}}" class="item-unit">/ {{item.unit}}</text>
           </view>
         </view>
       </view>
@@ -64,9 +65,9 @@
 
   <view wx:if="{{selectedItem}}" class="confirm-item-row">
     <image
-      wx:if="{{selectedItem.imageUrl}}"
+      wx:if="{{selectedItem.image}}"
       class="confirm-item-img"
-      src="{{selectedItem.imageUrl}}"
+      src="{{selectedItem.image}}"
       mode="aspectFill"
     />
     <view wx:else class="confirm-item-img confirm-item-placeholder">

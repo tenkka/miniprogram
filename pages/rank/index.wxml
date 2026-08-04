@@ -13,19 +13,19 @@
               <view class="top3-medal">🥈</view>
               <image class="top3-avatar" src="{{top3Power[1].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
               <view class="top3-name">{{top3Power[1].nick}}</view>
-              <view class="top3-score gold">{{top3Power[1].power}}<text class="score-unit">分</text></view>
+              <view class="top3-score gold">{{top3Power[1].power}}<text class="score-unit">成就</text></view>
             </view>
             <view class="top3-item top3-first" wx:if="{{top3Power[0]}}">
               <view class="top3-medal">🥇</view>
               <image class="top3-avatar top3-avatar--first" src="{{top3Power[0].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
               <view class="top3-name">{{top3Power[0].nick}}</view>
-              <view class="top3-score gold">{{top3Power[0].power}}<text class="score-unit">分</text></view>
+              <view class="top3-score gold">{{top3Power[0].power}}<text class="score-unit">成就</text></view>
             </view>
             <view class="top3-item top3-third" wx:if="{{top3Power[2]}}">
               <view class="top3-medal">🥉</view>
               <image class="top3-avatar" src="{{top3Power[2].avatarUrl||'/images/who.png'}}" mode="aspectFill"/>
               <view class="top3-name">{{top3Power[2].nick}}</view>
-              <view class="top3-score gold">{{top3Power[2].power}}<text class="score-unit">分</text></view>
+              <view class="top3-score gold">{{top3Power[2].power}}<text class="score-unit">成就</text></view>
             </view>
           </view>
           <view class="rank-list" wx:if="{{restPower.length > 0}}">
@@ -35,7 +35,7 @@
               <view class="rank-info">
                 <text class="rank-name">{{item.nick}}</text>
               </view>
-              <text class="rank-score">{{item.power}}分</text>
+              <text class="rank-score">{{item.power}}成就</text>
             </view>
           </view>
         </block>

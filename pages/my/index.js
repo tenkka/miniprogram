@@ -25,6 +25,11 @@ Page({
     adminVerifying: false,
     phone: '',
     isPhoneBound: false,
+    // 二维码
+    qrShow: false,
+    qrCodePath: '',
+    qrGenerating: false,
+    openidShort: '',
     // 签到
     checkInDone: false,
     checkInStreak: 1,
@@ -52,7 +57,7 @@ Page({
     }
     const logined = await AUTH.checkHasLogined()
     if (!logined) {
-      this.setData({ isLogined: false, apiUserInfoMap: null, nick: null, isAdmin: false, phone: '', isPhoneBound: false })
+      this.setData({ isLogined: false, apiUserInfoMap: null, nick: null, isAdmin: false, phone: '', isPhoneBound: false, openidShort: '' })
       wx.removeStorageSync('cachedIsAdmin')
       return
     }
@@ -61,7 +66,9 @@ Page({
     this.setData({ phone, isPhoneBound: !!phone })
     // Show cached admin status immediately, refresh in background
     const cachedIsAdmin = wx.getStorageSync('cachedIsAdmin') || false
-    this.setData({ isLogined: true, isAdmin: cachedIsAdmin })
+    const openid = wx.getStorageSync('openid') || ''
+    const openidShort = openid ? openid.slice(-8).toUpperCase() : ''
+    this.setData({ isLogined: true, isAdmin: cachedIsAdmin, openidShort })
     wx.cloud.callFunction({ name: 'checkAdmin' }).then(res => {
       const isAdmin = res.result.isAdmin || false
       wx.setStorageSync('cachedIsAdmin', isAdmin)
@@ -160,6 +167,36 @@ Page({
     this.showLoginPopup()
   },
   ...loginMixin,
+  async showQRCode() {
+    if (this.data.qrGenerating) return
+    this.setData({ qrGenerating: true, qrShow: true, qrCodePath: '' })
+    try {
+      const res = await wx.cloud.callFunction({
+        name: 'generateQRCode',
+        data: { timestamp: Date.now() },
+      })
+      if (res.result.code === 0) {
+        const fs = wx.getFileSystemManager()
+        const path = `${wx.env.USER_DATA_PATH}/qrcode_${Date.now()}.png`
+        fs.writeFileSync(path, res.result.base64, 'base64')
+        this.setData({ qrCodePath: path })
+      } else {
+        wx.showToast({ title: '生成失败', icon: 'none' })
+        this.setData({ qrShow: false })
+      }
+    } catch (e) {
+      console.error('generateQRCode error:', e)
+      wx.showToast({ title: '生成失败，请重试', icon: 'none' })
+      this.setData({ qrShow: false })
+    } finally {
+      this.setData({ qrGenerating: false })
+    }
+  },
+
+  closeQR() {
+    this.setData({ qrShow: false, qrCodePath: '' })
+  },
+
   doLogout() {
     wx.showModal({
       title: '退出登录',
@@ -206,53 +243,10 @@ Page({
   async getUserAmount() {
     // 余额已迁移到自定义云数据库系统，此方法保留为空以兼容调用处
   },
-  scanOrderCode(){
-    wx.scanCode({
-      onlyFromCamera: true,
-      success(res) {
-        wx.navigateTo({
-          url: '/pages/order-details/scan-result?hxNumber=' + res.result,
-        })
-      },
-      fail(err) {
-        console.error(err)
-        wx.showToast({
-          title: err.errMsg,
-          icon: 'none'
-        })
-      }
-    })
-  },
-  goCoupons() {
-    wx.navigateTo({
-      url: '/pages/coupons/index?tabIndex=1',
-    })
-  },
-  goBalance() {
-    wx.navigateTo({
-      url: '/pages/asset/index',
-    })
-  },
-  goScorelog() {
-    wx.navigateTo({
-      url: '/pages/score/logs',
-    })
-  },
-  goadmin() {
-    wx.navigateToMiniProgram({
-      appId: 'wx5e5b0066c8d3f33d',
-      path: 'pages/autoLogin?token=' + wx.getStorageSync('token'),
-    })
-  },
   clearStorage() {
     wx.clearStorageSync()
     this.setData({ isLogined: false, apiUserInfoMap: null, nick: null })
     wx.showToast({ title: '缓存已清除' })
-  },
-  govip() {
-    wx.navigateTo({
-      url: '/pages/member-center/index',
-    })
   },
   editNick() {
     this.setData({
@@ -295,26 +289,32 @@ Page({
       wx.hideLoading()
     }
   },
-  async onChooseAvatar(e) {
+  async onAvatarChoose(e) {
+    const openid = wx.getStorageSync('openid')
+    if (!openid) return
     const tempPath = e.detail.avatarUrl
+    this.setData({ 'apiUserInfoMap.base.avatarUrl': tempPath })
+    await this._doUploadAvatar(tempPath)
+  },
+
+  async _doUploadAvatar(tempPath) {
     const openid = wx.getStorageSync('openid')
     if (!openid) return
     wx.showLoading({ title: '上传中...' })
     try {
-      // 上传到云存储
       const ext = tempPath.split('.').pop() || 'jpg'
       const uploadRes = await wx.cloud.uploadFile({
         cloudPath: `avatars/${openid}.${ext}`,
         filePath: tempPath,
       })
       const fileID = uploadRes.fileID
-      // 保存到云数据库
       await wx.cloud.callFunction({ name: 'updateProfile', data: { avatarUrl: fileID } })
-      // 本地缓存存 fileID，供云函数解析；页面显示用 tempPath（已可访问）
       const userInfo = wx.getStorageSync('userInfo') || {}
       userInfo.avatarUrl = fileID
       wx.setStorageSync('userInfo', userInfo)
       this.setData({ 'apiUserInfoMap.base.avatarUrl': tempPath })
+      wx.cloud.callFunction({ name: 'checkImageSafety', data: { fileID } })
+        .catch(e => console.error('checkImageSafety error:', e))
       wx.showToast({ title: '头像已更新' })
     } catch (e) {
       console.error('avatar upload error:', e)
@@ -322,11 +322,6 @@ Page({
     } finally {
       wx.hideLoading()
     }
-  },
-  goUserCode() {
-    wx.navigateTo({
-      url: '/pages/my/user-code',
-    })
   },
   customerService() {
     wx.openCustomerServiceChat({

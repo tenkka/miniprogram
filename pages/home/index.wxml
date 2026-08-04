@@ -2,26 +2,20 @@
 
   <!-- Hero 区域 -->
   <view class="hero-section">
-    <!-- 轮播图背景（有数据时）-->
     <swiper
       wx:if="{{banners.length > 0}}"
       class="hero-swiper"
-      autoplay
-      circular
-      interval="4000"
-      duration="400"
+      autoplay circular interval="4000" duration="400"
       indicator-dots="{{banners.length > 1}}"
       indicator-color="rgba(255,255,255,0.35)"
-      indicator-active-color="#D4AF37"
+      indicator-active-color="#E8749A"
       bindchange="onBannerChange"
     >
       <swiper-item wx:for="{{banners}}" wx:key="_id">
         <image class="hero-swiper-image" src="{{item.imageUrl}}" mode="aspectFill" bindtap="onBannerTap" data-index="{{index}}" />
       </swiper-item>
     </swiper>
-    <!-- 无轮播时显示 Logo -->
     <image wx:else class="hero-bg" src="/images/logo.jpg" mode="aspectFit" />
-
     <view class="hero-overlay"></view>
   </view>
 
@@ -35,37 +29,83 @@
     <text class="store-strip-arrow">›</text>
   </view>
 
-  <!-- 欢迎卡 -->
-  <view class="welcome-card">
-    <text class="welcome-text">{{nick ? '欢迎回来，' + nick : '欢迎来到 NUTS核 Cafe&Bar'}}</text>
-    <view class="welcome-btn" bindtap="{{nick ? 'goMy' : 'onAvatarTap'}}">
-      <text class="welcome-btn-text">{{nick ? '我的主页' : '立即登录'}}</text>
+  <!-- 招商/会员卡 -->
+  <view class="member-card">
+    <view class="member-card-top">
+      <text class="member-card-tag">招商</text>
+      <view class="member-detail-btn" bindtap="goRecruit">
+        <text class="member-detail-text">了解详情</text>
+      </view>
+    </view>
+    <view class="member-card-body">
+      <view class="member-info">
+        <text class="member-welcome">欢迎回来 {{nick || '朋友'}}</text>
+        <view class="member-stats">
+          <view class="member-stat">
+            <text class="member-stat-label">积分</text>
+            <text class="member-stat-val">{{userPoints}}</text>
+          </view>
+          <view class="member-stat-divider"></view>
+          <view class="member-stat">
+            <text class="member-stat-label">称号</text>
+            <text class="member-stat-val">{{userTitle || 'NUTS会员'}}</text>
+          </view>
+        </view>
+      </view>
+      <text class="member-trophy">🏆</text>
     </view>
   </view>
 
-  <!-- 快捷入口（两行两列大卡） -->
-  <view class="quick-cards">
-    <view class="quick-card" bindtap="goOrder">
-      <text class="quick-card-icon">🍺</text>
-      <text class="quick-card-name">自助点单</text>
+  <!-- 两大入口卡 -->
+  <view class="main-cards">
+    <view class="main-card" bindtap="goOrder">
+      <text class="main-card-title">店内下单</text>
+      <text class="main-card-en">In-store</text>
+      <image class="main-card-img" src="/images/icon/SVG/order.svg" mode="aspectFit" />
     </view>
-    <view class="quick-card" bindtap="goGame">
-      <text class="quick-card-icon">♠</text>
-      <text class="quick-card-name">预约</text>
-    </view>
-    <view class="quick-card" bindtap="goActivities">
-      <text class="quick-card-icon">🎯</text>
-      <text class="quick-card-name">每日活动</text>
-    </view>
-    <view class="quick-card" bindtap="goShop">
-      <text class="quick-card-icon">⭐</text>
-      <text class="quick-card-name">战力商城</text>
+    <view class="main-card" bindtap="goShop">
+      <text class="main-card-title">核心商城</text>
+      <text class="main-card-en">Rewards Center</text>
+      <image class="main-card-img" src="/images/icon/SVG/shop.svg" mode="aspectFit" />
     </view>
   </view>
 
-  <view class="brand-footer">
-    <text class="footer-suits">♠ ♥ ♣ ♦</text>
-    <text class="footer-name">NUTS POKER BAR</text>
+  <!-- 4 小入口 -->
+  <view class="mini-grid">
+    <view class="mini-item" bindtap="goActivities">
+      <view class="mini-icon-wrap">
+        <image class="mini-icon" src="/images/icon/SVG/event.svg" mode="aspectFit" />
+      </view>
+      <text class="mini-label">每日活动</text>
+    </view>
+    <view class="mini-item" bindtap="goInvite">
+      <view class="mini-icon-wrap">
+        <image class="mini-icon" src="/images/icon/SVG/refer.svg" mode="aspectFit" />
+      </view>
+      <text class="mini-label">邀请有礼</text>
+    </view>
+    <view class="mini-item" bindtap="goRecharge">
+      <view class="mini-icon-wrap">
+        <image class="mini-icon" src="/images/icon/SVG/charge.svg" mode="aspectFit" />
+      </view>
+      <text class="mini-label">充值优惠</text>
+    </view>
+    <view class="mini-item" bindtap="goFeedback">
+      <view class="mini-icon-wrap">
+        <image class="mini-icon" src="/images/icon/SVG/feedback.svg" mode="aspectFit" />
+      </view>
+      <text class="mini-label">意见提议</text>
+    </view>
+  </view>
+
+  <!-- 底部信息 -->
+  <view class="footer-info">
+    <text class="footer-phone">电话：13773481269</text>
+    <view class="footer-addrs">
+      <text class="footer-addr">地址 1：扬州市广陵区泰州路43号</text>
+      <text class="footer-addr">地址 2：扬州市邗江区盛福天地18楼E106号</text>
+    </view>
+    <text class="footer-brand">NUTS CAFE&amp;BAR</text>
   </view>
 
 </view>
@@ -75,37 +115,22 @@
   <view class="ci-card" catchtap="">
     <view class="ci-close" bindtap="closeCheckIn">×</view>
     <view class="ci-title">🎁 签到得积分！</view>
-
     <view class="ci-row">
-      <view
-        wx:for="{{checkInDaysTop}}"
-        wx:key="day"
-        class="ci-day ci-day--{{item.state}}"
-      >
+      <view wx:for="{{checkInDaysTop}}" wx:key="day" class="ci-day ci-day--{{item.state}}">
         <text class="ci-star">{{item.state === 'future' ? '☆' : '★'}}</text>
         <text class="ci-pts">{{item.points}}积分</text>
         <text class="ci-lbl">第{{item.day}}天</text>
       </view>
     </view>
     <view class="ci-row ci-row--center">
-      <view
-        wx:for="{{checkInDaysBottom}}"
-        wx:key="day"
-        class="ci-day ci-day--{{item.state}}"
-      >
+      <view wx:for="{{checkInDaysBottom}}" wx:key="day" class="ci-day ci-day--{{item.state}}">
         <text class="ci-star">{{item.state === 'future' ? '☆' : '★'}}</text>
         <text class="ci-pts">{{item.points}}积分</text>
         <text class="ci-lbl">第{{item.day}}天</text>
       </view>
     </view>
-
-    <view
-      class="ci-btn {{checkInDone ? 'ci-btn--done' : ''}} {{checkingIn ? 'ci-btn--loading' : ''}}"
-      bindtap="doCheckIn"
-    >
-      <text class="ci-btn-text">
-        {{checkingIn ? '签到中...' : checkInDone ? '✓ 今日已签到' : '签  到'}}
-      </text>
+    <view class="ci-btn {{checkInDone ? 'ci-btn--done' : ''}} {{checkingIn ? 'ci-btn--loading' : ''}}" bindtap="doCheckIn">
+      <text class="ci-btn-text">{{checkingIn ? '签到中...' : checkInDone ? '✓ 今日已签到' : '签  到'}}</text>
     </view>
   </view>
 </view>

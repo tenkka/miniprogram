@@ -10,6 +10,9 @@
           <text class="price-num">{{p.price}}</text>
         </view>
       </view>
+      <view class="product-points-row">
+        <text class="product-points-text">购买赠送 +{{p.bonusPoints}} 积分</text>
+      </view>
       <text wx:if="{{p.desc}}" class="product-desc">{{p.desc}}</text>
       <view class="buy-btn" bindtap="onBuy" data-idx="{{idx}}">
         <text class="buy-btn-text">立即购买</text>
@@ -69,6 +72,12 @@
     </view>
     <view wx:else class="modal-method modal-method--wechat">
       <text class="modal-method-text">⚠ 余额不足，将全额调起微信支付</text>
+    </view>
+
+    <!-- 积分赠送提示 -->
+    <view wx:if="{{selectedProduct.bonusPoints > 0}}" class="modal-bonus-row">
+      <text class="modal-bonus-label">购买赠送</text>
+      <text class="modal-bonus-points">+{{selectedProduct.bonusPoints}} 积分</text>
     </view>
 
     <view class="modal-actions">

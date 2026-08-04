@@ -375,6 +375,7 @@
 .avatar-section {
   position: relative;
   margin-right: 24rpx;
+  flex-shrink: 0;
 }
 
 .avatar-btn {
@@ -387,12 +388,9 @@
   border: none;
   overflow: visible;
   position: relative;
-  z-index: 2;
 }
 
-.avatar-btn::after {
-  border: none;
-}
+.avatar-btn::after { border: none; }
 
 .avatar-img {
   width: 140rpx;
@@ -437,11 +435,85 @@
   font-size: 36rpx;
   font-weight: 600;
   color: #FFFFFF;
-  margin-bottom: 8rpx;
-  max-width: 300rpx;
+  max-width: 240rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nickname-row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 8rpx;
+}
+
+.user-id-row {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.user-id-text {
+  font-size: 22rpx;
+  color: rgba(212,175,55,0.6);
+  letter-spacing: 1rpx;
+  font-variant-numeric: tabular-nums;
+}
+
+.qr-icon-btn {
+  display: flex;
+  align-items: center;
+  padding: 4rpx;
+}
+
+/* ===== QR 弹窗 ===== */
+.qr-popup-drag {
+  width: 80rpx;
+  height: 8rpx;
+  background: #333;
+  border-radius: 4rpx;
+  margin: 0 auto 36rpx;
+}
+
+.qr-popup-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #E8C94A;
+  text-align: center;
+  margin-bottom: 8rpx;
+}
+
+.qr-popup-sub {
+  font-size: 24rpx;
+  color: #555;
+  text-align: center;
+  margin-bottom: 36rpx;
+}
+
+.qr-img-wrap {
+  width: 480rpx;
+  height: 480rpx;
+  background: #ffffff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.qr-img {
+  width: 480rpx;
+  height: 480rpx;
+}
+
+.qr-popup-tip {
+  font-size: 22rpx;
+  color: #3A3020;
+  text-align: center;
+  margin-top: 24rpx;
+  letter-spacing: 1rpx;
 }
 
 .uid-row {

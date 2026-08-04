@@ -107,30 +107,23 @@ page { background: #1A1A1A; }
   color: #666;
 }
 
-.pkg-gift-amount {
-  font-size: 32rpx;
-  font-weight: 700;
-  color: #4CAF50;
-}
-
-.pkg-total-row {
+.pkg-gift-points-wrap {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(212,175,55,0.07);
-  padding: 20rpx 44rpx;
-  border-top: 1rpx solid rgba(212,175,55,0.12);
+  align-items: baseline;
+  gap: 6rpx;
 }
 
-.pkg-total-label {
-  font-size: 24rpx;
-  color: #888;
-}
-
-.pkg-total-val {
+.pkg-gift-points {
   font-size: 36rpx;
   font-weight: 700;
   color: #D4AF37;
+  font-variant-numeric: tabular-nums;
+}
+
+.pkg-gift-unit {
+  font-size: 24rpx;
+  color: #D4AF37;
+  font-weight: 600;
 }
 
 /* ===== 底部说明 ===== */
@@ -208,22 +201,11 @@ page { background: #1A1A1A; }
   color: #FFFFFF;
 }
 
-.modal-gift {
+.modal-gift-points {
   font-size: 32rpx;
   font-weight: 700;
-  color: #4CAF50;
-}
-
-.modal-total {
-  font-size: 52rpx;
-  font-weight: 800;
   color: #D4AF37;
-}
-
-.modal-divider {
-  height: 1rpx;
-  background: rgba(255,255,255,0.07);
-  margin: 12rpx 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .modal-actions {

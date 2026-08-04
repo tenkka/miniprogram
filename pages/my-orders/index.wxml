@@ -50,7 +50,10 @@
       </view>
       <view class="order-footer">
         <text class="order-date">{{item.dateStr}}</text>
-        <text wx:if="{{item.priceNote}}" class="price-note">{{item.priceNote}}</text>
+        <view class="footer-right">
+          <text wx:if="{{item.storeName}}" class="store-tag">{{item.storeName}}</text>
+          <text wx:if="{{item.priceNote}}" class="price-note">{{item.priceNote}}</text>
+        </view>
       </view>
     </view>
   </view>
